@@ -1,0 +1,74 @@
+const N8N_URL = process.env.NEXT_PUBLIC_N8N_URL;
+
+async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  const res = await fetch(`${N8N_URL}${path}`, {
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    ...options,
+  });
+  if (!res.ok) {
+    throw new Error(`API error ${res.status}: ${res.statusText}`);
+  }
+  return res.json() as Promise<T>;
+}
+
+// --- Orchestrator ---
+export function sendMessage(message: string, sessionId: string) {
+  return request("/webhook/orchestrator", {
+    method: "POST",
+    body: JSON.stringify({ message, session_id: sessionId }),
+  });
+}
+
+// --- DocMentor ---
+export function queryDocmentor(query: string, sessionId: string, documentFilter?: string) {
+  return request("/webhook/docmentor/query", {
+    method: "POST",
+    body: JSON.stringify({ query, session_id: sessionId, document_filter: documentFilter }),
+  });
+}
+
+export async function uploadFile(file: File) {
+  const form = new FormData();
+  form.append("file", file);
+  const res = await fetch(`${N8N_URL}/webhook/file/upload`, {
+    method: "POST",
+    body: form,
+  });
+  if (!res.ok) throw new Error(`Upload error ${res.status}`);
+  return res.json();
+}
+
+// --- Review Analyst ---
+export function analyzeReview(text: string, type: "restaurant" | "product" | "service") {
+  return request("/webhook/review/analyze", {
+    method: "POST",
+    body: JSON.stringify({ text, type }),
+  });
+}
+
+// --- Digest ---
+export function configureDigest(topics: string[], frequency: "daily" | "weekly", email: string) {
+  return request("/webhook/digest/configure", {
+    method: "POST",
+    body: JSON.stringify({ topics, frequency, email }),
+  });
+}
+
+export function getLatestDigest() {
+  return request("/webhook/digest/latest");
+}
+
+// --- Health ---
+export function getHealthStatus() {
+  return request("/webhook/health/status");
+}
+
+// --- Analytics ---
+export function getAnalyticsSummary() {
+  return request("/webhook/analytics/summary");
+}
+
+// --- Jobs (async polling) ---
+export function getJobStatus(jobId: string) {
+  return request(`/webhook/job/${jobId}`);
+}
