@@ -70,14 +70,23 @@ type AnalyticsData = {
 export default function Dashboard() {
   const [health, setHealth] = useState<HealthData | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getHealthStatus()
-      .then((d) => setHealth(d as HealthData))
-      .catch(() => {});
-    getAnalyticsSummary()
-      .then((d) => setAnalytics(d as AnalyticsData))
-      .catch(() => {});
+    setLoading(true);
+    Promise.allSettled([
+      getHealthStatus().then((d) => setHealth(d as HealthData)),
+      getAnalyticsSummary().then((d) => setAnalytics(d as AnalyticsData)),
+    ]).then((results) => {
+      const failed = results.filter((r) => r.status === "rejected");
+      if (failed.length === results.length) {
+        setError("Unable to reach n8n — is the workflow running?");
+      } else if (failed.length > 0) {
+        setError("Some data failed to load.");
+      }
+      setLoading(false);
+    });
   }, []);
 
   const statsCards = [
@@ -170,8 +179,16 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Error banner */}
+        {error && (
+          <div style={{ marginBottom: "1.5rem", padding: "0.85rem 1.25rem", background: "rgba(248,113,113,0.06)", border: "1px solid rgba(248,113,113,0.2)", borderRadius: 12, display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <span style={{ fontSize: "1.1rem" }}>⚠️</span>
+            <p style={{ fontSize: "0.82rem", color: "#f87171" }}>{error}</p>
+          </div>
+        )}
+
         {/* Stats row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem", marginBottom: "2.5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem", marginBottom: "2.5rem", opacity: loading ? 0.5 : 1, transition: "opacity 0.3s" }}>
           {statsCards.map((card) => (
             <div key={card.label} className="stat-card">
               <p style={{ fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontFamily: "var(--font-jetbrains-mono), monospace", marginBottom: "0.6rem" }}>

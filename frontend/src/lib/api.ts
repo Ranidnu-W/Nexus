@@ -1,12 +1,27 @@
+const REQUEST_TIMEOUT_MS = 15_000;
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(path, {
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    ...options,
-  });
-  if (!res.ok) {
-    throw new Error(`API error ${res.status}: ${res.statusText}`);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  try {
+    const res = await fetch(path, {
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      ...options,
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      throw new Error(`API error ${res.status}: ${res.statusText}`);
+    }
+    return res.json() as Promise<T>;
+  } catch (e) {
+    if (e instanceof DOMException && e.name === "AbortError") {
+      throw new Error("Request timed out — is n8n running?");
+    }
+    throw e;
+  } finally {
+    clearTimeout(timeout);
   }
-  return res.json() as Promise<T>;
 }
 
 // --- Orchestrator ---
@@ -62,8 +77,9 @@ export function getHealthStatus() {
 }
 
 // --- Analytics ---
-export function getAnalyticsSummary() {
-  return request("/webhook/analytics/summary");
+export function getAnalyticsSummary(timeRange?: string) {
+  const params = timeRange ? `?range=${timeRange}` : "";
+  return request(`/webhook/analytics/summary${params}`);
 }
 
 // --- Jobs (async polling) ---

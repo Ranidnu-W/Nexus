@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import DOMPurify from "dompurify";
 import { configureDigest, getLatestDigest } from "@/lib/api";
 
 const NAV = [
@@ -216,7 +217,7 @@ export default function DigestPage() {
             {!loadingDigest && latest && (
               <div
                 style={{ flex: 1, overflowY: "auto", padding: "1.5rem" }}
-                dangerouslySetInnerHTML={{ __html: latest.content }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(latest.content) }}
               />
             )}
           </div>

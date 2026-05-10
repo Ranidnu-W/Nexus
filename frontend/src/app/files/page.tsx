@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { uploadFile, getJobStatus } from "@/lib/api";
+
+type IntervalId = ReturnType<typeof setInterval>;
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
@@ -66,6 +68,14 @@ export default function FilesPage() {
   const [files, setFiles] = useState<ManagedFile[]>([]);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const intervalsRef = useRef<Set<IntervalId>>(new Set());
+
+  // Cleanup all polling intervals on unmount
+  useEffect(() => {
+    return () => {
+      intervalsRef.current.forEach(clearInterval);
+    };
+  }, []);
 
   const updateFile = useCallback((id: string, patch: Partial<ManagedFile>) => {
     setFiles((prev) => prev.map((f) => f.id === id ? { ...f, ...patch } : f));
@@ -100,10 +110,12 @@ export default function FilesPage() {
         )
       );
     }, 300);
+    intervalsRef.current.add(ticker);
 
     try {
       const res = await uploadFile(file) as { job_id?: string; chunk_count?: number; status?: string };
       clearInterval(ticker);
+      intervalsRef.current.delete(ticker);
 
       if (res.job_id) {
         updateFile(id, { progress: 85 });
@@ -113,22 +125,27 @@ export default function FilesPage() {
             const job = await getJobStatus(res.job_id!) as { status: string; result?: { chunk_count?: number } };
             if (job.status === "complete") {
               clearInterval(interval);
+              intervalsRef.current.delete(interval);
               updateFile(id, { status: "indexed", progress: 100, chunkCount: job.result?.chunk_count });
             } else if (job.status === "error") {
               clearInterval(interval);
+              intervalsRef.current.delete(interval);
               updateFile(id, { status: "error", progress: 0, error: "Processing failed in n8n." });
             }
           } catch {
             clearInterval(interval);
+            intervalsRef.current.delete(interval);
             updateFile(id, { status: "error", progress: 0, error: "Lost connection during processing." });
           }
         }, 2000);
+        intervalsRef.current.add(interval);
       } else {
         // Synchronous response
         updateFile(id, { status: "indexed", progress: 100, chunkCount: res.chunk_count });
       }
     } catch {
       clearInterval(ticker);
+      intervalsRef.current.delete(ticker);
       updateFile(id, { status: "error", progress: 0, error: "n8n is offline. Start your workflow first." });
     }
   }, [updateFile]);

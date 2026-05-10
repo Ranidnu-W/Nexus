@@ -56,11 +56,11 @@ export default function AnalyticsPage() {
 
   useEffect(() => {
     setLoading(true);
-    getAnalyticsSummary()
+    getAnalyticsSummary(timeRange)
       .then((d) => { setData(d as AnalyticsData); setError(null); })
       .catch((e) => setError(e instanceof Error ? e.message : "Failed to load analytics"))
       .finally(() => setLoading(false));
-  }, []);
+  }, [timeRange]);
 
   // Process agent data for the bar chart
   const agentEntries = useMemo(() => {

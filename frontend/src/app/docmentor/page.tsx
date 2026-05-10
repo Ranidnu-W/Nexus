@@ -4,6 +4,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { queryDocmentor, uploadFile, getJobStatus } from "@/lib/api";
 
+type IntervalId = ReturnType<typeof setInterval>;
+
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/docmentor", label: "DocMentor" },
@@ -34,17 +36,26 @@ export default function DocMentorPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const intervalsRef = useRef<Set<IntervalId>>(new Set());
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const pollJob = useCallback(async (jobId: string, msgId: string) => {
+  // Cleanup all polling intervals on unmount
+  useEffect(() => {
+    return () => {
+      intervalsRef.current.forEach(clearInterval);
+    };
+  }, []);
+
+  const pollJob = useCallback((jobId: string, msgId: string) => {
     const interval = setInterval(async () => {
       try {
         const job = await getJobStatus(jobId) as { status: string; result?: { response?: string } };
         if (job.status === "complete") {
           clearInterval(interval);
+          intervalsRef.current.delete(interval);
           setMessages((prev) =>
             prev.map((m) =>
               m.id === msgId
@@ -54,6 +65,7 @@ export default function DocMentorPage() {
           );
         } else if (job.status === "error") {
           clearInterval(interval);
+          intervalsRef.current.delete(interval);
           setMessages((prev) =>
             prev.map((m) =>
               m.id === msgId
@@ -64,6 +76,7 @@ export default function DocMentorPage() {
         }
       } catch {
         clearInterval(interval);
+        intervalsRef.current.delete(interval);
         setMessages((prev) =>
           prev.map((m) =>
             m.id === msgId ? { ...m, role: "error", content: "Lost connection to n8n.", loading: false } : m
@@ -71,6 +84,7 @@ export default function DocMentorPage() {
         );
       }
     }, 2000);
+    intervalsRef.current.add(interval);
   }, []);
 
   async function send() {
