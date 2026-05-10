@@ -210,7 +210,8 @@ export default function Dashboard() {
             <p className="section-label">Service Health</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {services.map((svc) => {
-                const data = health?.[svc.key as keyof HealthData] as { status: string; response_ms: number } | undefined;
+                const raw = health?.[svc.key as keyof HealthData];
+                const data = (typeof raw === "object" && raw !== null && "status" in raw) ? raw as { status: string; response_ms: number } : undefined;
                 return (
                   <div key={svc.key} className="service-row">
                     <div>

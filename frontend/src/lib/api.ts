@@ -1,7 +1,5 @@
-const N8N_URL = process.env.NEXT_PUBLIC_N8N_URL;
-
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${N8N_URL}${path}`, {
+  const res = await fetch(path, {
     headers: { "Content-Type": "application/json", ...options?.headers },
     ...options,
   });
@@ -30,7 +28,7 @@ export function queryDocmentor(query: string, sessionId: string, documentFilter?
 export async function uploadFile(file: File) {
   const form = new FormData();
   form.append("file", file);
-  const res = await fetch(`${N8N_URL}/webhook/file/upload`, {
+  const res = await fetch("/webhook/file/upload", {
     method: "POST",
     body: form,
   });
@@ -70,5 +68,5 @@ export function getAnalyticsSummary() {
 
 // --- Jobs (async polling) ---
 export function getJobStatus(jobId: string) {
-  return request(`/webhook/job/${jobId}`);
+  return request(`/webhook/job-status/job/${jobId}`);
 }

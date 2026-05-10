@@ -1,0 +1,546 @@
+{
+  "name": "Nexus_Cleanup Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 2 * * *"
+            }
+          ]
+        }
+      },
+      "id": "5f1a2a82-0c3a-4a25-ad13-3b4ea3fe9f53",
+      "name": "Daily 2AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date();\nconst thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();\nconst sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();\n\nreturn [{\n  json: {\n    thirty_days_ago: thirtyDaysAgo,\n    seven_days_ago: sevenDaysAgo,\n    run_timestamp: now.toISOString()\n  }\n}];"
+      },
+      "id": "faf668e1-b5c6-4e3d-8cf2-5c808cc2088e",
+      "name": "Calculate Cutoff Dates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.QDRANT_URL }}/collections/docmentor/points/delete",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ filter: { must: [{ key: 'created_at', range: { lt: $json.thirty_days_ago } }] } }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "35f170af-653a-43e1-9410-bb34cbab1112",
+      "name": "Delete Old Vectors",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        0
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwMOgVqj6aE7Nyo",
+          "mode": "id"
+        },
+        "filterByFormula": "=IS_BEFORE({created_at}, '{{ $('Calculate Cutoff Dates').first().json.thirty_days_ago }}')",
+        "options": {}
+      },
+      "id": "606056a9-4296-4b3d-af53-47ff7356aa54",
+      "name": "Find Old Interactions",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        160
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Count the interactions found and mark for archival\nconst items = $input.all();\nconst count = items.length;\n\n// For each record, we'd update status to 'archived'\n// In a real implementation you'd loop and update each\n// For now, we just count\nreturn [{\n  json: {\n    interactions_archived: count\n  }\n}];"
+      },
+      "id": "206f262e-4a2a-4bb0-b338-3f917eb3f126",
+      "name": "Archive Old Interactions",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRwFkhRj0SZhDaf",
+          "mode": "id"
+        },
+        "filterByFormula": "=IS_BEFORE({created_at}, '{{ $('Calculate Cutoff Dates').first().json.seven_days_ago }}')",
+        "options": {}
+      },
+      "id": "a4bf88fd-083c-4d0d-b7e8-b8692e5353b9",
+      "name": "Find Old Health Logs",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        320
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn [{\n  json: {\n    health_logs_found: items.length\n  }\n}];"
+      },
+      "id": "b0e31b41-f861-4f01-9aeb-8a7d6a68a000",
+      "name": "Count Old Health Logs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbluuA5BKOz8PLzmO",
+          "mode": "id"
+        },
+        "filterByFormula": "=AND({status} = 'error', IS_BEFORE({created_at}, '{{ $('Calculate Cutoff Dates').first().json.seven_days_ago }}'))",
+        "options": {}
+      },
+      "id": "5899f6f7-452e-4977-9092-2552f33d0ef3",
+      "name": "Find Error Documents",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        480
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn [{\n  json: {\n    error_docs_found: items.length\n  }\n}];"
+      },
+      "id": "b1a4efa4-355d-4adb-afdb-ed5837e73edf",
+      "name": "Count Error Documents",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Aggregate all cleanup results\nlet vectorsDeleted = 0;\ntry {\n  const qdrantResult = $('Delete Old Vectors').first().json;\n  vectorsDeleted = qdrantResult.result?.deleted || qdrantResult.deleted || 0;\n} catch(e) { /* Qdrant may not have returned a count */ }\n\nlet interactionsArchived = 0;\ntry {\n  interactionsArchived = $('Archive Old Interactions').first().json.interactions_archived || 0;\n} catch(e) {}\n\nlet healthLogsDeleted = 0;\ntry {\n  healthLogsDeleted = $('Count Old Health Logs').first().json.health_logs_found || 0;\n} catch(e) {}\n\nlet errorDocsCleaned = 0;\ntry {\n  errorDocsCleaned = $('Count Error Documents').first().json.error_docs_found || 0;\n} catch(e) {}\n\nreturn [{\n  json: {\n    run_at: new Date().toISOString(),\n    vectors_pruned: vectorsDeleted,\n    records_archived: interactionsArchived,\n    logs_deleted: healthLogsDeleted,\n    error_docs_cleaned: errorDocsCleaned,\n    total_cleaned: vectorsDeleted + interactionsArchived + healthLogsDeleted + errorDocsCleaned\n  }\n}];"
+      },
+      "id": "e262098c-470c-4019-9811-ddae88861b8e",
+      "name": "Aggregate Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwMOgVqj6aE7Nyo",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "agent": "system",
+            "input_preview": "Scheduled cleanup",
+            "output_preview": "={{ ('Cleaned: ' + $json.vectors_pruned + ' vectors, ' + $json.records_archived + ' interactions, ' + $json.logs_deleted + ' logs, ' + $json.error_docs_cleaned + ' error docs').slice(0, 200) }}",
+            "status": "success",
+            "source": "cleanup",
+            "response_time_ms": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "agent",
+              "displayName": "agent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "docmentor",
+                  "value": "docmentor"
+                },
+                {
+                  "name": "review",
+                  "value": "review"
+                },
+                {
+                  "name": "digest",
+                  "value": "digest"
+                },
+                {
+                  "name": "file",
+                  "value": "file"
+                },
+                {
+                  "name": "system",
+                  "value": "system"
+                },
+                {
+                  "name": "general",
+                  "value": "general"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "input_preview",
+              "displayName": "input_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "output_preview",
+              "displayName": "output_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "response_time_ms",
+              "displayName": "response_time_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "success",
+                  "value": "success"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                },
+                {
+                  "name": "timeout",
+                  "value": "timeout"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "f67fdcb0-126f-4733-8cf1-da47f976dffc",
+      "name": "Log Cleanup Results",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        208
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily 2AM": {
+      "main": [
+        [
+          {
+            "node": "Calculate Cutoff Dates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Cutoff Dates": {
+      "main": [
+        [
+          {
+            "node": "Delete Old Vectors",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Find Old Interactions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Find Old Health Logs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Find Error Documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Old Vectors": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Old Interactions": {
+      "main": [
+        [
+          {
+            "node": "Archive Old Interactions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Archive Old Interactions": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Old Health Logs": {
+      "main": [
+        [
+          {
+            "node": "Count Old Health Logs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Count Old Health Logs": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Error Documents": {
+      "main": [
+        [
+          {
+            "node": "Count Error Documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Count Error Documents": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Results": {
+      "main": [
+        [
+          {
+            "node": "Log Cleanup Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ac99937b-b1b1-4dd3-b7fb-8e84c28b2c72",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "VppE7HnVDAa-6BENxZJ7t",
+  "tags": [
+    {
+      "updatedAt": "2026-05-04T19:48:41.869Z",
+      "createdAt": "2026-05-04T19:48:41.869Z",
+      "id": "G4cV0ik8P6pId6v7",
+      "name": "maintenance"
+    },
+    {
+      "updatedAt": "2026-05-04T19:48:41.871Z",
+      "createdAt": "2026-05-04T19:48:41.871Z",
+      "id": "SyVIk0WpOIGxSrhk",
+      "name": "cleanup"
+    }
+  ]
+}

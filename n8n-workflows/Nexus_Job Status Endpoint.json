@@ -1,0 +1,144 @@
+{
+  "name": "Nexus_Job Status Endpoint",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "job/:job_id",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f5432851-140f-45b7-9636-e5f9526ab1b1",
+      "name": "GET /job/:id",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        624,
+        -272
+      ],
+      "webhookId": "job-status"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "mode": "id",
+          "value": "appDyd2AnWGViGLOU"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblS0qn7j7sdQe0zT",
+          "mode": "id"
+        },
+        "filterByFormula": "={job_id} = '{{ $json.params.job_id }}'",
+        "returnAll": false,
+        "limit": 1,
+        "options": {}
+      },
+      "id": "20743a47-57a7-495e-9acc-011b3e9f9b30",
+      "name": "Read Job Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        864,
+        -272
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nif (items.length === 0 || !items[0].json) {\n  return [{ json: { job_id: $('GET /job/:id').first().json.params?.job_id || null, status: 'not_found', result: null } }];\n}\n\nconst record = items[0].json;\nconst fields = record.fields || record;\n\nlet result = null;\ntry {\n  result = fields.result ? JSON.parse(fields.result) : null;\n} catch (e) {\n  result = fields.result || null;\n}\n\nreturn [{\n  json: {\n    job_id: fields.job_id || null,\n    status: fields.status || 'unknown',\n    result: result\n  }\n}];"
+      },
+      "id": "4a9f8b67-2f7a-4bba-a403-2d22f472c57d",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        -272
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "bea42b93-93e2-4fd4-a7c8-8d32f7cad559",
+      "name": "Respond Job Status",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        -272
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "GET /job/:id": {
+      "main": [
+        [
+          {
+            "node": "Read Job Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Job Record": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "Respond Job Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "01421e43-2b30-4638-acc7-b4e85fb18178",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "tStcX4PTV-zGAKnQrIjUl",
+  "tags": [
+    {
+      "updatedAt": "2026-05-04T20:10:02.512Z",
+      "createdAt": "2026-05-04T20:10:02.512Z",
+      "id": "e48vWb0qFpVHftvb",
+      "name": "jobs"
+    },
+    {
+      "updatedAt": "2026-05-04T20:10:02.511Z",
+      "createdAt": "2026-05-04T20:10:02.511Z",
+      "id": "r5qn5QwexWFpaZS5",
+      "name": "utility"
+    }
+  ]
+}

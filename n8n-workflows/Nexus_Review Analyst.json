@@ -1,0 +1,546 @@
+{
+  "name": "Nexus_Review Analyst",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "review/analyze",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c104b6fe-7a82-4c88-9018-ce96ebe3dcdb",
+      "name": "POST /review/analyze",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "review-analyze"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "condition-text-exists",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              },
+              "leftValue": "={{ $json.body?.text || '' }}",
+              "rightValue": ""
+            },
+            {
+              "id": "3dc4d5a8-4826-4e55-a73d-2ef36a633485",
+              "leftValue": "={{ $json.body?.text?.length > 0 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "86cb6c53-c1c6-4a70-a6c2-60e7f4d9c07d",
+      "name": "Validate Input",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ error: 'Review text is required. Please provide text to analyze.' }) }}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "b183f97d-5a6f-43df-96d2-1834b61d3843",
+      "name": "Error: Empty Input",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $('POST /review/analyze').first().json.body || $('POST /review/analyze').first().json;\nconst startTime = Date.now();\n\nreturn [{\n  json: {\n    text: body.text || '',\n    review_type: body.type || 'restaurant',\n    source: body.source || 'frontend',\n    start_time: startTime\n  }\n}];"
+      },
+      "id": "57ef5ca6-d5f9-46d9-85fb-2c77db8e2f35",
+      "name": "Prepare Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/chat",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are a review analyst. Analyze the following review and extract structured insights.\\nRespond ONLY with valid JSON matching this schema:\\n{\\n  \"sentiment\": \"positive|negative|mixed\",\\n  \"sentiment_score\": <0.0 to 1.0>,\\n  \"key_themes\": [\"<theme>\", ...],\\n  \"pros\": [\"<pro>\", ...],\\n  \"cons\": [\"<con>\", ...],\\n  \"predicted_rating\": <1-5>,\\n  \"summary\": \"<one sentence>\"\\n}\\nDo not explain. JSON only.' }, { role: 'user', content: $json.text } ] }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "e2b09c7a-869c-45c1-a104-d1d35c760fd1",
+      "name": "Analyze Review",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        672,
+        0
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $json;\nconst content = response.message?.content || response.response || '';\nconst reviewText = $('Prepare Request').first().json.text;\nconst reviewType = $('Prepare Request').first().json.review_type;\n\ntry {\n  // Extract JSON from the response (handle markdown code blocks too)\n  let jsonStr = content;\n  const codeBlockMatch = content.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (codeBlockMatch) {\n    jsonStr = codeBlockMatch[1];\n  } else {\n    const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) jsonStr = jsonMatch[0];\n  }\n  \n  const parsed = JSON.parse(jsonStr);\n  \n  // Validate and sanitize each field\n  const validSentiments = ['positive', 'negative', 'mixed'];\n  const result = {\n    sentiment: validSentiments.includes(parsed.sentiment) ? parsed.sentiment : 'mixed',\n    sentiment_score: Math.max(0, Math.min(1, parseFloat(parsed.sentiment_score) || 0.5)),\n    key_themes: Array.isArray(parsed.key_themes) ? parsed.key_themes.map(String).slice(0, 10) : [],\n    pros: Array.isArray(parsed.pros) ? parsed.pros.map(String).slice(0, 10) : [],\n    cons: Array.isArray(parsed.cons) ? parsed.cons.map(String).slice(0, 10) : [],\n    predicted_rating: Math.max(1, Math.min(5, Math.round(parseFloat(parsed.predicted_rating)) || 3)),\n    summary: typeof parsed.summary === 'string' && parsed.summary.length > 0 ? parsed.summary : 'No summary available.',\n    // Internal fields for Airtable\n    _raw_text: reviewText,\n    _review_type: reviewType,\n    _analyzed_at: new Date().toISOString(),\n    _parse_success: true\n  };\n  \n  return [{ json: result }];\n} catch (e) {\n  return [{\n    json: {\n      _parse_success: false,\n      _error: 'Failed to parse AI response: ' + e.message,\n      _raw_response: content,\n      // Return sensible defaults so the frontend doesn't break\n      sentiment: 'mixed',\n      sentiment_score: 0.5,\n      key_themes: [],\n      pros: [],\n      cons: [],\n      predicted_rating: 3,\n      summary: 'Analysis could not be completed. The AI response was malformed.'\n    }\n  }];\n}"
+      },
+      "id": "a7b8ea92-5763-464c-ba13-58df97fe7171",
+      "name": "Parse Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblgDpdMmGMhAgNAA",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachments",
+              "displayName": "Attachments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "07e763d6-e5d1-4557-9494-d93c0fb5f3a3",
+      "name": "Write Review Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        0
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ sentiment: $('Parse Analysis').first().json.sentiment, sentiment_score: $('Parse Analysis').first().json.sentiment_score, key_themes: $('Parse Analysis').first().json.key_themes, pros: $('Parse Analysis').first().json.pros, cons: $('Parse Analysis').first().json.cons, predicted_rating: $('Parse Analysis').first().json.predicted_rating, summary: $('Parse Analysis').first().json.summary }) }}",
+        "options": {}
+      },
+      "id": "c1c6cbb3-9ac0-4b3b-8cce-fcdb282fa4ef",
+      "name": "Respond with Analysis",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1328,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwMOgVqj6aE7Nyo",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "agent": "review",
+            "input_preview": "={{ $('Prepare Request').first().json.text.slice(0, 200) }}",
+            "output_preview": "={{ $('Parse Analysis').first().json.summary.slice(0, 200) }}",
+            "response_time_ms": "={{ Date.now() - $('Prepare Request').first().json.start_time }}",
+            "status": "success",
+            "source": "review-analyst"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "agent",
+              "displayName": "agent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "docmentor",
+                  "value": "docmentor"
+                },
+                {
+                  "name": "review",
+                  "value": "review"
+                },
+                {
+                  "name": "digest",
+                  "value": "digest"
+                },
+                {
+                  "name": "file",
+                  "value": "file"
+                },
+                {
+                  "name": "system",
+                  "value": "system"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "input_preview",
+              "displayName": "input_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "output_preview",
+              "displayName": "output_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "response_time_ms",
+              "displayName": "response_time_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "success",
+                  "value": "success"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                },
+                {
+                  "name": "timeout",
+                  "value": "timeout"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "cf407077-d890-40d6-b3e2-ce1ad6a06f30",
+      "name": "Log Interaction",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1552,
+        0
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "POST /review/analyze": {
+      "main": [
+        [
+          {
+            "node": "Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input": {
+      "main": [
+        [
+          {
+            "node": "Prepare Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error: Empty Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Request": {
+      "main": [
+        [
+          {
+            "node": "Analyze Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Review": {
+      "main": [
+        [
+          {
+            "node": "Parse Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Analysis": {
+      "main": [
+        [
+          {
+            "node": "Write Review Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Review Record": {
+      "main": [
+        [
+          {
+            "node": "Respond with Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond with Analysis": {
+      "main": [
+        [
+          {
+            "node": "Log Interaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bc340f76-400e-454e-a3b6-5a96b69a1d75",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "ypOBOepMkT8jBu9tyr0GH",
+  "tags": [
+    {
+      "updatedAt": "2026-05-04T20:10:56.912Z",
+      "createdAt": "2026-05-04T20:10:56.912Z",
+      "id": "7QdHv6XHQyvxTf3w",
+      "name": "analysis"
+    },
+    {
+      "updatedAt": "2026-05-04T20:10:56.908Z",
+      "createdAt": "2026-05-04T20:10:56.908Z",
+      "id": "GkCGy1e6oa7nuDBg",
+      "name": "review"
+    }
+  ]
+}

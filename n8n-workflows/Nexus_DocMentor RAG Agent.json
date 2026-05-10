@@ -1,0 +1,784 @@
+{
+  "name": "Nexus_DocMentor RAG Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "docmentor/upload",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "fd42a0c5-d0d7-45a4-89b8-accc8d5b38a7",
+      "name": "POST /docmentor/upload",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        304,
+        -208
+      ],
+      "webhookId": "docmentor-upload"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.N8N_URL }}/webhook/file/upload",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "bc893d26-5b26-4bd8-a805-0439f1e6ae4f",
+      "name": "Delegate to File Intake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        544,
+        -208
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "7426a522-3b3e-4ede-815f-06027c60f625",
+      "name": "Respond Upload",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        784,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "docmentor/query",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "6cbf322e-d22e-4a2d-8246-64a366052fdb",
+      "name": "POST /docmentor/query",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        304,
+        192
+      ],
+      "webhookId": "docmentor-query"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || $json;\nconst jobId = Array.from({length: 32}, () => Math.random().toString(36)[2]).join('');\n\nreturn [{\n  json: {\n    job_id: jobId,\n    query: body.query || body.message || '',\n    session_id: body.session_id || '',\n    document_filter: body.document_filter || null,\n    start_time: Date.now()\n  }\n}];"
+      },
+      "id": "6cd42cda-14a5-4eb1-a527-51acc71d428b",
+      "name": "Generate Query Job ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "mode": "id",
+          "value": "tblS0qn7j7sdQe0zT"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "job_id": "={{ $json.job_id }}",
+            "status": "processing",
+            "workflow_type": "docmentor_query",
+            "created_at": "={{ new Date().toISOString() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "processing",
+                  "value": "processing"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "workflow_type",
+              "displayName": "workflow_type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "completed_at",
+              "displayName": "completed_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "99439683-0c6f-4072-9e86-e1aa3cc251ca",
+      "name": "Create Query Job",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        752,
+        192
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ job_id: $('Generate Query Job ID').first().json.job_id, status: 'processing' }) }}",
+        "options": {}
+      },
+      "id": "7f71d628-41a2-49bb-afd5-ce02af082ac5",
+      "name": "Respond with Job ID",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        976,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/embeddings",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'nomic-embed-text', prompt: $('Generate Query Job ID').first().json.query }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "04ecc463-26ff-488f-8c48-c72e03a6cb4c",
+      "name": "Embed Query",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        192
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.QDRANT_URL }}/collections/docmentor/points/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ vector: $json.embedding, limit: 5, with_payload: true }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "e09f570a-0d1e-4a90-b8f1-c8a113cc0c9d",
+      "name": "Search Qdrant",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        192
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const searchResponse = $json;\nconst results = searchResponse.result || searchResponse || [];\nconst query = $('Generate Query Job ID').first().json.query;\n\nconst chunks = (Array.isArray(results) ? results : []).map((r, i) => {\n  const payload = r.payload || {};\n  return `[Source ${i + 1}: ${payload.file_name || 'Unknown Document'}]\\n${payload.text || ''}`;\n});\n\nconst context = chunks.length > 0\n  ? chunks.join('\\n\\n---\\n\\n')\n  : 'No relevant documents found. Please answer based on your general knowledge and mention that no matching documents were found.';\n\nconst sources = (Array.isArray(results) ? results : [])\n  .map(r => r.payload?.file_name)\n  .filter(Boolean)\n  .filter((v, i, a) => a.indexOf(v) === i);\n\nreturn [{\n  json: {\n    context: context,\n    query: query,\n    chunk_count: chunks.length,\n    sources: sources\n  }\n}];"
+      },
+      "id": "29891fdf-6d1a-4c17-a1be-6bbaf45c0619",
+      "name": "Assemble Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/chat",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are DocMentor, an AI assistant that answers questions based on uploaded documents. Answer based on the provided context. Always cite which document your answer comes from. If the context does not contain relevant information, say so clearly.' }, { role: 'user', content: 'Context:\\n' + $json.context + '\\n\\nQuestion: ' + $json.query } ] }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "061020e8-1ee3-4f76-b06b-dc7f0480558c",
+      "name": "Ollama RAG Chat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1856,
+        192
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $json;\nconst content = response.message?.content || response.response || 'I was unable to generate a response. Please try again.';\nconst jobId = $('Generate Query Job ID').first().json.job_id;\nconst sources = $('Assemble Context').first().json.sources;\nconst chunkCount = $('Assemble Context').first().json.chunk_count;\n\nreturn [{\n  json: {\n    job_id: jobId,\n    response: content,\n    sources: sources,\n    chunk_count: chunkCount\n  }\n}];"
+      },
+      "id": "7e614c95-1ed8-4410-80b8-aa502e18c5b4",
+      "name": "Extract Answer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2064,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblS0qn7j7sdQe0zT",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "complete",
+            "result": "={{ JSON.stringify({ response: $json.response, sources: $json.sources, chunk_count: $json.chunk_count }) }}",
+            "completed_at": "={{ new Date().toISOString() }}",
+            "job_id": "={{ $json.job_id }}"
+          },
+          "matchingColumns": [
+            "job_id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "processing",
+                  "value": "processing"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "workflow_type",
+              "displayName": "workflow_type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "completed_at",
+              "displayName": "completed_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "e18cf0cb-74e9-4868-bae4-b703609b9725",
+      "name": "Update Job Complete",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2288,
+        192
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwMOgVqj6aE7Nyo",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $('Generate Query Job ID').first().json.session_id }}",
+            "agent": "docmentor",
+            "input_preview": "={{ $('Generate Query Job ID').first().json.query.slice(0, 200) }}",
+            "output_preview": "={{ $json.response?.slice(0, 200) || '' }}",
+            "response_time_ms": "={{ Date.now() - $('Generate Query Job ID').first().json.start_time }}",
+            "status": "success",
+            "source": "docmentor"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "agent",
+              "displayName": "agent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "docmentor",
+                  "value": "docmentor"
+                },
+                {
+                  "name": "review",
+                  "value": "review"
+                },
+                {
+                  "name": "digest",
+                  "value": "digest"
+                },
+                {
+                  "name": "file",
+                  "value": "file"
+                },
+                {
+                  "name": "system",
+                  "value": "system"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "input_preview",
+              "displayName": "input_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "output_preview",
+              "displayName": "output_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "response_time_ms",
+              "displayName": "response_time_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "success",
+                  "value": "success"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                },
+                {
+                  "name": "timeout",
+                  "value": "timeout"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "e3fef657-ba7b-424c-8636-3b3532b3e020",
+      "name": "Log Query Interaction",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2512,
+        192
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "POST /docmentor/upload": {
+      "main": [
+        [
+          {
+            "node": "Delegate to File Intake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delegate to File Intake": {
+      "main": [
+        [
+          {
+            "node": "Respond Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST /docmentor/query": {
+      "main": [
+        [
+          {
+            "node": "Generate Query Job ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Query Job ID": {
+      "main": [
+        [
+          {
+            "node": "Create Query Job",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Query Job": {
+      "main": [
+        [
+          {
+            "node": "Respond with Job ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond with Job ID": {
+      "main": [
+        [
+          {
+            "node": "Embed Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embed Query": {
+      "main": [
+        [
+          {
+            "node": "Search Qdrant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Assemble Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assemble Context": {
+      "main": [
+        [
+          {
+            "node": "Ollama RAG Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama RAG Chat": {
+      "main": [
+        [
+          {
+            "node": "Extract Answer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Answer": {
+      "main": [
+        [
+          {
+            "node": "Update Job Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Job Complete": {
+      "main": [
+        [
+          {
+            "node": "Log Query Interaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "2733f5b6-3d3d-40a4-a42c-8fb7849bbaa2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "1zwGBZRQeAJIUT3FLfwYr",
+  "tags": [
+    {
+      "updatedAt": "2026-05-04T20:08:16.548Z",
+      "createdAt": "2026-05-04T20:08:16.548Z",
+      "id": "kwDpBwBY3B22dMGJ",
+      "name": "docmentor"
+    },
+    {
+      "updatedAt": "2026-05-04T20:08:16.544Z",
+      "createdAt": "2026-05-04T20:08:16.544Z",
+      "id": "z4HgKogeZa5eyBOS",
+      "name": "rag"
+    }
+  ]
+}

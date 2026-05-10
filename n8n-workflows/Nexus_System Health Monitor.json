@@ -1,0 +1,693 @@
+{
+  "name": "Nexus_System Health Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "2d6a5665-e16b-4a66-9358-ee71999e232f",
+      "name": "Every 5 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.OLLAMA_URL }}/api/tags",
+        "options": {
+          "allowUnauthorizedCerts": false,
+          "timeout": 10000
+        }
+      },
+      "id": "55d1f3db-a763-4606-b682-969648e1d4f0",
+      "name": "Check Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        128,
+        -80
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.QDRANT_URL }}/healthz",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "4358d5a4-021d-469d-b057-5e5c94c8c5a0",
+      "name": "Check Qdrant",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        128,
+        64
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.DOCLING_URL }}/health",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "1dabfa36-80d2-4faf-b31d-88f3a97cf0b4",
+      "name": "Check Docling",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        128,
+        208
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.N8N_URL }}/healthz",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "f1bc4074-d3de-4658-b19f-b3ddb72201e3",
+      "name": "Check n8n",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        128,
+        352
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Gather results from the 4 health checks\n// Each input may have succeeded or failed (continueOnFail)\n\nfunction checkResult(items, index) {\n  const item = items[index];\n  if (!item) return { status: 'down', response_ms: 0 };\n  const error = item.json?.error || item.json?.code === 'ECONNREFUSED';\n  if (error) return { status: 'down', response_ms: 0 };\n  return { status: 'up', response_ms: item.json?.response_ms || 0 };\n}\n\nconst ollamaItems = $input.all();\n\n// We receive items from the merge node\n// Parse based on what we know\nconst results = {\n  timestamp: new Date().toISOString(),\n  ollama: { status: 'down', response_ms: 0 },\n  qdrant: { status: 'down', response_ms: 0 },\n  docling: { status: 'down', response_ms: 0 },\n  n8n: { status: 'down', response_ms: 0 },\n  all_healthy: false\n};\n\n// Check each input item for errors\nfor (const item of $input.all()) {\n  const hasError = item.json?.error || item.json?.code;\n  if (!hasError) {\n    // Try to identify which service based on response content\n    // This is a simplified version - in practice, tag each HTTP node\n  }\n}\n\n// Simpler approach: use $('node_name').first() to access each check\ntry {\n  const ollamaResult = $('Check Ollama').first();\n  results.ollama = ollamaResult.json?.error \n    ? { status: 'down', response_ms: 0 } \n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\ntry {\n  const qdrantResult = $('Check Qdrant').first();\n  results.qdrant = qdrantResult.json?.error\n    ? { status: 'down', response_ms: 0 }\n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\ntry {\n  const doclingResult = $('Check Docling').first();\n  results.docling = doclingResult.json?.error\n    ? { status: 'down', response_ms: 0 }\n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\ntry {\n  const n8nResult = $('Check n8n').first();\n  results.n8n = n8nResult.json?.error\n    ? { status: 'down', response_ms: 0 }\n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\nresults.all_healthy = \n  results.ollama.status === 'up' &&\n  results.qdrant.status === 'up' &&\n  results.docling.status === 'up' &&\n  results.n8n.status === 'up';\n\nreturn [{ json: results }];"
+      },
+      "id": "8f812665-9548-4931-a35c-3f2692b526df",
+      "name": "Aggregate Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRwFkhRj0SZhDaf",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "all_healthy": "={{ $json.all_healthy }}",
+            "ollama_status": "={{ $json.ollama.status }}",
+            "ollama_ms": "={{ $json.ollama.response_ms }}",
+            "qdrant_status": "={{ $json.qdrant.status }}",
+            "qdrant_ms": "={{ $json.qdrant.response_ms }}",
+            "docling_status": "={{ $json.docling.status }}",
+            "docling_ms": "={{ $json.docling.response_ms }}",
+            "n8n_status": "={{ $json.n8n.status }}",
+            "n8n_ms": "={{ $json.n8n.response_ms }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "all_healthy",
+              "displayName": "all_healthy",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ollama_status",
+              "displayName": "ollama_status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "up",
+                  "value": "up"
+                },
+                {
+                  "name": "down",
+                  "value": "down"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ollama_ms",
+              "displayName": "ollama_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "qdrant_status",
+              "displayName": "qdrant_status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "up",
+                  "value": "up"
+                },
+                {
+                  "name": "down",
+                  "value": "down"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "qdrant_ms",
+              "displayName": "qdrant_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "docling_status",
+              "displayName": "docling_status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "up",
+                  "value": "up"
+                },
+                {
+                  "name": "down",
+                  "value": "down"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "docling_ms",
+              "displayName": "docling_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "n8n_status",
+              "displayName": "n8n_status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "up",
+                  "value": "up"
+                },
+                {
+                  "name": "down",
+                  "value": "down"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "n8n_ms",
+              "displayName": "n8n_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": false
+        }
+      },
+      "id": "b53bd009-14f9-4c7d-abe2-af168abf4ef4",
+      "name": "Log to Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        816,
+        112
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "condition-unhealthy",
+              "operator": {
+                "type": "boolean",
+                "operation": "false"
+              },
+              "leftValue": "={{ $json.all_healthy }}",
+              "rightValue": ""
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "bd58d54e-1ec1-42ae-86f7-af3ba6c5e90e",
+      "name": "Any Service Down?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.ALERT_WEBHOOK_URL }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=🚨 Nexus Health Alert!\n\nOllama: {{ $json.ollama.status }}\nQdrant: {{ $json.qdrant.status }}\nDocling: {{ $json.docling.status }}\nn8n: {{ $json.n8n.status }}\n\nTimestamp: {{ $json.timestamp }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "81eb6237-93db-4631-a770-dc2494faf22e",
+      "name": "Send Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1376,
+        32
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "path": "health/status",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "9c3acd1b-d173-4e99-b118-eec216ceae77",
+      "name": "GET /health/status",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        720
+      ],
+      "webhookId": "health-status"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblRwFkhRj0SZhDaf",
+          "mode": "id"
+        },
+        "returnAll": false,
+        "options": {},
+        "sort": {
+          "property": [
+            {
+              "field": "Date",
+              "direction": "desc"
+            }
+          ]
+        }
+      },
+      "id": "d54e40df-06f8-452c-8170-96021040e408",
+      "name": "Read Latest Health",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -528,
+        432
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "4a0a1cfd-b45c-430b-8889-3d43838dea84",
+      "name": "Respond Health Status",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        736,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.OLLAMA_URL }}/api/tags",
+        "options": {
+          "allowUnauthorizedCerts": false,
+          "timeout": 5000
+        }
+      },
+      "id": "fe7a1e42-a73d-4d81-ab88-f3aac0c51c89",
+      "name": "Check Ollama1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -32,
+        720
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.QDRANT_URL }}/healthz",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "87e8219c-4b9f-477b-bf7f-7c6f9994068c",
+      "name": "Check Qdrant1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        720
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.DOCLING_URL }}/health",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "5c471aab-2e74-4f8f-a055-f3669bea333e",
+      "name": "Check Docling1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        720
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "let ollamaUp = false, qdrantUp = false, doclingUp = false;\n\ntry { ollamaUp = !$('Check Ollama1').first().json.error; } catch(e) {}\ntry { qdrantUp = !$('Check Qdrant1').first().json.error; } catch(e) {}\ntry { doclingUp = !$('Check Docling1').first().json.error; } catch(e) {}\n\n// n8n is always up if this code is executing\nconst n8nUp = true;\n\nreturn [{\n  json: {\n    ollama: { status: ollamaUp ? 'up' : 'down', response_ms: 0 },\n    qdrant: { status: qdrantUp ? 'up' : 'down', response_ms: 0 },\n    docling: { status: doclingUp ? 'up' : 'down', response_ms: 0 },\n    n8n: { status: 'up', response_ms: 0 },\n    all_healthy: ollamaUp && qdrantUp && doclingUp,\n    checked_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "a5ab568c-c82b-4128-bbb5-eaf910c52216",
+      "name": "Format Live Status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        720
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Every 5 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Check Ollama",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Qdrant",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Docling",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Ollama": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Docling": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check n8n": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Results": {
+      "main": [
+        [
+          {
+            "node": "Log to Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Airtable": {
+      "main": [
+        [
+          {
+            "node": "Any Service Down?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Service Down?": {
+      "main": [
+        [
+          {
+            "node": "Send Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET /health/status": {
+      "main": [
+        [
+          {
+            "node": "Check Ollama1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Latest Health": {
+      "main": [
+        []
+      ]
+    },
+    "Check Ollama1": {
+      "main": [
+        [
+          {
+            "node": "Check Qdrant1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Qdrant1": {
+      "main": [
+        [
+          {
+            "node": "Check Docling1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Docling1": {
+      "main": [
+        [
+          {
+            "node": "Format Live Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Live Status": {
+      "main": [
+        [
+          {
+            "node": "Respond Health Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ac59df8b-eea0-4139-9ae4-27d7c1550511",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "md8EFZnfrH7zvPIhts1gi",
+  "tags": [
+    {
+      "updatedAt": "2026-05-04T20:11:36.050Z",
+      "createdAt": "2026-05-04T20:11:36.050Z",
+      "id": "LbRFyW48i1HFnkTH",
+      "name": "health"
+    },
+    {
+      "updatedAt": "2026-05-04T20:11:36.054Z",
+      "createdAt": "2026-05-04T20:11:36.054Z",
+      "id": "TBrgCy1q63cSVabb",
+      "name": "monitoring"
+    }
+  ]
+}

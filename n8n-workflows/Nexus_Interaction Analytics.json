@@ -1,0 +1,367 @@
+{
+  "name": "Nexus_Interaction Analytics",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "id": "cc9648cb-9a6f-4839-bf21-3e8cd3340e7b",
+      "name": "Every Hour",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwMOgVqj6aE7Nyo",
+          "mode": "id"
+        },
+        "filterByFormula": "=IS_AFTER({created_at}, DATEADD(NOW(), -24, 'hours'))",
+        "options": {}
+      },
+      "id": "0361f10d-454e-42f9-9210-d7b0d79ff7d7",
+      "name": "Read Recent Interactions",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        0
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const interactions = $input.all().map(item => item.json.fields || item.json);\nconst total = interactions.length;\n\n// By agent\nconst byAgent = {};\ninteractions.forEach(i => {\n  const agent = i.agent || 'unknown';\n  byAgent[agent] = (byAgent[agent] || 0) + 1;\n});\n\n// Avg response time (only successful ones with valid times)\nconst responseTimes = interactions\n  .map(i => parseInt(i.response_time_ms) || 0)\n  .filter(t => t > 0);\nconst avgResponseMs = responseTimes.length > 0\n  ? Math.round(responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length)\n  : 0;\n\n// Error rate\nconst errors = interactions.filter(i => i.status === 'error').length;\nconst errorRate = total > 0 ? parseFloat((errors / total).toFixed(4)) : 0;\n\n// Peak hour\nconst hourCounts = {};\ninteractions.forEach(i => {\n  if (i.created_at) {\n    try {\n      const hour = new Date(i.created_at).getHours();\n      hourCounts[hour] = (hourCounts[hour] || 0) + 1;\n    } catch (e) { /* skip invalid dates */ }\n  }\n});\nconst peakHour = Object.keys(hourCounts).length > 0\n  ? parseInt(Object.entries(hourCounts).sort((a, b) => b[1] - a[1])[0][0])\n  : 0;\n\n// Top document (from docmentor interactions input_preview)\nconst docMentions = {};\ninteractions.forEach(i => {\n  if (i.agent === 'docmentor' && i.input_preview) {\n    const key = i.input_preview.slice(0, 80);\n    docMentions[key] = (docMentions[key] || 0) + 1;\n  }\n});\nconst topDocument = Object.keys(docMentions).length > 0\n  ? Object.entries(docMentions).sort((a, b) => b[1] - a[1])[0][0]\n  : '';\n\nreturn [{\n  json: {\n    period: 'hourly',\n    total_interactions: total,\n    by_agent: JSON.stringify(byAgent),\n    avg_response_ms: avgResponseMs,\n    error_rate: errorRate,\n    peak_hour: peakHour,\n    top_document: topDocument\n  }\n}];"
+      },
+      "id": "63234fde-1c21-4986-ad3b-fa0ce5a3f9a5",
+      "name": "Compute Aggregates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl0veOdUSD9E4jFu",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "period": "={{ $json.period }}",
+            "total_interactions": "={{ $json.total_interactions }}",
+            "by_agent": "={{ $json.by_agent }}",
+            "avg_response_ms": "={{ $json.avg_response_ms }}",
+            "error_rate": "={{ $json.error_rate }}",
+            "peak_hour": "={{ $json.peak_hour }}",
+            "top_document": "={{ $json.top_document }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "total_interactions",
+              "displayName": "total_interactions",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "period",
+              "displayName": "period",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "hourly",
+                  "value": "hourly"
+                },
+                {
+                  "name": "daily",
+                  "value": "daily"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "by_agent",
+              "displayName": "by_agent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "avg_response_ms",
+              "displayName": "avg_response_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_rate",
+              "displayName": "error_rate",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "peak_hour",
+              "displayName": "peak_hour",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "top_document",
+              "displayName": "top_document",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "3e44171e-5999-4d65-9313-a26e28b3f3a8",
+      "name": "Write Analytics Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        0
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "analytics/summary",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "4ee5747c-44d4-4c63-bba5-29af912aa013",
+      "name": "GET /analytics/summary",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        304
+      ],
+      "webhookId": "analytics-summary"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl0veOdUSD9E4jFu",
+          "mode": "id"
+        },
+        "returnAll": false,
+        "limit": 1,
+        "options": {}
+      },
+      "id": "6517c264-7291-4b05-b5e2-5b76d933470b",
+      "name": "Read Latest Analytics",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        304
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nif (items.length === 0) {\n  return [{\n    json: {\n      total_interactions: 0,\n      by_agent: {},\n      avg_response_ms: 0,\n      error_rate: 0,\n      peak_hour: 0,\n      top_document: ''\n    }\n  }];\n}\n\nconst record = items[0].json.fields || items[0].json;\n\nlet byAgent = {};\ntry {\n  byAgent = typeof record.by_agent === 'string' ? JSON.parse(record.by_agent) : (record.by_agent || {});\n} catch (e) {\n  byAgent = {};\n}\n\nreturn [{\n  json: {\n    total_interactions: record.total_interactions || 0,\n    by_agent: byAgent,\n    avg_response_ms: record.avg_response_ms || 0,\n    error_rate: record.error_rate || 0,\n    peak_hour: record.peak_hour || 0,\n    top_document: record.top_document || ''\n  }\n}];"
+      },
+      "id": "6a1f463e-9eee-4dc3-9d4c-1d283f606b5f",
+      "name": "Format Analytics Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "40a9c926-aa42-4a48-8c36-55dd7dc6fec4",
+      "name": "Respond Analytics",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        304
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Every Hour": {
+      "main": [
+        [
+          {
+            "node": "Read Recent Interactions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Recent Interactions": {
+      "main": [
+        [
+          {
+            "node": "Compute Aggregates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Aggregates": {
+      "main": [
+        [
+          {
+            "node": "Write Analytics Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET /analytics/summary": {
+      "main": [
+        [
+          {
+            "node": "Read Latest Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Latest Analytics": {
+      "main": [
+        [
+          {
+            "node": "Format Analytics Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Analytics Response": {
+      "main": [
+        [
+          {
+            "node": "Respond Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "b7f301ea-e0f9-4b7b-aff3-d3613bcf8804",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "Zdg3ORhvRdltW73ELzjQp",
+  "tags": [
+    {
+      "updatedAt": "2026-05-04T20:09:25.098Z",
+      "createdAt": "2026-05-04T20:09:25.098Z",
+      "id": "SD5fdjEU17Wqye9R",
+      "name": "analytics"
+    }
+  ]
+}

@@ -1,0 +1,1008 @@
+{
+  "name": "Nexus_Digest Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "digest/configure",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "55f89fce-9857-45d5-beb5-76a4cc367ca2",
+      "name": "POST /digest/configure",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "digest-configure"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || $json;\nconst topics = body.topics || [];\nconst frequency = body.frequency || 'daily';\nconst email = body.email || '';\n\nif (!Array.isArray(topics) || topics.length === 0) {\n  throw new Error('At least one topic is required');\n}\nif (!email || !email.includes('@')) {\n  throw new Error('A valid email address is required');\n}\n\nconst digestId = Array.from({length: 32}, () => Math.random().toString(36)[2]).join('');\n\nreturn [{\n  json: {\n    digest_id: digestId,\n    topics: JSON.stringify(topics.map(String)),\n    frequency: ['daily', 'weekly'].includes(frequency) ? frequency : 'daily',\n    email: email.trim(),\n    status: 'active',\n    source: 'frontend'\n  }\n}];"
+      },
+      "id": "3a8cc76b-b8b4-4885-97d4-16a35545f655",
+      "name": "Validate Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblAZHSOz5QJX8bwT",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "={{ $json.status }}",
+            "topics": "={{ $json.topics }}",
+            "frequency": "={{ $json.frequency }}",
+            "email": "={{ $json.email }}",
+            "source": "={{ $json.source }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "topics",
+              "displayName": "topics",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "frequency",
+              "displayName": "frequency",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "daily",
+                  "value": "daily"
+                },
+                {
+                  "name": "weekly",
+                  "value": "weekly"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "active",
+                  "value": "active"
+                },
+                {
+                  "name": "paused",
+                  "value": "paused"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "last_sent_at",
+              "displayName": "last_sent_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "item_count",
+              "displayName": "item_count",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "last_digest_content",
+              "displayName": "last_digest_content",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "d2a7329f-e656-42db-9c23-b1efddee4327",
+      "name": "Save Digest Config",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        0
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ digest_id: $('Validate Config').first().json.digest_id, status: 'active' }) }}",
+        "options": {}
+      },
+      "id": "54d376bb-0251-4010-8bea-7534ea50c877",
+      "name": "Respond Config Saved",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cf257ab4-647f-4056-b2b1-31a061c196de",
+      "name": "Daily 8AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblAZHSOz5QJX8bwT",
+          "mode": "id"
+        },
+        "filterByFormula": "={status} = 'active'",
+        "options": {}
+      },
+      "id": "2548bb12-3810-45b4-b178-3ececdcbc189",
+      "name": "Read Active Digests",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        304
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "c4ab3761-89d7-48e8-92bc-9b0dd24d006b",
+      "name": "Loop Digests",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        480,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const record = $json.fields || $json;\nlet topics = [];\ntry {\n  topics = typeof record.topics === 'string' ? JSON.parse(record.topics) : (record.topics || []);\n} catch (e) {\n  topics = [record.topics].filter(Boolean);\n}\n\n// Build a search query from topics\nconst query = topics.join(' OR ');\nconst digestId = record.id || record.record_id || '';\nconst email = record.email || '';\n\nreturn [{\n  json: {\n    digest_record_id: digestId,\n    topics: topics,\n    email: email,\n    search_query: query\n  }\n}];"
+      },
+      "id": "d8dbcd47-1e65-4654-b72b-7cb798f1610f",
+      "name": "Prepare Digest Query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://news.google.com/rss/search?q={{ encodeURIComponent($json.search_query) }}&hl=en-US&gl=US&ceid=US:en",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "fb95e5c3-c6f1-4557-9fa9-bda595e6c465",
+      "name": "Fetch News/RSS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        944,
+        304
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const rssText = $json.data || $json.body || $json || '';\nconst topics = $('Prepare Digest Query').first().json.topics;\n\n// Simple RSS XML parser — extract titles and links\nconst items = [];\nconst itemRegex = /<item[\\s\\S]*?<\\/item>/gi;\nconst rawStr = typeof rssText === 'string' ? rssText : JSON.stringify(rssText);\nconst matches = rawStr.match(itemRegex) || [];\n\nfor (const match of matches.slice(0, 20)) {\n  const titleMatch = match.match(/<title><!\\[CDATA\\[(.*?)\\]\\]>|<title>(.*?)<\\/title>/);\n  const linkMatch = match.match(/<link>(.*?)<\\/link>/);\n  const descMatch = match.match(/<description><!\\[CDATA\\[(.*?)\\]\\]>|<description>(.*?)<\\/description>/);\n  const pubDateMatch = match.match(/<pubDate>(.*?)<\\/pubDate>/);\n  \n  const title = (titleMatch?.[1] || titleMatch?.[2] || 'Untitled').trim();\n  const link = (linkMatch?.[1] || '').trim();\n  const description = (descMatch?.[1] || descMatch?.[2] || '').replace(/<[^>]*>/g, '').trim();\n  const pubDate = (pubDateMatch?.[1] || '').trim();\n  \n  items.push({ title, link, description: description.slice(0, 200), pubDate });\n}\n\n// Dedup by title, take top 10\nconst seen = new Set();\nconst unique = items.filter(a => {\n  const key = a.title.toLowerCase();\n  if (seen.has(key)) return false;\n  seen.add(key);\n  return true;\n}).slice(0, 10);\n\nconst summaryInput = unique.map((a, i) =>\n  `${i + 1}. ${a.title}\\n   ${a.description}\\n   Link: ${a.link}`\n).join('\\n\\n');\n\nreturn [{\n  json: {\n    articles: unique,\n    summary_input: summaryInput || 'No articles found for topics: ' + topics.join(', '),\n    item_count: unique.length,\n    topics: topics\n  }\n}];"
+      },
+      "id": "f7029312-5f86-4a2d-bd00-ddc927cec339",
+      "name": "Aggregate Top Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/chat",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are a digest writer. Summarize the following news items into a concise, well-organized digest. Group related items by theme. Keep it scannable with clear headings. Be informative but brief.' }, { role: 'user', content: 'Create a digest for topics: ' + $json.topics.join(', ') + '\\n\\nArticles:\\n' + $json.summary_input } ] }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "58822ccd-ffde-4382-8c4d-b07d4881d734",
+      "name": "Summarize via Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1392,
+        304
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const ollamaResponse = $json;\nconst summary = ollamaResponse.message?.content || ollamaResponse.response || 'No summary generated.';\nconst articles = $('Aggregate Top Items').first().json.articles || [];\nconst topics = $('Aggregate Top Items').first().json.topics || [];\nconst itemCount = $('Aggregate Top Items').first().json.item_count || 0;\nconst digestRecordId = $('Prepare Digest Query').first().json.digest_record_id;\nconst email = $('Prepare Digest Query').first().json.email;\n\n// Format as HTML\nconst articleLinks = articles.map(a =>\n  `<li style=\"margin-bottom:8px;\"><a href=\"${a.link}\" style=\"color:#6366f1;text-decoration:none;\">${a.title}</a><br><small style=\"color:#888;\">${a.description}</small></li>`\n).join('');\n\nconst html = `\n<div style=\"max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;\">\n  <h1 style=\"color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;\">Nexus Daily Digest</h1>\n  <p style=\"color:#666;font-size:14px;\">Topics: ${topics.join(', ')} | ${itemCount} items</p>\n  <div style=\"background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;\">\n    ${summary.replace(/\\n/g, '<br>')}\n  </div>\n  <h2 style=\"color:#1a1a2e;font-size:16px;\">Sources</h2>\n  <ul style=\"padding-left:20px;\">${articleLinks}</ul>\n  <hr style=\"border:none;border-top:1px solid #eee;margin-top:24px;\">\n  <p style=\"color:#aaa;font-size:12px;\">Generated by Nexus Digest Agent</p>\n</div>`;\n\nreturn [{\n  json: {\n    digest_record_id: digestRecordId,\n    email: email,\n    html_content: html,\n    summary: summary,\n    item_count: itemCount,\n    sent_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "507edaf4-1a94-42c1-95a6-5b4ab826cbdf",
+      "name": "Format HTML Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblAZHSOz5QJX8bwT",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "last_sent_at": "={{ $json.sent_at }}",
+            "item_count": "={{ $json.item_count }}",
+            "last_digest_content": "={{ $json.html_content }}",
+            "id": "={{ $json.digest_record_id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "topics",
+              "displayName": "topics",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "frequency",
+              "displayName": "frequency",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "daily",
+                  "value": "daily"
+                },
+                {
+                  "name": "weekly",
+                  "value": "weekly"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "active",
+                  "value": "active"
+                },
+                {
+                  "name": "paused",
+                  "value": "paused"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "last_sent_at",
+              "displayName": "last_sent_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "item_count",
+              "displayName": "item_count",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "last_digest_content",
+              "displayName": "last_digest_content",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "4d22bee7-e341-4132-bb79-a5ac1c4c7eaf",
+      "name": "Update Digest Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1824,
+        304
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwMOgVqj6aE7Nyo",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "agent": "digest",
+            "input_preview": "={{ ('Digest for: ' + ($('Prepare Digest Query').first().json.topics || []).join(', ')).slice(0, 200) }}",
+            "output_preview": "={{ ($json.summary || '').slice(0, 200) }}",
+            "status": "success",
+            "source": "digest-agent",
+            "response_time_ms": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "agent",
+              "displayName": "agent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "docmentor",
+                  "value": "docmentor"
+                },
+                {
+                  "name": "review",
+                  "value": "review"
+                },
+                {
+                  "name": "digest",
+                  "value": "digest"
+                },
+                {
+                  "name": "file",
+                  "value": "file"
+                },
+                {
+                  "name": "system",
+                  "value": "system"
+                },
+                {
+                  "name": "general",
+                  "value": "general"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "input_preview",
+              "displayName": "input_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "output_preview",
+              "displayName": "output_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "response_time_ms",
+              "displayName": "response_time_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "success",
+                  "value": "success"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                },
+                {
+                  "name": "timeout",
+                  "value": "timeout"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "2d7fff93-f213-4d55-b2a9-315dbf897d34",
+      "name": "Log Digest Interaction",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2048,
+        304
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "digest/latest",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f9079a69-b907-455b-991e-49b08ad71aa9",
+      "name": "GET /digest/latest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        608
+      ],
+      "webhookId": "digest-latest"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblAZHSOz5QJX8bwT",
+          "mode": "id"
+        },
+        "filterByFormula": "=NOT({last_sent_at} = '')",
+        "returnAll": false,
+        "limit": 1,
+        "options": {},
+        "sort": {
+          "property": [
+            {
+              "field": "last_sent_at",
+              "direction": "desc"
+            }
+          ]
+        }
+      },
+      "id": "1e7358f1-e1ee-4bab-bcb9-768eb6d6f9c1",
+      "name": "Read Latest Digest",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        608
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nif (items.length === 0) {\n  return [{ json: { digest_id: null, content: null, sent_at: null } }];\n}\n\nconst record = items[0].json.fields || items[0].json;\n\nreturn [{\n  json: {\n    digest_id: record.id || record.record_id || null,\n    content: record.last_digest_content || null,\n    sent_at: record.last_sent_at || null,\n    item_count: record.item_count || 0\n  }\n}];"
+      },
+      "id": "bfafc7cd-e0d3-47e6-a675-8c06e2e42cda",
+      "name": "Format Latest Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "97e4bd60-a720-48f7-852d-4cc4f77b72e3",
+      "name": "Respond Latest Digest",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        608
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "POST /digest/configure": {
+      "main": [
+        [
+          {
+            "node": "Validate Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Config": {
+      "main": [
+        [
+          {
+            "node": "Save Digest Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Digest Config": {
+      "main": [
+        [
+          {
+            "node": "Respond Config Saved",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily 8AM": {
+      "main": [
+        [
+          {
+            "node": "Read Active Digests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Active Digests": {
+      "main": [
+        [
+          {
+            "node": "Loop Digests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Digests": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Prepare Digest Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Digest Query": {
+      "main": [
+        [
+          {
+            "node": "Fetch News/RSS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch News/RSS": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Top Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Top Items": {
+      "main": [
+        [
+          {
+            "node": "Summarize via Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize via Ollama": {
+      "main": [
+        [
+          {
+            "node": "Format HTML Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format HTML Email": {
+      "main": [
+        [
+          {
+            "node": "Update Digest Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Digest Record": {
+      "main": [
+        [
+          {
+            "node": "Log Digest Interaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Digest Interaction": {
+      "main": [
+        [
+          {
+            "node": "Loop Digests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET /digest/latest": {
+      "main": [
+        [
+          {
+            "node": "Read Latest Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Latest Digest": {
+      "main": [
+        [
+          {
+            "node": "Format Latest Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Latest Response": {
+      "main": [
+        [
+          {
+            "node": "Respond Latest Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "1302aebd-2452-41a7-8826-2ae92d1916e9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "PLLjjQOadlUt2rAE42BiX",
+  "tags": [
+    {
+      "updatedAt": "2026-05-04T20:01:56.311Z",
+      "createdAt": "2026-05-04T20:01:56.311Z",
+      "id": "4HAFfp4PoEJwnNIJ",
+      "name": "digest"
+    },
+    {
+      "updatedAt": "2026-05-04T20:01:56.313Z",
+      "createdAt": "2026-05-04T20:01:56.313Z",
+      "id": "ZO5WyKEOD9QL8RZU",
+      "name": "scheduled"
+    }
+  ]
+}

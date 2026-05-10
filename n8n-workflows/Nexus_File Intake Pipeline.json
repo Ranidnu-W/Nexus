@@ -1,0 +1,1334 @@
+{
+  "name": "Nexus_File Intake Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "file/upload",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "id": "01714779-18f3-4a10-8f13-95fb77cb6821",
+      "name": "POST /file/upload",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1328,
+        192
+      ],
+      "webhookId": "file-upload"
+    },
+    {
+      "parameters": {
+        "jsCode": "const jobId = Array.from({length: 32}, () => Math.random().toString(36)[2]).join('');\nconst binary = $input.first().binary;\nconst fileKey = binary ? Object.keys(binary)[0] : null;\nconst fileMeta = fileKey ? binary[fileKey] : {};\nconst fileName = fileMeta.fileName || 'unknown';\nconst fileSize = parseInt(fileMeta.fileSize) || 0;\nconst ext = fileName.split('.').pop()?.toLowerCase() || '';\n\n// Read text content now while binary is still available\nlet rawText = '';\nif (fileKey && ['txt', 'md', 'csv', 'json'].includes(ext)) {\n  try {\n    const buffer = await this.helpers.getBinaryDataBuffer(0, fileKey);\n    rawText = buffer.toString('utf-8');\n  } catch(e) {}\n}\n\nreturn [{\n  json: {\n    job_id: jobId,\n    document_id: jobId,\n    file_name: fileName,\n    file_size: fileSize,\n    file_extension: ext,\n    start_time: Date.now(),\n    raw_text: rawText\n  },\n  binary: $input.first().binary\n}];"
+      },
+      "id": "e71d8e62-d385-47d7-ad4e-2b07738dabbd",
+      "name": "Generate Job ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblS0qn7j7sdQe0zT",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "job_id": "={{ $json.job_id }}",
+            "status": "processing",
+            "workflow_type": "file_intake",
+            "created_at": "={{ new Date().toISOString() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "processing",
+                  "value": "processing"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "workflow_type",
+              "displayName": "workflow_type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "completed_at",
+              "displayName": "completed_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "4b78a42c-eefd-479d-a5d9-238138b4dabd",
+      "name": "Create Job Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -880,
+        192
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ job_id: $('Generate Job ID').first().json.job_id, status: 'processing' }) }}",
+        "options": {}
+      },
+      "id": "0a312e0f-e615-4c47-ad85-4d0521e5931a",
+      "name": "Respond with Job ID",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -656,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('Generate Job ID').first().json;\nconst ext = data.file_extension;\nconst supported = ['pdf', 'txt', 'md', 'csv', 'json'];\n\nreturn [{\n  json: {\n    ...data,\n    file_type: ext,\n    is_supported: supported.includes(ext),\n    route: ext === 'pdf' ? 'pdf' : ['txt', 'md'].includes(ext) ? 'text' : ['csv', 'json'].includes(ext) ? 'structured' : 'unsupported'\n  },\n  binary: $input.first().binary\n}];"
+      },
+      "id": "2e6a1ba5-e315-4198-8d9d-f66586b577b4",
+      "name": "Detect File Type",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.route }}",
+                    "rightValue": "pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.route }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.route }}",
+                    "rightValue": "structured",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Structured"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": {
+            "type": "extra",
+            "outputKey": "Unsupported"
+          }
+        }
+      },
+      "id": "16a08b87-e8db-4caf-a4d1-e091c9ad7ccc",
+      "name": "Route by Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -224,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.DOCLING_URL }}/convert",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "25332a54-be6c-428e-8149-426a1a970544",
+      "name": "Convert PDF via Docling",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        0
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('Generate Job ID').first().json;\nreturn [{\n  json: {\n    ...data,\n    extracted_text: data.raw_text || '',\n    parse_method: 'direct_read'\n  }\n}];"
+      },
+      "id": "eda8b246-6140-46e0-a6ce-8ef6886cd0f9",
+      "name": "Read Text Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const binary = $input.first().binary;\nconst fileKey = binary ? Object.keys(binary)[0] : null;\nlet text = '';\n\nif (fileKey && binary[fileKey]) {\n  const buffer = await this.helpers.getBinaryDataBuffer(0, fileKey);\n  const raw = buffer.toString('utf-8');\n  const ext = $('Generate Job ID').first().json.file_extension;\n  \n  if (ext === 'csv') {\n    // Convert CSV to readable text representation\n    const lines = raw.split('\\n').filter(l => l.trim());\n    text = lines.map(line => line.replace(/,/g, ' | ')).join('\\n');\n  } else if (ext === 'json') {\n    // Pretty-print JSON\n    try {\n      const parsed = JSON.parse(raw);\n      text = JSON.stringify(parsed, null, 2);\n    } catch (e) {\n      text = raw;\n    }\n  } else {\n    text = raw;\n  }\n}\n\nconst data = $('Generate Job ID').first().json;\nreturn [{\n  json: {\n    ...data,\n    extracted_text: text,\n    parse_method: 'structured_parse'\n  }\n}];"
+      },
+      "id": "71d49e6c-fd62-449a-a4e8-6ebeb8bfea72",
+      "name": "Parse CSV/JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('Generate Job ID').first().json;\nreturn [{\n  json: {\n    ...data,\n    error: true,\n    error_message: `Unsupported file type: .${data.file_extension}`\n  }\n}];"
+      },
+      "id": "13333e4f-cf95-450a-b1ba-c1ee5df7c7b8",
+      "name": "Unsupported Type Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Handle Docling response for PDF path\nconst doclingResponse = $json;\nconst data = $('Generate Job ID').first().json;\nconst text = doclingResponse.markdown || doclingResponse.text || doclingResponse.content || '';\n\nif (!text && doclingResponse.error) {\n  return [{\n    json: {\n      ...data,\n      error: true,\n      error_message: 'Docling failed to parse PDF: ' + (doclingResponse.error || 'unknown error')\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ...data,\n    extracted_text: text,\n    parse_method: 'docling'\n  }\n}];"
+      },
+      "id": "1a84505b-ebb9-4d0d-9593-36ce99918174",
+      "name": "Normalize PDF Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbluuA5BKOz8PLzmO",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "file_name": "={{ $json.file_name }}",
+            "file_type": "={{ $json.file_extension }}",
+            "file_size_bytes": "={{ $json.file_size }}",
+            "status": "processing",
+            "source": "upload",
+            "vector_collection": "docmentor",
+            "chunk_count": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "file_name",
+              "displayName": "file_name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "file_type",
+              "displayName": "file_type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "pdf",
+                  "value": "pdf"
+                },
+                {
+                  "name": "txt",
+                  "value": "txt"
+                },
+                {
+                  "name": "md",
+                  "value": "md"
+                },
+                {
+                  "name": "csv",
+                  "value": "csv"
+                },
+                {
+                  "name": "json",
+                  "value": "json"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "file_size_bytes",
+              "displayName": "file_size_bytes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "processing",
+                  "value": "processing"
+                },
+                {
+                  "name": "indexed",
+                  "value": "indexed"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "vector_collection",
+              "displayName": "vector_collection",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "chunk_count",
+              "displayName": "chunk_count",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "parsed_at",
+              "displayName": "parsed_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "indexed_at",
+              "displayName": "indexed_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "6cf6b7c6-6713-46b0-ab98-d0c18afe844b",
+      "name": "Create Document Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        192
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $('Generate Job ID').first().json.raw_text || '';\nconst documentId = $('Generate Job ID').first().json.document_id;\nconst fileName = $('Generate Job ID').first().json.file_name;\n\nreturn [{\n  json: {\n    chunk_id: documentId + '_0',\n    chunk_index: 0,\n    text: text,\n    document_id: documentId,\n    file_name: fileName,\n    char_count: text.length,\n    total_chunks: 1\n  }\n}];"
+      },
+      "id": "0392f237-9c54-4c22-ad99-347939922e06",
+      "name": "Chunk Text",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "0d9247ce-1ff1-458e-87b7-192102e15acf",
+      "name": "Loop Over Chunks",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        896,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/embeddings",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'nomic-embed-text', prompt: $json.text }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "bc83e3f1-ee65-4547-af98-67c80c487629",
+      "name": "Embed via Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1104,
+        192
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all();\nconst chunkData = $('Chunk Text').all();\nconst points = [];\n\nfor (let i = 0; i < allItems.length; i++) {\n  const embedding = allItems[i].json.embedding;\n  if (!embedding || !Array.isArray(embedding)) continue;\n  \n  const chunk = chunkData[i]?.json || {};\n  const chunkId = chunk.chunk_id || Array.from({length: 32}, () => Math.random().toString(36)[2]).join('');\n  \n  points.push({\n    id: i + 1,\n    vector: embedding,\n    payload: {\n      text: chunk.text || '',\n      document_id: chunk.document_id || '',\n      file_name: chunk.file_name || '',\n      chunk_index: chunk.chunk_index || 0,\n      created_at: new Date().toISOString()\n    }\n  });\n}\n\nconst documentId = $('Generate Job ID').first().json.document_id;\n\nreturn [{\n  json: {\n    document_id: documentId,\n    points: points,\n    chunk_count: points.length\n  }\n}];"
+      },
+      "id": "6b4bc068-fee3-4fef-b706-307858db3f4b",
+      "name": "Collect Vectors",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $env.QDRANT_URL }}/collections/docmentor/points",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ points: $json.points }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "24379121-e846-4b31-94dc-4bd039737a27",
+      "name": "Upsert to Qdrant",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1552,
+        192
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const jobId = $('Generate Job ID').first().json.job_id;\nconst chunkCount = $('Collect Vectors').first().json.chunk_count;\n\nreturn [{\n  json: {\n    job_id: jobId,\n    chunk_count: chunkCount,\n    status: 'indexed',\n    indexed_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "5d16fcb6-78c2-4f9f-9200-a4653b303f9a",
+      "name": "Prepare Success Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblS0qn7j7sdQe0zT",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "complete",
+            "result": "={{ JSON.stringify({ chunk_count: $json.chunk_count, status: 'indexed' }) }}",
+            "completed_at": "={{ new Date().toISOString() }}",
+            "job_id": "={{ $json.job_id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "processing",
+                  "value": "processing"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "workflow_type",
+              "displayName": "workflow_type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "completed_at",
+              "displayName": "completed_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "3e392543-6c50-479f-81a8-9d534d2a6191",
+      "name": "Update Job: Complete",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1984,
+        192
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblwMOgVqj6aE7Nyo",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $('Generate Job ID').first().json.job_id }}",
+            "agent": "file",
+            "input_preview": "={{ ('Upload: ' + $('Generate Job ID').first().json.file_name).slice(0, 200) }}",
+            "output_preview": "={{ ('Indexed ' + $json.chunk_count + ' chunks').slice(0, 200) }}",
+            "response_time_ms": "={{ Date.now() - $('Generate Job ID').first().json.start_time }}",
+            "status": "success",
+            "source": "file-intake-pipeline"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "agent",
+              "displayName": "agent",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "docmentor",
+                  "value": "docmentor"
+                },
+                {
+                  "name": "review",
+                  "value": "review"
+                },
+                {
+                  "name": "digest",
+                  "value": "digest"
+                },
+                {
+                  "name": "file",
+                  "value": "file"
+                },
+                {
+                  "name": "system",
+                  "value": "system"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "input_preview",
+              "displayName": "input_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "output_preview",
+              "displayName": "output_preview",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "response_time_ms",
+              "displayName": "response_time_ms",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "success",
+                  "value": "success"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                },
+                {
+                  "name": "timeout",
+                  "value": "timeout"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "32639017-35c5-4ccc-ac27-ef4077067bac",
+      "name": "Log Interaction",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2208,
+        192
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appDyd2AnWGViGLOU",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblS0qn7j7sdQe0zT",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "error",
+            "result": "={{ JSON.stringify({ error: $json.error_message || 'Processing failed' }) }}",
+            "completed_at": "={{ new Date().toISOString() }}",
+            "job_id": "={{ $('Generate Job ID').first().json.job_id }}"
+          },
+          "matchingColumns": [
+            "job_id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "job_id",
+              "displayName": "job_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "processing",
+                  "value": "processing"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "workflow_type",
+              "displayName": "workflow_type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "result",
+              "displayName": "result",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "completed_at",
+              "displayName": "completed_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "84e34bc0-a98e-4c8e-9045-c47a673b2281",
+      "name": "Update Job: Error",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        544
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "VSgEZSiL9eqFcK2P",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "POST /file/upload": {
+      "main": [
+        [
+          {
+            "node": "Generate Job ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Job ID": {
+      "main": [
+        [
+          {
+            "node": "Create Job Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Job Record": {
+      "main": [
+        [
+          {
+            "node": "Respond with Job ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond with Job ID": {
+      "main": [
+        [
+          {
+            "node": "Detect File Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detect File Type": {
+      "main": [
+        [
+          {
+            "node": "Route by Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Type": {
+      "main": [
+        [
+          {
+            "node": "Convert PDF via Docling",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Read Text Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse CSV/JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert PDF via Docling": {
+      "main": [
+        [
+          {
+            "node": "Normalize PDF Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize PDF Output": {
+      "main": [
+        [
+          {
+            "node": "Create Document Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Text Content": {
+      "main": [
+        [
+          {
+            "node": "Create Document Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CSV/JSON": {
+      "main": [
+        [
+          {
+            "node": "Create Document Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unsupported Type Error": {
+      "main": [
+        [
+          {
+            "node": "Update Job: Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Document Record": {
+      "main": [
+        [
+          {
+            "node": "Chunk Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chunk Text": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Chunks": {
+      "main": [
+        [
+          {
+            "node": "Collect Vectors",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Embed via Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embed via Ollama": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Vectors": {
+      "main": [
+        [
+          {
+            "node": "Upsert to Qdrant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert to Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Prepare Success Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Success Update": {
+      "main": [
+        [
+          {
+            "node": "Update Job: Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Job: Complete": {
+      "main": [
+        [
+          {
+            "node": "Log Interaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bf6897be-0f06-4356-811e-17fc4668b861",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
+  },
+  "id": "sI07ZG4KTXmlH7FAFMOgx",
+  "tags": [
+    {
+      "updatedAt": "2026-05-06T05:49:39.647Z",
+      "createdAt": "2026-05-06T05:49:39.647Z",
+      "id": "Kawc3ior93Ph5OYY",
+      "name": "files"
+    },
+    {
+      "updatedAt": "2026-05-06T05:49:39.645Z",
+      "createdAt": "2026-05-06T05:49:39.645Z",
+      "id": "UUAje8Ded0Qpk9t4",
+      "name": "ingestion"
+    }
+  ]
+}

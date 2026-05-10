@@ -1,24 +1,29 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 
 function rand(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-const particles = Array.from({ length: 25 }, (_, i) => ({
-  id: i,
-  size: rand(2, 6),
-  dur: rand(10, 28),
-  drift: rand(-40, 40),
-  peakOp: rand(0.3, 0.75),
-  x: rand(0, 100),
-  delay: rand(0, 20),
-}));
+function generateParticles() {
+  return Array.from({ length: 25 }, (_, i) => ({
+    id: i,
+    size: rand(2, 6),
+    dur: rand(10, 28),
+    drift: rand(-40, 40),
+    peakOp: rand(0.3, 0.75),
+    x: rand(0, 100),
+    delay: rand(0, 20),
+  }));
+}
 
 export default function Particles() {
-  // Memoize so values don't re-randomize on re-render
-  const pts = useMemo(() => particles, []);
+  const [pts, setPts] = useState<ReturnType<typeof generateParticles>>([]);
+
+  useEffect(() => {
+    setPts(generateParticles());
+  }, []);
 
   return (
     <>
