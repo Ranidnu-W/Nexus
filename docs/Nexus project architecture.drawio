@@ -1,0 +1,140 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Nexus Architecture" id="rz5Z1JTQwfmy5G0zzV-N">
+    <mxGraphModel dx="1285" dy="749" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-1" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;" value="Nexus — Personal AI Agent Platform — System Architecture" vertex="1">
+          <mxGeometry height="40" width="600" x="400" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=5;dashed=1;dashPattern=5 5;" value="MacBook Air M4 (Orchestration)" vertex="1">
+          <mxGeometry height="450" width="580" x="110" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#66bb6a;fontSize=12;fontStyle=1;" value="Next.js Frontend&#xa;:3000&#xa;(Owner: Deon — Interface)" vertex="1">
+          <mxGeometry height="80" width="200" x="120" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=12;fontStyle=1;" value="n8n Orchestration&#xa;:5678&#xa;(Owner: Deon — Orchestration)" vertex="1">
+          <mxGeometry height="80" width="200" x="370" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-5" edge="1" parent="1" source="WJIMpPD8AgVuQQ6wPYBs-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#333333;fontSize=10;fontStyle=0;" target="WJIMpPD8AgVuQQ6wPYBs-4" value="REST / Webhooks&#xa;(JSON)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-6" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=11;fontStyle=1;size=10;" value="Airtable&#xa;(Cloud — Shared State)&#xa;6 Tables" vertex="1">
+          <mxGeometry height="80" width="160" x="230" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-7" edge="1" parent="1" source="WJIMpPD8AgVuQQ6wPYBs-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#333333;fontSize=10;" target="WJIMpPD8AgVuQQ6wPYBs-6" value="CRUD&#xa;(Status-driven pipeline)">
+          <mxGeometry relative="1" x="0.0952" y="-15" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-8" parent="1" style="text;html=1;fontSize=9;align=left;verticalAlign=top;fillColor=#fff8e1;strokeColor=#ffb300;rounded=1;" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;9 n8n Workflows:&lt;br&gt;• System Health Monitor (No AI)&lt;br&gt;• File Intake Pipeline (Minimal AI)&lt;br&gt;• DocMentor RAG (AI-Heavy)&lt;br&gt;• Review Analyst (AI-Heavy)&lt;br&gt;• Orchestrator (AI-Light)&lt;br&gt;• Digest Agent (AI-Light)&lt;br&gt;• Interaction Analytics (No AI)&lt;br&gt;• Cleanup Workflow (No AI)&lt;br&gt;• Job Status Endpoint (No AI)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="170" width="190" x="420" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=5;dashed=1;dashPattern=5 5;" value="ASUS Gaming Laptop (AI Server)" vertex="1">
+          <mxGeometry height="380" width="500" x="810" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ffb300;fontSize=11;fontStyle=1;" value="Ollama&#xa;:11434&#xa;Llama 3 8B + nomic-embed-text&#xa;(Owner: Deon — AI Analysis)" vertex="1">
+          <mxGeometry height="80" width="200" x="885" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-11" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=11;fontStyle=1;size=10;" value="Qdrant&#xa;:6333&#xa;Vector Storage&#xa;(docmentor collection)" vertex="1">
+          <mxGeometry height="80" width="160" x="900" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=11;fontStyle=1;" value="Docling&#xa;:5001&#xa;Document Parsing&#xa;(PDF → Structured Text)" vertex="1">
+          <mxGeometry height="80" width="180" x="1110" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-13" edge="1" parent="1" source="WJIMpPD8AgVuQQ6wPYBs-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ff6d00;fontSize=10;strokeWidth=2;" target="WJIMpPD8AgVuQQ6wPYBs-10" value="HTTP&#xa;/api/chat&#xa;/api/embeddings">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-14" edge="1" parent="1" source="WJIMpPD8AgVuQQ6wPYBs-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#7b1fa2;fontSize=10;strokeWidth=2;" target="WJIMpPD8AgVuQQ6wPYBs-11" value="HTTP&#xa;Upsert / Search / Delete">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-15" edge="1" parent="1" source="WJIMpPD8AgVuQQ6wPYBs-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#1565c0;fontSize=10;strokeWidth=2;" target="WJIMpPD8AgVuQQ6wPYBs-12" value="HTTP POST&#xa;/convert&#xa;(multipart file)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-16" parent="1" style="text;html=1;fontSize=12;fontStyle=2;align=center;fillColor=none;strokeColor=none;" value="Local Network (LAN)" vertex="1">
+          <mxGeometry height="30" width="150" x="600" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-17" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#999999;strokeWidth=2;dashed=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="460" as="sourcePoint" />
+            <mxPoint x="1250" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-18" parent="1" style="shape=mxgraph.basic.smiley;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#66bb6a;fontSize=12;fontStyle=1;" value="User" vertex="1">
+          <mxGeometry height="60" width="60" x="140" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-19" edge="1" parent="1" source="WJIMpPD8AgVuQQ6wPYBs-18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#2e7d32;fontSize=10;strokeWidth=2;" target="WJIMpPD8AgVuQQ6wPYBs-3" value="Browser&#xa;HTTP :3000">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-20" parent="1" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=10;fontStyle=1;" value="Cloudflare Tunnel&#xa;(Demo Day)" vertex="1">
+          <mxGeometry height="70" width="160" x="370" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-21" parent="1" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#66bb6a;fontSize=10;fontStyle=1;" value="Vercel&#xa;(Frontend Hosting)" vertex="1">
+          <mxGeometry height="70" width="160" x="570" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-22" parent="1" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ffb300;fontSize=10;fontStyle=1;" value="Google News&#xa;RSS Feeds" vertex="1">
+          <mxGeometry height="60" width="140" x="770" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-23" edge="1" parent="1" source="WJIMpPD8AgVuQQ6wPYBs-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ff8f00;fontSize=9;dashed=1;" target="WJIMpPD8AgVuQQ6wPYBs-22" value="HTTP GET&#xa;(Digest Agent)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="480" />
+              <mxPoint x="700" y="480" />
+              <mxPoint x="700" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#cccccc;" value="" vertex="1">
+          <mxGeometry height="120" width="250" x="1040" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-25" parent="1" style="text;html=1;fontSize=12;fontStyle=1;align=center;" value="Legend" vertex="1">
+          <mxGeometry height="20" width="100" x="1110" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-26" parent="1" style="rounded=1;fillColor=#e3f2fd;strokeColor=#42a5f5;" value="" vertex="1">
+          <mxGeometry height="15" width="20" x="1055" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-27" parent="1" style="text;html=1;fontSize=10;align=left;" value="Data Ingestion" vertex="1">
+          <mxGeometry height="18" width="100" x="1085" y="603" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-28" parent="1" style="rounded=1;fillColor=#fff8e1;strokeColor=#ffb300;" value="" vertex="1">
+          <mxGeometry height="15" width="20" x="1055" y="627" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-29" parent="1" style="text;html=1;fontSize=10;align=left;" value="AI Processing" vertex="1">
+          <mxGeometry height="18" width="100" x="1085" y="625" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-30" parent="1" style="rounded=1;fillColor=#f3e5f5;strokeColor=#ab47bc;" value="" vertex="1">
+          <mxGeometry height="15" width="20" x="1055" y="649" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-31" parent="1" style="text;html=1;fontSize=10;align=left;" value="Orchestration / Storage" vertex="1">
+          <mxGeometry height="18" width="130" x="1085" y="647" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-32" parent="1" style="rounded=1;fillColor=#e8f5e9;strokeColor=#66bb6a;" value="" vertex="1">
+          <mxGeometry height="15" width="20" x="1055" y="671" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-33" parent="1" style="text;html=1;fontSize=10;align=left;" value="Interface / Output" vertex="1">
+          <mxGeometry height="18" width="100" x="1085" y="669" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-34" parent="1" style="shape=cloud;fillColor=#ffffff;strokeColor=#999999;" value="" vertex="1">
+          <mxGeometry height="18" width="25" x="1190" y="603" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-35" parent="1" style="text;html=1;fontSize=10;align=left;" value="External Service" vertex="1">
+          <mxGeometry height="18" width="100" x="1220" y="603" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-36" parent="1" style="shape=cylinder3;fillColor=#ffffff;strokeColor=#999999;size=5;" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="1193" y="627" as="geometry" />
+        </mxCell>
+        <mxCell id="WJIMpPD8AgVuQQ6wPYBs-37" parent="1" style="text;html=1;fontSize=10;align=left;" value="Database" vertex="1">
+          <mxGeometry height="18" width="100" x="1220" y="627" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
