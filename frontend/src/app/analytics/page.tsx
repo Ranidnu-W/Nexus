@@ -6,6 +6,7 @@ import { getAnalyticsSummary } from "@/lib/api";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
+  { href: "/chat", label: "Chat" },
   { href: "/docmentor", label: "DocMentor" },
   { href: "/review", label: "Reviews" },
   { href: "/digest", label: "Digests" },
@@ -37,6 +38,7 @@ type AnalyticsData = {
 };
 
 const AGENT_META: Record<string, { label: string; icon: string; color: string }> = {
+  general: { label: "Nexus Chat", icon: "💬", color: "#f5c842" },
   docmentor: { label: "DocMentor", icon: "📚", color: "#6366f1" },
   review: { label: "Review Analyst", icon: "⭐", color: "#f59e0b" },
   digest: { label: "Digest Agent", icon: "📰", color: "#10b981" },

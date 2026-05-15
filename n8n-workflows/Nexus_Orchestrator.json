@@ -1,644 +1,1923 @@
 {
-  "name": "Nexus_Orchestrator",
-  "nodes": [
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "orchestrator",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "id": "22a5bd64-4462-4220-a79e-f8d8ffb2779e",
-      "name": "POST /orchestrator",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -1104,
-        240
-      ],
-      "webhookId": "orchestrator"
-    },
-    {
-      "parameters": {
-        "jsCode": "const body = $json.body || $json;\nreturn [{\n  json: {\n    message: body.message || '',\n    session_id: body.session_id || '',\n    context: body.context || '',\n    start_time: Date.now()\n  }\n}];"
-      },
-      "id": "c18824eb-aa44-455d-ae27-5ea9ba28857f",
-      "name": "Extract Input",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -880,
-        240
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $env.OLLAMA_URL }}/api/chat",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are an intent classifier. Given a user message, determine which agent should handle it.\\nRespond ONLY with valid JSON: { \"agent\": \"<agent_name>\", \"confidence\": <0.0-1.0> }\\n\\nAgents:\\n- docmentor: Questions about uploaded documents, \"what does the doc say about...\"\\n- review: Analyzing reviews, sentiment, extracting patterns from review text\\n- digest: Setting up content digests, topic subscriptions, \"send me updates about...\"\\n- file: Uploading files, processing documents, \"parse this PDF\"\\n- general: Anything that doesn\\'t fit the above\\n\\nDo not explain. JSON only.' }, { role: 'user', content: $json.message } ] }) }}",
-        "options": {
-          "timeout": 60000
-        }
-      },
-      "id": "be17dcb7-fe24-4490-b6f0-34247a884c68",
-      "name": "Classify Intent",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -656,
-        240
-      ],
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "jsCode": "const response = $json;\nconst content = response.message?.content || response.response || '';\nconst sessionId = $('Extract Input').first().json.session_id;\nconst originalMessage = $('Extract Input').first().json.message;\n\nlet agent = 'general';\nlet confidence = 0;\n\ntry {\n  let jsonStr = content;\n  const codeBlockMatch = content.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (codeBlockMatch) {\n    jsonStr = codeBlockMatch[1];\n  } else {\n    const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) jsonStr = jsonMatch[0];\n  }\n  \n  const parsed = JSON.parse(jsonStr);\n  agent = parsed.agent || 'general';\n  confidence = parseFloat(parsed.confidence) || 0;\n} catch (e) {\n  agent = 'general';\n  confidence = 0;\n}\n\nconst validAgents = ['docmentor', 'review', 'digest', 'file', 'general'];\nif (!validAgents.includes(agent)) agent = 'general';\n\nreturn [{\n  json: {\n    agent: agent,\n    confidence: confidence,\n    session_id: sessionId,\n    original_message: originalMessage,\n    start_time: $('Extract Input').first().json.start_time\n  }\n}];"
-      },
-      "id": "3e94e3cf-6ba8-41d9-b293-02c8cae2818b",
-      "name": "Parse Intent",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -448,
-        240
-      ]
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "combinator": "and",
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.agent }}",
-                    "rightValue": "docmentor",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              },
-              "renameOutput": true,
-              "outputKey": "DocMentor"
+    "updatedAt": "2026-05-15T05:09:02.043Z",
+    "createdAt": "2026-05-06T20:08:01.704Z",
+    "id": "2NqijkYQkT4DaPJGMQj6f",
+    "name": "Nexus_Orchestrator",
+    "description": null,
+    "active": true,
+    "isArchived": false,
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "orchestrator",
+                "responseMode": "responseNode",
+                "options": {}
             },
-            {
-              "conditions": {
-                "options": {
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "combinator": "and",
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.agent }}",
-                    "rightValue": "review",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              },
-              "renameOutput": true,
-              "outputKey": "Review"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "combinator": "and",
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.agent }}",
-                    "rightValue": "digest",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              },
-              "renameOutput": true,
-              "outputKey": "Digest"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "combinator": "and",
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.agent }}",
-                    "rightValue": "file",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              },
-              "renameOutput": true,
-              "outputKey": "File"
-            }
-          ]
+            "id": "22a5bd64-4462-4220-a79e-f8d8ffb2779e",
+            "name": "POST /orchestrator",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                -1232,
+                560
+            ],
+            "webhookId": "orchestrator"
         },
-        "options": {}
-      },
-      "id": "6511e2c1-3789-4f1f-8154-837ecb901b73",
-      "name": "Route to Agent",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3,
-      "position": [
-        -224,
-        240
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $env.N8N_URL }}/webhook/docmentor/query",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ query: $('Parse Intent').first().json.original_message, session_id: $('Parse Intent').first().json.session_id }) }}",
-        "options": {
-          "timeout": 30000
-        }
-      },
-      "id": "d68a1e73-4bbd-40ca-b550-37d17a2844bf",
-      "name": "Call DocMentor",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        0,
-        0
-      ],
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $env.N8N_URL }}/webhook/review/analyze",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ text: $('Parse Intent').first().json.original_message, type: 'restaurant' }) }}",
-        "options": {
-          "timeout": 120000
-        }
-      },
-      "id": "074ddd56-eecf-4964-bc5d-d3679480c10a",
-      "name": "Call Review Analyst",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        0,
-        144
-      ],
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "url": "={{ $env.N8N_URL }}/webhook/digest/latest",
-        "options": {
-          "timeout": 30000
-        }
-      },
-      "id": "0a739641-56d6-4a18-8e12-e5406c32f003",
-      "name": "Call Digest",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        0,
-        288
-      ],
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "jsCode": "return [{\n  json: {\n    agent_response: 'To upload and process files, please use the File Manager page. You can drag and drop files there or click to browse. Supported formats: PDF, TXT, MD, CSV, JSON.',\n    agent: 'file'\n  }\n}];"
-      },
-      "id": "8ac8371d-f817-4123-a092-dc6a7378ef59",
-      "name": "File Upload Redirect",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        0,
-        432
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $env.OLLAMA_URL }}/api/chat",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are Nexus, a helpful AI assistant. You are part of a multi-agent platform that includes specialized agents for document Q&A (DocMentor), review analysis, content digests, and file processing. Answer the user\\'s question helpfully and concisely. If their request would be better handled by a specific agent, mention it.' }, { role: 'user', content: $('Parse Intent').first().json.original_message } ] }) }}",
-        "options": {
-          "timeout": 120000
-        }
-      },
-      "id": "4c0e1fee-b238-476c-8602-c5c42f372646",
-      "name": "General Chat",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        0,
-        560
-      ],
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "jsCode": "const agent = $('Parse Intent').first().json.agent;\nconst sessionId = $('Parse Intent').first().json.session_id;\nconst data = $json;\n\nlet response = '';\n\nif (agent === 'docmentor') {\n  // DocMentor returns async job_id\n  if (data.job_id) {\n    response = JSON.stringify({ job_id: data.job_id, status: data.status || 'processing' });\n  } else {\n    response = data.response || 'DocMentor is processing your request.';\n  }\n} else if (agent === 'review') {\n  response = data.summary || JSON.stringify(data);\n} else if (agent === 'digest') {\n  if (data.content) {\n    response = 'Here is your latest digest. Check the Digest page for the full content.';\n  } else {\n    response = 'No digests found. Configure one on the Digest page.';\n  }\n} else if (agent === 'file') {\n  response = data.agent_response || 'Please use the File Manager page to upload files.';\n} else {\n  // General chat\n  response = data.message?.content || data.response || 'I\\'m not sure how to help with that. Try asking about your documents, reviews, or digests.';\n}\n\nreturn [{\n  json: {\n    agent: agent,\n    response: response,\n    session_id: sessionId\n  }\n}];"
-      },
-      "id": "c19fa8b5-44bd-42fd-866a-3ecbbe34a39b",
-      "name": "Format Response",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        224,
-        240
-      ]
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ JSON.stringify($json) }}",
-        "options": {}
-      },
-      "id": "c1a0919b-380e-4082-8c32-51f5b5a78ad9",
-      "name": "Respond",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [
-        448,
-        240
-      ]
-    },
-    {
-      "parameters": {
-        "operation": "create",
-        "base": {
-          "__rl": true,
-          "value": "appDyd2AnWGViGLOU",
-          "mode": "id"
-        },
-        "table": {
-          "__rl": true,
-          "value": "tblwMOgVqj6aE7Nyo",
-          "mode": "id"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "session_id": "={{ $json.session_id }}",
-            "agent": "={{ $json.agent }}",
-            "input_preview": "={{ $('Parse Intent').first().json.original_message.slice(0, 200) }}",
-            "output_preview": "={{ (typeof $json.response === 'string' ? $json.response : JSON.stringify($json.response)).slice(0, 200) }}",
-            "response_time_ms": "={{ Date.now() - $('Parse Intent').first().json.start_time }}",
-            "status": "success",
-            "source": "orchestrator"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "session_id",
-              "displayName": "session_id",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
+        {
+            "parameters": {
+                "jsCode": "const body = $json.body || $json;\nreturn [{\n  json: {\n    message: body.message || '',\n    session_id: body.session_id || '',\n    context: body.context || '',\n    start_time: Date.now()\n  }\n}];"
             },
-            {
-              "id": "agent",
-              "displayName": "agent",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "docmentor",
-                  "value": "docmentor"
-                },
-                {
-                  "name": "review",
-                  "value": "review"
-                },
-                {
-                  "name": "digest",
-                  "value": "digest"
-                },
-                {
-                  "name": "file",
-                  "value": "file"
-                },
-                {
-                  "name": "system",
-                  "value": "system"
+            "id": "c18824eb-aa44-455d-ae27-5ea9ba28857f",
+            "name": "Extract Input",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -1008,
+                560
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "={{ $env.OLLAMA_URL }}/api/chat",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are an intent classifier. Given a user message, determine which agent should handle it.\\nRespond ONLY with valid JSON: { \"agent\": \"<agent_name>\", \"confidence\": <0.0-1.0> }\\n\\nAgents:\\n- docmentor: Questions about uploaded documents, \"what does the doc say about...\"\\n- review: Analyzing reviews, sentiment, extracting patterns from review text\\n- digest: Setting up content digests, topic subscriptions, \"send me updates about...\"\\n- file: Uploading files, processing documents, \"parse this PDF\"\\n- general: Anything that doesn\\'t fit the above\\n\\nDo not explain. JSON only.' }, { role: 'user', content: $json.message } ] }) }}",
+                "options": {
+                    "timeout": 60000
                 }
-              ],
-              "readOnly": false,
-              "removed": false
             },
-            {
-              "id": "input_preview",
-              "displayName": "input_preview",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "output_preview",
-              "displayName": "output_preview",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "response_time_ms",
-              "displayName": "response_time_ms",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "number",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "status",
-              "displayName": "status",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "options",
-              "options": [
-                {
-                  "name": "success",
-                  "value": "success"
-                },
-                {
-                  "name": "error",
-                  "value": "error"
-                },
-                {
-                  "name": "timeout",
-                  "value": "timeout"
-                }
-              ],
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "source",
-              "displayName": "source",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "error_message",
-              "displayName": "error_message",
-              "required": false,
-              "defaultMatch": false,
-              "canBeUsedToMatch": true,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+            "id": "be17dcb7-fe24-4490-b6f0-34247a884c68",
+            "name": "Classify Intent",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                -784,
+                560
+            ],
+            "continueOnFail": true
         },
-        "options": {}
-      },
-      "id": "1557ab64-ed0b-4807-8b14-66bbfec4e380",
-      "name": "Log Interaction",
-      "type": "n8n-nodes-base.airtable",
-      "typeVersion": 2.1,
-      "position": [
-        672,
-        240
-      ],
-      "credentials": {
-        "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
-          "name": "Airtable Personal Access Token account"
+        {
+            "parameters": {
+                "jsCode": "const response = $json;\nconst content = response.message?.content || response.response || '';\nconst sessionId = $('Extract Input').first().json.session_id;\nconst originalMessage = $('Extract Input').first().json.message;\n\nlet agent = 'general';\nlet confidence = 0;\n\ntry {\n  let jsonStr = content;\n  const codeBlockMatch = content.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (codeBlockMatch) {\n    jsonStr = codeBlockMatch[1];\n  } else {\n    const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) jsonStr = jsonMatch[0];\n  }\n  \n  const parsed = JSON.parse(jsonStr);\n  agent = parsed.agent || 'general';\n  confidence = parseFloat(parsed.confidence) || 0;\n} catch (e) {\n  agent = 'general';\n  confidence = 0;\n}\n\nconst validAgents = ['docmentor', 'review', 'digest', 'file', 'general'];\nif (!validAgents.includes(agent)) agent = 'general';\n\nreturn [{\n  json: {\n    agent: agent,\n    confidence: confidence,\n    session_id: sessionId,\n    original_message: originalMessage,\n    start_time: $('Extract Input').first().json.start_time\n  }\n}];"
+            },
+            "id": "3e94e3cf-6ba8-41d9-b293-02c8cae2818b",
+            "name": "Parse Intent",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                -576,
+                560
+            ]
+        },
+        {
+            "parameters": {
+                "rules": {
+                    "values": [
+                        {
+                            "conditions": {
+                                "options": {
+                                    "leftValue": "",
+                                    "typeValidation": "strict"
+                                },
+                                "combinator": "and",
+                                "conditions": [
+                                    {
+                                        "leftValue": "={{ $json.agent }}",
+                                        "rightValue": "docmentor",
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "equals"
+                                        }
+                                    }
+                                ]
+                            },
+                            "renameOutput": true,
+                            "outputKey": "DocMentor"
+                        },
+                        {
+                            "conditions": {
+                                "options": {
+                                    "leftValue": "",
+                                    "typeValidation": "strict"
+                                },
+                                "combinator": "and",
+                                "conditions": [
+                                    {
+                                        "leftValue": "={{ $json.agent }}",
+                                        "rightValue": "review",
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "equals"
+                                        }
+                                    }
+                                ]
+                            },
+                            "renameOutput": true,
+                            "outputKey": "Review"
+                        },
+                        {
+                            "conditions": {
+                                "options": {
+                                    "leftValue": "",
+                                    "typeValidation": "strict"
+                                },
+                                "combinator": "and",
+                                "conditions": [
+                                    {
+                                        "leftValue": "={{ $json.agent }}",
+                                        "rightValue": "digest",
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "equals"
+                                        }
+                                    }
+                                ]
+                            },
+                            "renameOutput": true,
+                            "outputKey": "Digest"
+                        },
+                        {
+                            "conditions": {
+                                "options": {
+                                    "leftValue": "",
+                                    "typeValidation": "strict"
+                                },
+                                "combinator": "and",
+                                "conditions": [
+                                    {
+                                        "leftValue": "={{ $json.agent }}",
+                                        "rightValue": "file",
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "equals"
+                                        }
+                                    }
+                                ]
+                            },
+                            "renameOutput": true,
+                            "outputKey": "File"
+                        }
+                    ]
+                },
+                "options": {
+                    "fallbackOutput": "extra"
+                }
+            },
+            "id": "6511e2c1-3789-4f1f-8154-837ecb901b73",
+            "name": "Route to Agent",
+            "type": "n8n-nodes-base.switch",
+            "typeVersion": 3,
+            "position": [
+                64,
+                240
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "={{ $env.N8N_URL }}/webhook/docmentor/query",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={{ JSON.stringify({ query: $('Parse Intent').first().json.original_message, session_id: $('Parse Intent').first().json.session_id }) }}",
+                "options": {
+                    "timeout": 30000
+                }
+            },
+            "id": "d68a1e73-4bbd-40ca-b550-37d17a2844bf",
+            "name": "Call DocMentor",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                288,
+                0
+            ],
+            "continueOnFail": true
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "={{ $env.N8N_URL }}/webhook/review/analyze",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={{ JSON.stringify({\n  text: (() => {\n    const msg = $('Parse Intent').first().json.original_message;\n    const prefixes = ['analyze this review:', 'review this:', 'analyze:', 'review:'];\n    let text = msg;\n    for (const p of prefixes) {\n      if (text.toLowerCase().startsWith(p)) {\n        text = text.substring(p.length).trim();\n        break;\n      }\n    }\n    return text;\n  })(),\n  type: 'restaurant'\n}) }}",
+                "options": {
+                    "timeout": 120000
+                }
+            },
+            "id": "074ddd56-eecf-4964-bc5d-d3679480c10a",
+            "name": "Call Review Analyst",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                288,
+                144
+            ],
+            "continueOnFail": true
+        },
+        {
+            "parameters": {
+                "url": "={{ $env.N8N_URL }}/webhook/digest/latest",
+                "options": {
+                    "timeout": 30000
+                }
+            },
+            "id": "0a739641-56d6-4a18-8e12-e5406c32f003",
+            "name": "Call Digest",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                288,
+                288
+            ],
+            "continueOnFail": true
+        },
+        {
+            "parameters": {
+                "jsCode": "return [{\n  json: {\n    agent_response: 'To upload and process files, please use the File Manager page. You can drag and drop files there or click to browse. Supported formats: PDF, TXT, MD, CSV, JSON.',\n    agent: 'file'\n  }\n}];"
+            },
+            "id": "8ac8371d-f817-4123-a092-dc6a7378ef59",
+            "name": "File Upload Redirect",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                288,
+                432
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "={{ $env.OLLAMA_URL }}/api/chat",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are Nexus, a helpful AI assistant. You are part of a multi-agent platform that includes specialized agents for document Q&A (DocMentor), review analysis, content digests, and file processing. Answer the user\\'s question helpfully and concisely. If their request would be better handled by a specific agent, mention it.' }, { role: 'user', content: $('Parse Intent').first().json.original_message } ] }) }}",
+                "options": {
+                    "timeout": 120000
+                }
+            },
+            "id": "4c0e1fee-b238-476c-8602-c5c42f372646",
+            "name": "General Chat",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                288,
+                560
+            ],
+            "continueOnFail": true
+        },
+        {
+            "parameters": {
+                "jsCode": "const agent = $('Parse Intent').first().json.agent;\nconst sessionId = $('Parse Intent').first().json.session_id;\nconst data = $json;\n\nlet response = '';\nlet extraFields = {};\n\nif (agent === 'docmentor') {\n  if (data.job_id) {\n    response = 'Your question is being processed. Please wait...';\n    extraFields = { job_id: data.job_id, status: data.status || 'processing' };\n  } else {\n    response = data.response || 'DocMentor is processing your request.';\n  }\n} else if (agent === 'review') {\n  if (data.sentiment && data.summary) {\n    response = data.summary;\n    extraFields = {\n      sentiment: data.sentiment,\n      sentiment_score: data.sentiment_score,\n      key_themes: data.key_themes,\n      pros: data.pros,\n      cons: data.cons,\n      predicted_rating: data.predicted_rating\n    };\n  } else {\n    response = data.summary || JSON.stringify(data);\n  }\n} else if (agent === 'digest') {\n  if (data.content) {\n    response = 'Here is your latest digest. Check the Digest page for the full content.';\n  } else {\n    response = 'No digests found. Configure one on the Digest page.';\n  }\n} else if (agent === 'file') {\n  response = data.agent_response || 'Please use the File Manager page to upload files.';\n} else {\n  response = data.message?.content || data.response || \"I'm not sure how to help with that. Try asking about your documents, reviews, or digests.\";\n}\n\nreturn [{\n  json: {\n    agent: agent,\n    response: response,\n    session_id: sessionId,\n    ...extraFields\n  }\n}];"
+            },
+            "id": "c19fa8b5-44bd-42fd-866a-3ecbbe34a39b",
+            "name": "Format Response",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                512,
+                240
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ JSON.stringify($json) }}",
+                "options": {}
+            },
+            "id": "c1a0919b-380e-4082-8c32-51f5b5a78ad9",
+            "name": "Respond",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.1,
+            "position": [
+                784,
+                560
+            ]
+        },
+        {
+            "parameters": {
+                "operation": "create",
+                "base": {
+                    "__rl": true,
+                    "value": "appDyd2AnWGViGLOU",
+                    "mode": "id"
+                },
+                "table": {
+                    "__rl": true,
+                    "value": "tblwMOgVqj6aE7Nyo",
+                    "mode": "id"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "session_id": "={{ $json.session_id }}",
+                        "agent": "={{ $json.agent }}",
+                        "input_preview": "={{ $('Parse Intent').first().json.original_message.slice(0, 200) }}",
+                        "output_preview": "={{ (typeof $json.response === 'string' ? $json.response : JSON.stringify($json.response)).slice(0, 200) }}",
+                        "response_time_ms": "={{ Date.now() - $('Parse Intent').first().json.start_time }}",
+                        "status": "success",
+                        "source": "orchestrator"
+                    },
+                    "matchingColumns": [],
+                    "schema": [
+                        {
+                            "id": "session_id",
+                            "displayName": "session_id",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "agent",
+                            "displayName": "agent",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "options",
+                            "options": [
+                                {
+                                    "name": "docmentor",
+                                    "value": "docmentor"
+                                },
+                                {
+                                    "name": "review",
+                                    "value": "review"
+                                },
+                                {
+                                    "name": "digest",
+                                    "value": "digest"
+                                },
+                                {
+                                    "name": "file",
+                                    "value": "file"
+                                },
+                                {
+                                    "name": "system",
+                                    "value": "system"
+                                }
+                            ],
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "input_preview",
+                            "displayName": "input_preview",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "output_preview",
+                            "displayName": "output_preview",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "response_time_ms",
+                            "displayName": "response_time_ms",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "number",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "status",
+                            "displayName": "status",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "options",
+                            "options": [
+                                {
+                                    "name": "success",
+                                    "value": "success"
+                                },
+                                {
+                                    "name": "error",
+                                    "value": "error"
+                                },
+                                {
+                                    "name": "timeout",
+                                    "value": "timeout"
+                                }
+                            ],
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "source",
+                            "displayName": "source",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "error_message",
+                            "displayName": "error_message",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                },
+                "options": {}
+            },
+            "id": "1557ab64-ed0b-4807-8b14-66bbfec4e380",
+            "name": "Log Interaction",
+            "type": "n8n-nodes-base.airtable",
+            "typeVersion": 2.1,
+            "position": [
+                1008,
+                560
+            ],
+            "credentials": {
+                "airtableTokenApi": {
+                    "id": "VSgEZSiL9eqFcK2P",
+                    "name": "Airtable Personal Access Token account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "loose",
+                        "version": 3
+                    },
+                    "conditions": [
+                        {
+                            "id": "be48b339-8a22-41c7-b27f-249af3df0a44",
+                            "leftValue": "={{ $json.confidence }}",
+                            "rightValue": 0.5,
+                            "operator": {
+                                "type": "number",
+                                "operation": "gt"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "looseTypeValidation": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2.3,
+            "position": [
+                -304,
+                560
+            ],
+            "id": "dea5fc64-9795-4909-9e30-b3863afebc84",
+            "name": "Check Confidence"
+        },
+        {
+            "parameters": {
+                "operation": "create",
+                "base": {
+                    "__rl": true,
+                    "value": "appDyd2AnWGViGLOU",
+                    "mode": "id"
+                },
+                "table": {
+                    "__rl": true,
+                    "value": "tblwMOgVqj6aE7Nyo",
+                    "mode": "id"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "session_id": "={{ $json.session_id }}",
+                        "agent": "={{ $json.agent }}",
+                        "input_preview": "={{ $json.original_message.slice(0, 200) }}",
+                        "source": "orchestrator",
+                        "response_time_ms": 0,
+                        "output_preview": "=Low confidence: {{ $json.confidence }}",
+                        "status": "needs_review"
+                    },
+                    "matchingColumns": [],
+                    "schema": [
+                        {
+                            "id": "session_id",
+                            "displayName": "session_id",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "agent",
+                            "displayName": "agent",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "options",
+                            "options": [
+                                {
+                                    "name": "docmentor",
+                                    "value": "docmentor"
+                                },
+                                {
+                                    "name": "review",
+                                    "value": "review"
+                                },
+                                {
+                                    "name": "digest",
+                                    "value": "digest"
+                                },
+                                {
+                                    "name": "file",
+                                    "value": "file"
+                                },
+                                {
+                                    "name": "system",
+                                    "value": "system"
+                                },
+                                {
+                                    "name": "general",
+                                    "value": "general"
+                                }
+                            ],
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "input_preview",
+                            "displayName": "input_preview",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "output_preview",
+                            "displayName": "output_preview",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "response_time_ms",
+                            "displayName": "response_time_ms",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "number",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "status",
+                            "displayName": "status",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "options",
+                            "options": [
+                                {
+                                    "name": "success",
+                                    "value": "success"
+                                },
+                                {
+                                    "name": "error",
+                                    "value": "error"
+                                },
+                                {
+                                    "name": "timeout",
+                                    "value": "timeout"
+                                },
+                                {
+                                    "name": "needs_review",
+                                    "value": "needs_review"
+                                }
+                            ],
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "source",
+                            "displayName": "source",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "error_message",
+                            "displayName": "error_message",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": false,
+                            "removed": false
+                        },
+                        {
+                            "id": "created_at",
+                            "displayName": "created_at",
+                            "required": false,
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": true,
+                            "removed": true
+                        }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.airtable",
+            "typeVersion": 2.1,
+            "position": [
+                176,
+                880
+            ],
+            "id": "1cece301-a303-472d-9c4e-251ea367b275",
+            "name": "Flag for Review",
+            "credentials": {
+                "airtableTokenApi": {
+                    "id": "VSgEZSiL9eqFcK2P",
+                    "name": "Airtable Personal Access Token account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "return [{\n  json: {\n    agent: \"none\",\n    response: \"I'm not confident enough to route this to a specific agent. Your request has been flagged for human review.\",\n    session_id: $('Parse Intent').first().json.session_id\n  }\n}];"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                416,
+                880
+            ],
+            "id": "e5f91d4b-3a54-40a2-b66f-c532833bbee4",
+            "name": "Low Confidence Response"
         }
-      }
-    }
-  ],
-  "pinData": {},
-  "connections": {
-    "POST /orchestrator": {
-      "main": [
-        [
-          {
-            "node": "Extract Input",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    ],
+    "connections": {
+        "POST /orchestrator": {
+            "main": [
+                [
+                    {
+                        "node": "Extract Input",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract Input": {
+            "main": [
+                [
+                    {
+                        "node": "Classify Intent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Classify Intent": {
+            "main": [
+                [
+                    {
+                        "node": "Parse Intent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Parse Intent": {
+            "main": [
+                [
+                    {
+                        "node": "Check Confidence",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Route to Agent": {
+            "main": [
+                [
+                    {
+                        "node": "Call DocMentor",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Call Review Analyst",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Call Digest",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "File Upload Redirect",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "General Chat",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Call DocMentor": {
+            "main": [
+                [
+                    {
+                        "node": "Format Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Call Review Analyst": {
+            "main": [
+                [
+                    {
+                        "node": "Format Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Call Digest": {
+            "main": [
+                [
+                    {
+                        "node": "Format Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "File Upload Redirect": {
+            "main": [
+                [
+                    {
+                        "node": "Format Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "General Chat": {
+            "main": [
+                [
+                    {
+                        "node": "Format Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Format Response": {
+            "main": [
+                [
+                    {
+                        "node": "Respond",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Respond": {
+            "main": [
+                [
+                    {
+                        "node": "Log Interaction",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Check Confidence": {
+            "main": [
+                [
+                    {
+                        "node": "Route to Agent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Flag for Review",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Flag for Review": {
+            "main": [
+                [
+                    {
+                        "node": "General Chat",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Low Confidence Response": {
+            "main": [
+                [
+                    {
+                        "node": "Respond",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
     },
-    "Extract Input": {
-      "main": [
-        [
-          {
-            "node": "Classify Intent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "settings": {
+        "executionOrder": "v1",
+        "binaryMode": "separate",
+        "availableInMCP": false,
+        "callerPolicy": "workflowsFromSameOwner"
     },
-    "Classify Intent": {
-      "main": [
-        [
-          {
-            "node": "Parse Intent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "staticData": null,
+    "meta": {
+        "templateCredsSetupCompleted": true
     },
-    "Parse Intent": {
-      "main": [
-        [
-          {
-            "node": "Route to Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Route to Agent": {
-      "main": [
-        [
-          {
-            "node": "Call DocMentor",
-            "type": "main",
-            "index": 0
-          }
+    "pinData": {},
+    "versionId": "b46923d2-95ec-415c-b9a6-3014f1b2dff6",
+    "activeVersionId": "b46923d2-95ec-415c-b9a6-3014f1b2dff6",
+    "versionCounter": 79,
+    "triggerCount": 1,
+    "shared": [
+        {
+            "updatedAt": "2026-05-06T20:08:01.710Z",
+            "createdAt": "2026-05-06T20:08:01.710Z",
+            "role": "workflow:owner",
+            "workflowId": "2NqijkYQkT4DaPJGMQj6f",
+            "projectId": "0uDVxDnrFnRhLfW9",
+            "project": {
+                "updatedAt": "2025-10-18T12:16:10.056Z",
+                "createdAt": "2025-10-18T12:12:13.837Z",
+                "id": "0uDVxDnrFnRhLfW9",
+                "name": "Deyon Wijewardana <randinu1235@gmail.com>",
+                "type": "personal",
+                "icon": null,
+                "description": null,
+                "creatorId": "aeced203-b33c-4669-a467-84f86bfd273f",
+                "projectRelations": [
+                    {
+                        "updatedAt": "2025-10-18T12:12:13.837Z",
+                        "createdAt": "2025-10-18T12:12:13.837Z",
+                        "userId": "aeced203-b33c-4669-a467-84f86bfd273f",
+                        "projectId": "0uDVxDnrFnRhLfW9",
+                        "user": {
+                            "updatedAt": "2026-05-15T04:20:14.000Z",
+                            "createdAt": "2025-10-18T12:12:13.747Z",
+                            "id": "aeced203-b33c-4669-a467-84f86bfd273f",
+                            "email": "randinu1235@gmail.com",
+                            "firstName": "Deyon",
+                            "lastName": "Wijewardana",
+                            "personalizationAnswers": {
+                                "version": "v4",
+                                "personalization_survey_submitted_at": "2025-10-18T12:16:17.199Z",
+                                "personalization_survey_n8n_version": "1.115.3"
+                            },
+                            "settings": {
+                                "userActivated": true,
+                                "firstSuccessfulWorkflowId": "1zwGBZRQeAJIUT3FLfwYr",
+                                "userActivatedAt": 1778123141586
+                            },
+                            "disabled": false,
+                            "mfaEnabled": false,
+                            "lastActiveAt": "2026-05-15",
+                            "isPending": false
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "tags": [
+        {
+            "updatedAt": "2026-05-06T20:08:00.158Z",
+            "createdAt": "2026-05-06T20:08:00.158Z",
+            "id": "MFfoh7SXIYhblAyg",
+            "name": "routing"
+        },
+        {
+            "updatedAt": "2026-05-06T20:08:00.156Z",
+            "createdAt": "2026-05-06T20:08:00.156Z",
+            "id": "Z96hyAzmM6DAqhGB",
+            "name": "orchestrator"
+        }
+    ],
+    "activeVersion": {
+        "updatedAt": "2026-05-15T05:09:02.044Z",
+        "createdAt": "2026-05-15T05:09:02.044Z",
+        "versionId": "b46923d2-95ec-415c-b9a6-3014f1b2dff6",
+        "workflowId": "2NqijkYQkT4DaPJGMQj6f",
+        "nodes": [
+            {
+                "parameters": {
+                    "httpMethod": "POST",
+                    "path": "orchestrator",
+                    "responseMode": "responseNode",
+                    "options": {}
+                },
+                "id": "22a5bd64-4462-4220-a79e-f8d8ffb2779e",
+                "name": "POST /orchestrator",
+                "type": "n8n-nodes-base.webhook",
+                "typeVersion": 2,
+                "position": [
+                    -1232,
+                    560
+                ],
+                "webhookId": "orchestrator"
+            },
+            {
+                "parameters": {
+                    "jsCode": "const body = $json.body || $json;\nreturn [{\n  json: {\n    message: body.message || '',\n    session_id: body.session_id || '',\n    context: body.context || '',\n    start_time: Date.now()\n  }\n}];"
+                },
+                "id": "c18824eb-aa44-455d-ae27-5ea9ba28857f",
+                "name": "Extract Input",
+                "type": "n8n-nodes-base.code",
+                "typeVersion": 2,
+                "position": [
+                    -1008,
+                    560
+                ]
+            },
+            {
+                "parameters": {
+                    "method": "POST",
+                    "url": "={{ $env.OLLAMA_URL }}/api/chat",
+                    "sendBody": true,
+                    "specifyBody": "json",
+                    "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are an intent classifier. Given a user message, determine which agent should handle it.\\nRespond ONLY with valid JSON: { \"agent\": \"<agent_name>\", \"confidence\": <0.0-1.0> }\\n\\nAgents:\\n- docmentor: Questions about uploaded documents, \"what does the doc say about...\"\\n- review: Analyzing reviews, sentiment, extracting patterns from review text\\n- digest: Setting up content digests, topic subscriptions, \"send me updates about...\"\\n- file: Uploading files, processing documents, \"parse this PDF\"\\n- general: Anything that doesn\\'t fit the above\\n\\nDo not explain. JSON only.' }, { role: 'user', content: $json.message } ] }) }}",
+                    "options": {
+                        "timeout": 60000
+                    }
+                },
+                "id": "be17dcb7-fe24-4490-b6f0-34247a884c68",
+                "name": "Classify Intent",
+                "type": "n8n-nodes-base.httpRequest",
+                "typeVersion": 4.2,
+                "position": [
+                    -784,
+                    560
+                ],
+                "continueOnFail": true
+            },
+            {
+                "parameters": {
+                    "jsCode": "const response = $json;\nconst content = response.message?.content || response.response || '';\nconst sessionId = $('Extract Input').first().json.session_id;\nconst originalMessage = $('Extract Input').first().json.message;\n\nlet agent = 'general';\nlet confidence = 0;\n\ntry {\n  let jsonStr = content;\n  const codeBlockMatch = content.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (codeBlockMatch) {\n    jsonStr = codeBlockMatch[1];\n  } else {\n    const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) jsonStr = jsonMatch[0];\n  }\n  \n  const parsed = JSON.parse(jsonStr);\n  agent = parsed.agent || 'general';\n  confidence = parseFloat(parsed.confidence) || 0;\n} catch (e) {\n  agent = 'general';\n  confidence = 0;\n}\n\nconst validAgents = ['docmentor', 'review', 'digest', 'file', 'general'];\nif (!validAgents.includes(agent)) agent = 'general';\n\nreturn [{\n  json: {\n    agent: agent,\n    confidence: confidence,\n    session_id: sessionId,\n    original_message: originalMessage,\n    start_time: $('Extract Input').first().json.start_time\n  }\n}];"
+                },
+                "id": "3e94e3cf-6ba8-41d9-b293-02c8cae2818b",
+                "name": "Parse Intent",
+                "type": "n8n-nodes-base.code",
+                "typeVersion": 2,
+                "position": [
+                    -576,
+                    560
+                ]
+            },
+            {
+                "parameters": {
+                    "rules": {
+                        "values": [
+                            {
+                                "conditions": {
+                                    "options": {
+                                        "leftValue": "",
+                                        "typeValidation": "strict"
+                                    },
+                                    "combinator": "and",
+                                    "conditions": [
+                                        {
+                                            "leftValue": "={{ $json.agent }}",
+                                            "rightValue": "docmentor",
+                                            "operator": {
+                                                "type": "string",
+                                                "operation": "equals"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "renameOutput": true,
+                                "outputKey": "DocMentor"
+                            },
+                            {
+                                "conditions": {
+                                    "options": {
+                                        "leftValue": "",
+                                        "typeValidation": "strict"
+                                    },
+                                    "combinator": "and",
+                                    "conditions": [
+                                        {
+                                            "leftValue": "={{ $json.agent }}",
+                                            "rightValue": "review",
+                                            "operator": {
+                                                "type": "string",
+                                                "operation": "equals"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "renameOutput": true,
+                                "outputKey": "Review"
+                            },
+                            {
+                                "conditions": {
+                                    "options": {
+                                        "leftValue": "",
+                                        "typeValidation": "strict"
+                                    },
+                                    "combinator": "and",
+                                    "conditions": [
+                                        {
+                                            "leftValue": "={{ $json.agent }}",
+                                            "rightValue": "digest",
+                                            "operator": {
+                                                "type": "string",
+                                                "operation": "equals"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "renameOutput": true,
+                                "outputKey": "Digest"
+                            },
+                            {
+                                "conditions": {
+                                    "options": {
+                                        "leftValue": "",
+                                        "typeValidation": "strict"
+                                    },
+                                    "combinator": "and",
+                                    "conditions": [
+                                        {
+                                            "leftValue": "={{ $json.agent }}",
+                                            "rightValue": "file",
+                                            "operator": {
+                                                "type": "string",
+                                                "operation": "equals"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "renameOutput": true,
+                                "outputKey": "File"
+                            }
+                        ]
+                    },
+                    "options": {
+                        "fallbackOutput": "extra"
+                    }
+                },
+                "id": "6511e2c1-3789-4f1f-8154-837ecb901b73",
+                "name": "Route to Agent",
+                "type": "n8n-nodes-base.switch",
+                "typeVersion": 3,
+                "position": [
+                    64,
+                    240
+                ]
+            },
+            {
+                "parameters": {
+                    "method": "POST",
+                    "url": "={{ $env.N8N_URL }}/webhook/docmentor/query",
+                    "sendBody": true,
+                    "specifyBody": "json",
+                    "jsonBody": "={{ JSON.stringify({ query: $('Parse Intent').first().json.original_message, session_id: $('Parse Intent').first().json.session_id }) }}",
+                    "options": {
+                        "timeout": 30000
+                    }
+                },
+                "id": "d68a1e73-4bbd-40ca-b550-37d17a2844bf",
+                "name": "Call DocMentor",
+                "type": "n8n-nodes-base.httpRequest",
+                "typeVersion": 4.2,
+                "position": [
+                    288,
+                    0
+                ],
+                "continueOnFail": true
+            },
+            {
+                "parameters": {
+                    "method": "POST",
+                    "url": "={{ $env.N8N_URL }}/webhook/review/analyze",
+                    "sendBody": true,
+                    "specifyBody": "json",
+                    "jsonBody": "={{ JSON.stringify({\n  text: (() => {\n    const msg = $('Parse Intent').first().json.original_message;\n    const prefixes = ['analyze this review:', 'review this:', 'analyze:', 'review:'];\n    let text = msg;\n    for (const p of prefixes) {\n      if (text.toLowerCase().startsWith(p)) {\n        text = text.substring(p.length).trim();\n        break;\n      }\n    }\n    return text;\n  })(),\n  type: 'restaurant'\n}) }}",
+                    "options": {
+                        "timeout": 120000
+                    }
+                },
+                "id": "074ddd56-eecf-4964-bc5d-d3679480c10a",
+                "name": "Call Review Analyst",
+                "type": "n8n-nodes-base.httpRequest",
+                "typeVersion": 4.2,
+                "position": [
+                    288,
+                    144
+                ],
+                "continueOnFail": true
+            },
+            {
+                "parameters": {
+                    "url": "={{ $env.N8N_URL }}/webhook/digest/latest",
+                    "options": {
+                        "timeout": 30000
+                    }
+                },
+                "id": "0a739641-56d6-4a18-8e12-e5406c32f003",
+                "name": "Call Digest",
+                "type": "n8n-nodes-base.httpRequest",
+                "typeVersion": 4.2,
+                "position": [
+                    288,
+                    288
+                ],
+                "continueOnFail": true
+            },
+            {
+                "parameters": {
+                    "jsCode": "return [{\n  json: {\n    agent_response: 'To upload and process files, please use the File Manager page. You can drag and drop files there or click to browse. Supported formats: PDF, TXT, MD, CSV, JSON.',\n    agent: 'file'\n  }\n}];"
+                },
+                "id": "8ac8371d-f817-4123-a092-dc6a7378ef59",
+                "name": "File Upload Redirect",
+                "type": "n8n-nodes-base.code",
+                "typeVersion": 2,
+                "position": [
+                    288,
+                    432
+                ]
+            },
+            {
+                "parameters": {
+                    "method": "POST",
+                    "url": "={{ $env.OLLAMA_URL }}/api/chat",
+                    "sendBody": true,
+                    "specifyBody": "json",
+                    "jsonBody": "={{ JSON.stringify({ model: 'llama3', stream: false, messages: [ { role: 'system', content: 'You are Nexus, a helpful AI assistant. You are part of a multi-agent platform that includes specialized agents for document Q&A (DocMentor), review analysis, content digests, and file processing. Answer the user\\'s question helpfully and concisely. If their request would be better handled by a specific agent, mention it.' }, { role: 'user', content: $('Parse Intent').first().json.original_message } ] }) }}",
+                    "options": {
+                        "timeout": 120000
+                    }
+                },
+                "id": "4c0e1fee-b238-476c-8602-c5c42f372646",
+                "name": "General Chat",
+                "type": "n8n-nodes-base.httpRequest",
+                "typeVersion": 4.2,
+                "position": [
+                    288,
+                    560
+                ],
+                "continueOnFail": true
+            },
+            {
+                "parameters": {
+                    "jsCode": "const agent = $('Parse Intent').first().json.agent;\nconst sessionId = $('Parse Intent').first().json.session_id;\nconst data = $json;\n\nlet response = '';\nlet extraFields = {};\n\nif (agent === 'docmentor') {\n  if (data.job_id) {\n    response = 'Your question is being processed. Please wait...';\n    extraFields = { job_id: data.job_id, status: data.status || 'processing' };\n  } else {\n    response = data.response || 'DocMentor is processing your request.';\n  }\n} else if (agent === 'review') {\n  if (data.sentiment && data.summary) {\n    response = data.summary;\n    extraFields = {\n      sentiment: data.sentiment,\n      sentiment_score: data.sentiment_score,\n      key_themes: data.key_themes,\n      pros: data.pros,\n      cons: data.cons,\n      predicted_rating: data.predicted_rating\n    };\n  } else {\n    response = data.summary || JSON.stringify(data);\n  }\n} else if (agent === 'digest') {\n  if (data.content) {\n    response = 'Here is your latest digest. Check the Digest page for the full content.';\n  } else {\n    response = 'No digests found. Configure one on the Digest page.';\n  }\n} else if (agent === 'file') {\n  response = data.agent_response || 'Please use the File Manager page to upload files.';\n} else {\n  response = data.message?.content || data.response || \"I'm not sure how to help with that. Try asking about your documents, reviews, or digests.\";\n}\n\nreturn [{\n  json: {\n    agent: agent,\n    response: response,\n    session_id: sessionId,\n    ...extraFields\n  }\n}];"
+                },
+                "id": "c19fa8b5-44bd-42fd-866a-3ecbbe34a39b",
+                "name": "Format Response",
+                "type": "n8n-nodes-base.code",
+                "typeVersion": 2,
+                "position": [
+                    512,
+                    240
+                ]
+            },
+            {
+                "parameters": {
+                    "respondWith": "json",
+                    "responseBody": "={{ JSON.stringify($json) }}",
+                    "options": {}
+                },
+                "id": "c1a0919b-380e-4082-8c32-51f5b5a78ad9",
+                "name": "Respond",
+                "type": "n8n-nodes-base.respondToWebhook",
+                "typeVersion": 1.1,
+                "position": [
+                    784,
+                    560
+                ]
+            },
+            {
+                "parameters": {
+                    "operation": "create",
+                    "base": {
+                        "__rl": true,
+                        "value": "appDyd2AnWGViGLOU",
+                        "mode": "id"
+                    },
+                    "table": {
+                        "__rl": true,
+                        "value": "tblwMOgVqj6aE7Nyo",
+                        "mode": "id"
+                    },
+                    "columns": {
+                        "mappingMode": "defineBelow",
+                        "value": {
+                            "session_id": "={{ $json.session_id }}",
+                            "agent": "={{ $json.agent }}",
+                            "input_preview": "={{ $('Parse Intent').first().json.original_message.slice(0, 200) }}",
+                            "output_preview": "={{ (typeof $json.response === 'string' ? $json.response : JSON.stringify($json.response)).slice(0, 200) }}",
+                            "response_time_ms": "={{ Date.now() - $('Parse Intent').first().json.start_time }}",
+                            "status": "success",
+                            "source": "orchestrator"
+                        },
+                        "matchingColumns": [],
+                        "schema": [
+                            {
+                                "id": "session_id",
+                                "displayName": "session_id",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "agent",
+                                "displayName": "agent",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "options",
+                                "options": [
+                                    {
+                                        "name": "docmentor",
+                                        "value": "docmentor"
+                                    },
+                                    {
+                                        "name": "review",
+                                        "value": "review"
+                                    },
+                                    {
+                                        "name": "digest",
+                                        "value": "digest"
+                                    },
+                                    {
+                                        "name": "file",
+                                        "value": "file"
+                                    },
+                                    {
+                                        "name": "system",
+                                        "value": "system"
+                                    }
+                                ],
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "input_preview",
+                                "displayName": "input_preview",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "output_preview",
+                                "displayName": "output_preview",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "response_time_ms",
+                                "displayName": "response_time_ms",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "number",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "status",
+                                "displayName": "status",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "options",
+                                "options": [
+                                    {
+                                        "name": "success",
+                                        "value": "success"
+                                    },
+                                    {
+                                        "name": "error",
+                                        "value": "error"
+                                    },
+                                    {
+                                        "name": "timeout",
+                                        "value": "timeout"
+                                    }
+                                ],
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "source",
+                                "displayName": "source",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "error_message",
+                                "displayName": "error_message",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            }
+                        ],
+                        "attemptToConvertTypes": false,
+                        "convertFieldsToString": false
+                    },
+                    "options": {}
+                },
+                "id": "1557ab64-ed0b-4807-8b14-66bbfec4e380",
+                "name": "Log Interaction",
+                "type": "n8n-nodes-base.airtable",
+                "typeVersion": 2.1,
+                "position": [
+                    1008,
+                    560
+                ],
+                "credentials": {
+                    "airtableTokenApi": {
+                        "id": "VSgEZSiL9eqFcK2P",
+                        "name": "Airtable Personal Access Token account"
+                    }
+                }
+            },
+            {
+                "parameters": {
+                    "conditions": {
+                        "options": {
+                            "caseSensitive": true,
+                            "leftValue": "",
+                            "typeValidation": "loose",
+                            "version": 3
+                        },
+                        "conditions": [
+                            {
+                                "id": "be48b339-8a22-41c7-b27f-249af3df0a44",
+                                "leftValue": "={{ $json.confidence }}",
+                                "rightValue": 0.5,
+                                "operator": {
+                                    "type": "number",
+                                    "operation": "gt"
+                                }
+                            }
+                        ],
+                        "combinator": "and"
+                    },
+                    "looseTypeValidation": true,
+                    "options": {}
+                },
+                "type": "n8n-nodes-base.if",
+                "typeVersion": 2.3,
+                "position": [
+                    -304,
+                    560
+                ],
+                "id": "dea5fc64-9795-4909-9e30-b3863afebc84",
+                "name": "Check Confidence"
+            },
+            {
+                "parameters": {
+                    "operation": "create",
+                    "base": {
+                        "__rl": true,
+                        "value": "appDyd2AnWGViGLOU",
+                        "mode": "id"
+                    },
+                    "table": {
+                        "__rl": true,
+                        "value": "tblwMOgVqj6aE7Nyo",
+                        "mode": "id"
+                    },
+                    "columns": {
+                        "mappingMode": "defineBelow",
+                        "value": {
+                            "session_id": "={{ $json.session_id }}",
+                            "agent": "={{ $json.agent }}",
+                            "input_preview": "={{ $json.original_message.slice(0, 200) }}",
+                            "source": "orchestrator",
+                            "response_time_ms": 0,
+                            "output_preview": "=Low confidence: {{ $json.confidence }}",
+                            "status": "needs_review"
+                        },
+                        "matchingColumns": [],
+                        "schema": [
+                            {
+                                "id": "session_id",
+                                "displayName": "session_id",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "agent",
+                                "displayName": "agent",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "options",
+                                "options": [
+                                    {
+                                        "name": "docmentor",
+                                        "value": "docmentor"
+                                    },
+                                    {
+                                        "name": "review",
+                                        "value": "review"
+                                    },
+                                    {
+                                        "name": "digest",
+                                        "value": "digest"
+                                    },
+                                    {
+                                        "name": "file",
+                                        "value": "file"
+                                    },
+                                    {
+                                        "name": "system",
+                                        "value": "system"
+                                    },
+                                    {
+                                        "name": "general",
+                                        "value": "general"
+                                    }
+                                ],
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "input_preview",
+                                "displayName": "input_preview",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "output_preview",
+                                "displayName": "output_preview",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "response_time_ms",
+                                "displayName": "response_time_ms",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "number",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "status",
+                                "displayName": "status",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "options",
+                                "options": [
+                                    {
+                                        "name": "success",
+                                        "value": "success"
+                                    },
+                                    {
+                                        "name": "error",
+                                        "value": "error"
+                                    },
+                                    {
+                                        "name": "timeout",
+                                        "value": "timeout"
+                                    },
+                                    {
+                                        "name": "needs_review",
+                                        "value": "needs_review"
+                                    }
+                                ],
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "source",
+                                "displayName": "source",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "error_message",
+                                "displayName": "error_message",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": false,
+                                "removed": false
+                            },
+                            {
+                                "id": "created_at",
+                                "displayName": "created_at",
+                                "required": false,
+                                "defaultMatch": false,
+                                "canBeUsedToMatch": true,
+                                "display": true,
+                                "type": "string",
+                                "readOnly": true,
+                                "removed": true
+                            }
+                        ],
+                        "attemptToConvertTypes": false,
+                        "convertFieldsToString": false
+                    },
+                    "options": {}
+                },
+                "type": "n8n-nodes-base.airtable",
+                "typeVersion": 2.1,
+                "position": [
+                    176,
+                    880
+                ],
+                "id": "1cece301-a303-472d-9c4e-251ea367b275",
+                "name": "Flag for Review",
+                "credentials": {
+                    "airtableTokenApi": {
+                        "id": "VSgEZSiL9eqFcK2P",
+                        "name": "Airtable Personal Access Token account"
+                    }
+                }
+            },
+            {
+                "parameters": {
+                    "jsCode": "return [{\n  json: {\n    agent: \"none\",\n    response: \"I'm not confident enough to route this to a specific agent. Your request has been flagged for human review.\",\n    session_id: $('Parse Intent').first().json.session_id\n  }\n}];"
+                },
+                "type": "n8n-nodes-base.code",
+                "typeVersion": 2,
+                "position": [
+                    416,
+                    880
+                ],
+                "id": "e5f91d4b-3a54-40a2-b66f-c532833bbee4",
+                "name": "Low Confidence Response"
+            }
         ],
-        [
-          {
-            "node": "Call Review Analyst",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Call Digest",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "File Upload Redirect",
-            "type": "main",
-            "index": 0
-          }
+        "connections": {
+            "POST /orchestrator": {
+                "main": [
+                    [
+                        {
+                            "node": "Extract Input",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Extract Input": {
+                "main": [
+                    [
+                        {
+                            "node": "Classify Intent",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Classify Intent": {
+                "main": [
+                    [
+                        {
+                            "node": "Parse Intent",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Parse Intent": {
+                "main": [
+                    [
+                        {
+                            "node": "Check Confidence",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Route to Agent": {
+                "main": [
+                    [
+                        {
+                            "node": "Call DocMentor",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ],
+                    [
+                        {
+                            "node": "Call Review Analyst",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ],
+                    [
+                        {
+                            "node": "Call Digest",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ],
+                    [
+                        {
+                            "node": "File Upload Redirect",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ],
+                    [
+                        {
+                            "node": "General Chat",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Call DocMentor": {
+                "main": [
+                    [
+                        {
+                            "node": "Format Response",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Call Review Analyst": {
+                "main": [
+                    [
+                        {
+                            "node": "Format Response",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Call Digest": {
+                "main": [
+                    [
+                        {
+                            "node": "Format Response",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "File Upload Redirect": {
+                "main": [
+                    [
+                        {
+                            "node": "Format Response",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "General Chat": {
+                "main": [
+                    [
+                        {
+                            "node": "Format Response",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Format Response": {
+                "main": [
+                    [
+                        {
+                            "node": "Respond",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Respond": {
+                "main": [
+                    [
+                        {
+                            "node": "Log Interaction",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Check Confidence": {
+                "main": [
+                    [
+                        {
+                            "node": "Route to Agent",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ],
+                    [
+                        {
+                            "node": "Flag for Review",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Flag for Review": {
+                "main": [
+                    [
+                        {
+                            "node": "General Chat",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            },
+            "Low Confidence Response": {
+                "main": [
+                    [
+                        {
+                            "node": "Respond",
+                            "type": "main",
+                            "index": 0
+                        }
+                    ]
+                ]
+            }
+        },
+        "authors": "Deyon Wijewardana",
+        "name": null,
+        "description": null,
+        "autosaved": false,
+        "workflowPublishHistory": [
+            {
+                "createdAt": "2026-05-15T05:09:02.071Z",
+                "id": 24,
+                "workflowId": "2NqijkYQkT4DaPJGMQj6f",
+                "versionId": "b46923d2-95ec-415c-b9a6-3014f1b2dff6",
+                "event": "activated",
+                "userId": "aeced203-b33c-4669-a467-84f86bfd273f"
+            },
+            {
+                "createdAt": "2026-05-15T05:18:18.261Z",
+                "id": 35,
+                "workflowId": "2NqijkYQkT4DaPJGMQj6f",
+                "versionId": "b46923d2-95ec-415c-b9a6-3014f1b2dff6",
+                "event": "activated",
+                "userId": "aeced203-b33c-4669-a467-84f86bfd273f"
+            },
+            {
+                "createdAt": "2026-05-15T05:18:18.209Z",
+                "id": 34,
+                "workflowId": "2NqijkYQkT4DaPJGMQj6f",
+                "versionId": "b46923d2-95ec-415c-b9a6-3014f1b2dff6",
+                "event": "deactivated",
+                "userId": "aeced203-b33c-4669-a467-84f86bfd273f"
+            }
         ]
-      ]
-    },
-    "Call DocMentor": {
-      "main": [
-        [
-          {
-            "node": "Format Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call Review Analyst": {
-      "main": [
-        [
-          {
-            "node": "Format Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call Digest": {
-      "main": [
-        [
-          {
-            "node": "Format Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "File Upload Redirect": {
-      "main": [
-        [
-          {
-            "node": "Format Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "General Chat": {
-      "main": [
-        [
-          {
-            "node": "Format Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Format Response": {
-      "main": [
-        [
-          {
-            "node": "Respond",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Respond": {
-      "main": [
-        [
-          {
-            "node": "Log Interaction",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
-  },
-  "active": true,
-  "settings": {
-    "executionOrder": "v1",
-    "binaryMode": "separate",
-    "availableInMCP": false
-  },
-  "versionId": "33c2c4f4-a4e5-4c98-885e-27626b8e760d",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "0761f8492b4866bda8ebaedcec3883acae3223467cfb1fddd1e7788ba6db303c"
-  },
-  "id": "2NqijkYQkT4DaPJGMQj6f",
-  "tags": [
-    {
-      "updatedAt": "2026-05-06T20:08:00.158Z",
-      "createdAt": "2026-05-06T20:08:00.158Z",
-      "id": "MFfoh7SXIYhblAyg",
-      "name": "routing"
-    },
-    {
-      "updatedAt": "2026-05-06T20:08:00.156Z",
-      "createdAt": "2026-05-06T20:08:00.156Z",
-      "id": "Z96hyAzmM6DAqhGB",
-      "name": "orchestrator"
-    }
-  ]
 }

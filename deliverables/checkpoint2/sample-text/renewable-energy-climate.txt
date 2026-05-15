@@ -1,0 +1,39 @@
+Renewable Energy and Climate Technology
+
+The transition to renewable energy sources is a central strategy in addressing climate change, which the Intergovernmental Panel on Climate Change (IPCC) identifies as one of the most pressing challenges facing humanity. Global renewable energy capacity has grown exponentially, with solar and wind power now the cheapest sources of new electricity generation in most of the world.
+
+Solar Energy
+
+Photovoltaic (PV) solar cells convert sunlight directly into electricity using semiconductor materials, predominantly crystalline silicon. The cost of solar panels has declined by over 99% since 1976, driven by manufacturing scale, technological improvements, and policy support. Utility-scale solar farms can now generate electricity at costs below $0.02 per kilowatt-hour in sunny regions.
+
+Perovskite solar cells represent a promising next-generation technology that could achieve higher efficiencies at lower manufacturing costs than silicon. Tandem cells that combine perovskite and silicon layers have achieved laboratory efficiencies exceeding 33%. Building-integrated photovoltaics (BIPV) incorporate solar cells into building materials like windows, facades, and roofing tiles.
+
+Concentrated solar power (CSP) uses mirrors or lenses to focus sunlight onto receivers that generate heat for electricity production, with the advantage of built-in thermal energy storage enabling electricity generation after sunset.
+
+Wind Energy
+
+Wind turbines convert kinetic energy from wind into electricity using rotating blades connected to generators. Onshore wind is one of the most cost-effective energy sources globally, while offshore wind offers stronger and more consistent winds but at higher installation costs. Modern offshore wind turbines can exceed 15 megawatts of capacity, with rotor diameters spanning over 200 meters.
+
+Floating offshore wind platforms enable deployment in deeper waters where fixed foundations are impractical, opening vast new areas for wind energy development. Countries like Norway, Japan, and the United States are investing in floating wind technology to access offshore wind resources in deep-water locations.
+
+Energy Storage
+
+Energy storage is critical for managing the intermittency of solar and wind power. Lithium-ion batteries dominate the current market, with costs declining from over $1,100 per kilowatt-hour in 2010 to below $150 in 2023. Grid-scale battery installations provide frequency regulation, peak shaving, and renewable energy time-shifting.
+
+Alternative storage technologies include pumped hydroelectric storage (the largest form of grid energy storage globally), compressed air energy storage, flow batteries (particularly vanadium and iron-based chemistries), and emerging solid-state batteries that promise higher energy density and improved safety. Long-duration energy storage technologies capable of storing energy for days or weeks, such as iron-air batteries and hydrogen storage, are essential for achieving fully renewable electricity grids.
+
+Green Hydrogen
+
+Green hydrogen, produced by electrolysis of water using renewable electricity, offers a pathway to decarbonize sectors that are difficult to electrify directly, including heavy industry (steel, cement, chemicals), long-haul transportation, and seasonal energy storage. Electrolyzer technologies include proton exchange membrane (PEM), alkaline, and solid oxide electrolysis cells.
+
+The cost of green hydrogen production is currently $3-8 per kilogram but is projected to fall below $2 per kilogram by 2030 with scale-up and technology improvements. Major green hydrogen projects are underway in regions with abundant renewable resources, including the Middle East, Australia, Chile, and North Africa.
+
+Carbon Capture and Removal
+
+Carbon capture, utilization, and storage (CCUS) technologies capture CO2 emissions from industrial sources or directly from the atmosphere. Point-source capture at power plants and industrial facilities can prevent 85-95% of CO2 emissions from reaching the atmosphere. Direct air capture (DAC) removes CO2 directly from ambient air, with companies like Climeworks and Carbon Engineering operating commercial facilities.
+
+Nature-based carbon removal solutions include reforestation, soil carbon sequestration, and enhanced weathering. The combination of technological and nature-based approaches will likely be necessary to achieve net-zero emissions targets. Carbon credits and voluntary carbon markets provide financial incentives for carbon removal projects, though standards for measurement, reporting, and verification continue to evolve.
+
+Electric Vehicles and Transportation
+
+The electrification of transportation is accelerating rapidly, with global electric vehicle (EV) sales exceeding 14 million units in 2023. Battery electric vehicles (BEVs) are expected to reach cost parity with internal combustion engine vehicles by 2025-2027 in most markets. Charging infrastructure expansion, battery technology improvements, and tightening emissions regulations are key drivers of EV adoption.

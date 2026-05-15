@@ -1,0 +1,39 @@
+Cloud Computing: Architecture, Services, and Modern Infrastructure
+
+Cloud computing delivers computing resources including servers, storage, databases, networking, software, and analytics over the internet on a pay-as-you-go basis. The three major cloud providers — Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP) — collectively dominate the market, though alternatives like Oracle Cloud, IBM Cloud, and DigitalOcean serve specific niches.
+
+Service Models
+
+Infrastructure as a Service (IaaS) provides virtualized computing resources over the internet. Users manage operating systems, applications, and data while the provider manages the underlying hardware. Examples include AWS EC2, Azure Virtual Machines, and Google Compute Engine. IaaS offers maximum flexibility but requires the most management overhead.
+
+Platform as a Service (PaaS) provides a platform for developing, running, and managing applications without dealing with infrastructure complexity. Services like AWS Elastic Beanstalk, Azure App Service, and Google App Engine handle server provisioning, load balancing, and scaling automatically. PaaS accelerates development but limits customization options.
+
+Software as a Service (SaaS) delivers complete applications over the internet on a subscription basis. Examples include Salesforce, Microsoft 365, Google Workspace, and Slack. SaaS eliminates installation and maintenance concerns but offers the least control over the underlying infrastructure.
+
+Containerization and Orchestration
+
+Containers package applications with their dependencies into standardized units that run consistently across environments. Docker popularized containerization by providing a simple interface for building and running containers. Container images are stored in registries like Docker Hub, Amazon ECR, and Google Container Registry.
+
+Kubernetes has become the de facto standard for container orchestration, automating deployment, scaling, and management of containerized applications. Key Kubernetes concepts include pods (the smallest deployable units), services (network abstractions), deployments (desired state declarations), and namespaces (virtual clusters). Managed Kubernetes services like EKS (AWS), AKS (Azure), and GKE (Google) simplify cluster operations.
+
+Serverless Computing
+
+Serverless computing abstracts server management entirely, allowing developers to focus solely on code. Function as a Service (FaaS) platforms like AWS Lambda, Azure Functions, and Google Cloud Functions execute code in response to events, scaling automatically and charging only for actual execution time. Serverless architectures excel for event-driven workloads, APIs, and data processing pipelines.
+
+Infrastructure as Code
+
+Infrastructure as Code (IaC) manages and provisions infrastructure through machine-readable configuration files rather than manual processes. Terraform by HashiCorp has become the leading multi-cloud IaC tool, using declarative configuration to define desired infrastructure state. AWS CloudFormation, Azure Resource Manager, and Google Cloud Deployment Manager provide provider-specific alternatives.
+
+GitOps extends IaC principles by using Git as the single source of truth for infrastructure and application definitions. Tools like ArgoCD and Flux automatically synchronize cluster state with Git repositories, enabling declarative, version-controlled infrastructure management.
+
+Microservices Architecture
+
+Microservices decompose applications into small, independently deployable services that communicate through APIs. Each service owns its data and business logic, enabling independent scaling, deployment, and technology choices. Service meshes like Istio and Linkerd manage service-to-service communication, providing observability, traffic management, and security features.
+
+API gateways like Kong, AWS API Gateway, and Envoy provide a single entry point for client requests, handling authentication, rate limiting, and request routing. Event-driven architectures using message brokers like Apache Kafka, RabbitMQ, and AWS SNS/SQS enable asynchronous communication between services.
+
+Observability and Monitoring
+
+Modern observability relies on three pillars: metrics (numerical measurements over time), logs (timestamped records of events), and traces (records of request flows through distributed systems). Prometheus and Grafana provide open-source metrics collection and visualization. The ELK Stack (Elasticsearch, Logstash, Kibana) handles log aggregation and analysis. Jaeger and Zipkin provide distributed tracing capabilities.
+
+Site Reliability Engineering (SRE) practices define service level objectives (SLOs) and error budgets to balance reliability with development velocity. Chaos engineering, pioneered by Netflix's Chaos Monkey, deliberately introduces failures to build confidence in system resilience.

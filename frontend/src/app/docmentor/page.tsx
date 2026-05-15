@@ -8,6 +8,7 @@ type IntervalId = ReturnType<typeof setInterval>;
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
+  { href: "/chat", label: "Chat" },
   { href: "/docmentor", label: "DocMentor" },
   { href: "/review", label: "Reviews" },
   { href: "/digest", label: "Digests" },
@@ -201,9 +202,9 @@ export default function DocMentorPage() {
             <div style={{ fontSize: "1.5rem", marginBottom: "0.4rem" }}>⬆️</div>
             <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>
               Drop a file or click<br />
-              <span style={{ color: "#6366f1" }}>PDF, TXT, MD, CSV</span>
+              <span style={{ color: "#6366f1" }}>TXT, MD, CSV, JSON</span>
             </p>
-            <input ref={fileRef} type="file" style={{ display: "none" }} accept=".pdf,.txt,.md,.csv,.json" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); }} />
+            <input ref={fileRef} type="file" style={{ display: "none" }} accept=".txt,.md,.csv,.json" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); }} />
           </div>
         </div>
 

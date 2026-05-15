@@ -74,17 +74,28 @@ The system follows a **status-driven pipeline pattern** — Airtable acts as the
 
 **Flow:**
 ```
-User request (frontend)
+User request (frontend — Chat page or any agent page)
   → Webhook receives { message, context, session_id }
   → Single Ollama call: classify intent from message
-     → Expected output: { agent: "docmentor|review|digest|file", confidence: 0.0-1.0 }
+     → Expected output: { agent: "docmentor|review|digest|file|general", confidence: 0.0-1.0 }
+  → Check Confidence (threshold: > 0.5)
+     → If below threshold: log to Airtable for review, fall through to General Chat
   → Switch node routes to correct agent sub-workflow
-  → Agent sub-workflow executes
+     → DocMentor, Review, Digest, File — routed to respective webhook endpoints
+     → General (fallback) — handled by inline Ollama general chat
+  → Format Response assembles clean JSON with agent tag and structured fields
   → Response returned to frontend
   → Log interaction to Airtable (interactions table)
 ```
 
-**Ollama System Prompt:**
+**Routing Details:**
+- **DocMentor route:** Strips instruction prefixes, forwards to `/webhook/docmentor/query`, returns `{ agent, response, job_id, status }` for async polling
+- **Review route:** Strips prefixes like "analyze this review:", forwards clean text to `/webhook/review/analyze`, returns `{ agent, response, sentiment, sentiment_score, key_themes, pros, cons, predicted_rating }`
+- **Digest route:** Fetches latest digest via `/webhook/digest/latest`
+- **File route:** Returns static guidance pointing user to File Manager page
+- **General route (fallback):** Calls Ollama directly with a conversational system prompt; handles greetings, general questions, and any unmatched intent
+
+**Ollama System Prompt (Intent Classifier):**
 ```
 You are an intent classifier. Given a user message, determine which agent should handle it.
 Respond ONLY with valid JSON: { "agent": "<agent_name>", "confidence": <0.0-1.0> }
@@ -99,7 +110,15 @@ Agents:
 Do not explain. JSON only.
 ```
 
-**n8n Patterns:** Webhook trigger, HTTP Request (Ollama), Switch node, Execute Sub-workflow, Respond to Webhook
+**Ollama System Prompt (General Chat):**
+```
+You are Nexus, a helpful AI assistant. You are part of a multi-agent platform that
+includes specialized agents for document Q&A (DocMentor), review analysis, content
+digests, and file processing. Answer the user's question helpfully and concisely.
+If their request would be better handled by a specific agent, mention it.
+```
+
+**n8n Patterns:** Webhook trigger, HTTP Request (Ollama), Switch node (with fallback output for general), HTTP Request (sub-agent webhooks), Code node (prefix stripping, response formatting), IF node (confidence check), Respond to Webhook
 
 ---
 
@@ -124,21 +143,25 @@ User uploads document (frontend)
   → Response: { document_id, chunk_count, status: "indexed" }
 ```
 
-**Query Flow:**
+**Query Flow (async — job-based):**
 ```
 User asks a question (frontend)
   → Webhook receives { query, session_id, document_filter? }
-  → Query embedded via Ollama embeddings
-  → Qdrant similarity search (top 5 chunks)
-  → Retrieved chunks assembled into context
-  → Ollama chat completion with:
-      system: "Answer based on the provided context. Cite which document."
-      user: "Context: {chunks}\n\nQuestion: {query}"
-  → Response returned to frontend
-  → Log interaction to Airtable
+  → Generate job ID, write job record to Airtable (status: "processing")
+  → Respond immediately: { job_id, status: "processing" }
+  → Continue async:
+      → Query embedded via Ollama embeddings (nomic-embed-text)
+      → Qdrant similarity search (top 5 chunks)
+      → Retrieved chunks assembled into context with source citations
+      → Ollama chat completion with RAG system prompt
+      → Update Airtable job record (status: "complete", result: { response, sources, chunk_count })
+  → Frontend polls GET /webhook/job-status/job/{job_id} for result
 ```
 
-**n8n Patterns:** Webhook, HTTP Request (Docling, Ollama, Qdrant), Code node (chunking), Loop (embed each chunk), Respond to Webhook
+**Greeting / Casual Message Handling:**
+The system prompt instructs DocMentor to respond with a friendly greeting when it detects non-question inputs (hi, hello, thanks, etc.) rather than forcing a RAG search. This prevents awkward responses like "I don't find information about greetings in the provided context."
+
+**n8n Patterns:** Webhook, HTTP Request (Ollama embeddings, Qdrant search, Ollama chat), Code node (job ID generation, context assembly, answer extraction), Airtable CRUD, Respond to Webhook (immediate), separate job polling endpoint
 
 ---
 
@@ -150,11 +173,12 @@ User asks a question (frontend)
 
 **Flow:**
 ```
-User submits review text or URL (frontend)
+User submits review text or URL (frontend or via Orchestrator)
   → Webhook receives { text, source?, type: "restaurant|product|service" }
   → Validate input (not empty, within length limits)
+  → Prepare Request: strip instruction prefixes ("analyze this review:", "review:", etc.)
   → Ollama call with structured extraction prompt:
-      system: "Extract structured analysis from this review..."
+      system: "Extract the actual review text and analyze it for structured insights..."
       → Output: {
            sentiment: "positive|negative|mixed",
            sentiment_score: 0.0-1.0,
@@ -164,15 +188,23 @@ User submits review text or URL (frontend)
            predicted_rating: 1-5,
            summary: "one sentence summary"
          }
-  → Parse and validate JSON output
+  → Parse and validate JSON output (with truncation repair — see below)
   → Write to Airtable (reviews table)
   → Return structured result to frontend
   → Log interaction
 ```
 
+**JSON Truncation Repair:**
+Llama 3 8B occasionally omits the closing `}` in structured JSON output. The Parse Analysis node counts open/close braces and appends missing closing braces before parsing. This prevents false "malformed response" errors on otherwise valid output.
+
+**Instruction Prefix Stripping:**
+When called via the Orchestrator, the review text may arrive with instruction prefixes like "analyze this review:" or "review:". The Prepare Request node strips these prefixes before sending the clean text to Ollama, preventing the model from echoing instructions instead of analyzing the review.
+
 **Ollama System Prompt:**
 ```
-You are a review analyst. Analyze the following review and extract structured insights.
+You are a review analyst. The user will provide a review (possibly preceded by
+instructions like "analyze this review:"). Extract the actual review text and
+analyze it for structured insights.
 Respond ONLY with valid JSON matching this schema:
 {
   "sentiment": "positive|negative|mixed",
@@ -186,7 +218,7 @@ Respond ONLY with valid JSON matching this schema:
 Do not explain. JSON only.
 ```
 
-**n8n Patterns:** Webhook, input validation (IF node), HTTP Request (Ollama), Code node (JSON parse + validation), Airtable write, error branch for malformed AI output
+**n8n Patterns:** Webhook, input validation (IF node), Code node (prefix stripping), HTTP Request (Ollama), Code node (JSON parse + validation + truncation repair), Airtable write, error branch with sensible defaults
 
 ---
 
@@ -262,27 +294,27 @@ File received via webhook
 
 **Flow:**
 ```
-Cron triggers
-  → HTTP Request: GET http://<ASUS_IP>:11434/api/tags (Ollama health)
-  → HTTP Request: GET http://<ASUS_IP>:6333/healthz (Qdrant health)
-  → HTTP Request: GET http://<ASUS_IP>:5001/health (Docling health)
-  → HTTP Request: GET http://localhost:5678/healthz (n8n self-check)
-  → Code node: aggregate results
+Cron triggers (every 5 min)
+  → Code node (Aggregate Results): uses this.helpers.httpRequest to check all 4 services
+    with real latency measurement via Date.now() timing
       {
         timestamp: "...",
-        ollama: { status: "up|down", response_ms: 45 },
-        qdrant: { status: "up|down", response_ms: 12 },
-        docling: { status: "up|down", response_ms: 23 },
-        n8n: { status: "up|down", response_ms: 5 },
+        ollama: { status: "up|down", response_ms: 18 },
+        qdrant: { status: "up|down", response_ms: 21 },
+        docling: { status: "up|down", response_ms: 20 },
+        n8n: { status: "up|down", response_ms: 1 },
         all_healthy: true|false
       }
   → Write to Airtable (health_logs table)
   → IF all_healthy = false:
       → Send alert (email or Discord webhook)
-  → Expose latest status: GET /webhook/health/status
+
+GET /webhook/health/status (live endpoint)
+  → Code node (Format Live Status): checks all services with this.helpers.httpRequest + timing
+  → Returns real-time status with actual latency values
 ```
 
-**n8n Patterns:** Cron trigger, multiple HTTP Request nodes (with timeout settings), Code node (aggregation + response time measurement), IF node (alerting), Airtable write, Webhook (status endpoint)
+**n8n Patterns:** Cron trigger, Code node (this.helpers.httpRequest for health checks + latency measurement), IF node (alerting), Airtable write, Webhook (status endpoint). Note: HTTP Request nodes cannot measure latency; Code nodes with `this.helpers.httpRequest` are used instead for timed health checks.
 
 ---
 
@@ -296,16 +328,22 @@ Cron triggers
 
 **Scheduled Flow:**
 ```
-Cron triggers
+Cron triggers (every hour)
   → Read Airtable: all interactions in last 24 hours
-  → Code node: compute aggregates
+  → Code node: compute aggregates (per-agent stats)
       {
         total_interactions: 142,
-        by_agent: { docmentor: 45, review: 30, digest: 12, ... },
-        avg_response_time_ms: 2340,
+        by_agent: {
+          general: { total: 20, avg_response_ms: 1200, error_count: 0 },
+          docmentor: { total: 45, avg_response_ms: 8500, error_count: 2 },
+          review: { total: 30, avg_response_ms: 3200, error_count: 1 },
+          digest: { total: 12, avg_response_ms: 500, error_count: 0 },
+          file: { total: 35, avg_response_ms: 2100, error_count: 0 }
+        },
+        avg_response_ms: 2340,
         error_rate: 0.03,
         peak_hour: 14,
-        most_queried_document: "textbook_ch3.pdf"
+        top_document: "textbook_ch3.pdf"
       }
   → Write summary to Airtable (analytics table)
 ```
@@ -450,7 +488,7 @@ Aggregated usage statistics.
 | created_at          | Date+time     | Auto            | When summary was computed              |
 | period              | Single Select | Analytics       | hourly, daily                          |
 | total_interactions  | Number        | Analytics       | Total interactions in period           |
-| by_agent            | Long Text     | Analytics       | JSON: { agent: count }                 |
+| by_agent            | Long Text     | Analytics       | JSON: { agent: { total, avg_response_ms, error_count } } |
 | avg_response_ms     | Number        | Analytics       | Average response time                  |
 | error_rate          | Number        | Analytics       | Percentage of errors (0.0 – 1.0)      |
 | peak_hour           | Number        | Analytics       | Hour with most interactions (0-23)     |
@@ -467,7 +505,11 @@ All frontend communication goes through these endpoints. Every endpoint is an n8
 ```
 POST /webhook/orchestrator
   Body: { "message": "string", "session_id": "string" }
-  Response: { "agent": "string", "response": "string", "session_id": "string" }
+  Response (general):   { "agent": "general",   "response": "string", "session_id": "string" }
+  Response (docmentor): { "agent": "docmentor", "response": "string", "session_id": "string", "job_id": "string", "status": "processing" }
+  Response (review):    { "agent": "review",    "response": "string", "session_id": "string", "sentiment": "...", "sentiment_score": 0.0, "key_themes": [...], "pros": [...], "cons": [...], "predicted_rating": 1-5 }
+  Response (digest):    { "agent": "digest",    "response": "string", "session_id": "string" }
+  Response (file):      { "agent": "file",      "response": "string", "session_id": "string" }
 
 POST /webhook/review/analyze
   Body: { "text": "string", "type": "restaurant|product|service" }
@@ -525,12 +567,25 @@ Separate webhook: GET /webhook/job/{job_id}
 | Page              | Purpose                                    | Primary Webhook                  |
 |-------------------|--------------------------------------------|----------------------------------|
 | Dashboard         | Overview: recent activity, system status   | analytics/summary, health/status |
+| Chat              | General multi-agent chat interface         | orchestrator                     |
 | DocMentor         | Chat interface for document Q&A            | docmentor/query, file/upload     |
 | Review Analyst    | Submit reviews, view analysis results      | review/analyze                   |
 | Digest Manager    | Configure topics, view past digests        | digest/configure, digest/latest  |
 | File Manager      | Upload/manage documents                    | file/upload, job/{id}            |
 | System Status     | Live health check dashboard                | health/status                    |
 | Analytics         | Usage charts and statistics                | analytics/summary                |
+
+### Chat Page Details
+
+The Chat page (`/chat`) is a general-purpose conversational interface wired to the Orchestrator endpoint. Unlike DocMentor (which always uses RAG) or Review Analyst (which always extracts structure), the Chat page lets the Orchestrator classify the user's intent and route to the appropriate agent automatically.
+
+**Features:**
+- Gold-themed UI (vs DocMentor's purple) to visually distinguish general chat from document Q&A
+- Agent tags on each response showing which agent handled the message (Nexus, DocMentor, Review Analyst, etc.)
+- Handles all Orchestrator response types: synchronous (general/review/digest/file) and async with job polling (docmentor)
+- Review responses rendered with formatted sentiment, star ratings, themes, pros/cons
+- Suggested prompt buttons on empty state for discoverability
+- Centered 820px layout with auto-growing textarea
 
 ---
 
@@ -610,14 +665,17 @@ POST http://<ASUS_IP>:5001/convert
 ### Demo Script Outline
 
 1. Show the dashboard — system health all green
-2. Upload a document → show File Intake processing → status updates in real-time
-3. Ask DocMentor a question about the uploaded doc → RAG in action
-4. Submit a review → show structured extraction result
-5. Show digest configuration → show a previously generated digest email
-6. Show analytics page — interaction counts, response times
-7. Kill Ollama on ASUS → health monitor catches it → alert fires → restart → recovers
+2. Open Chat page → say "hi" → show friendly general response with Nexus agent tag
+3. In Chat, ask "what does my document say about AI?" → show it routes to DocMentor, polls for result, shows agent tag
+4. In Chat, type "review: amazing food but slow service" → show structured review analysis inline with sentiment/rating
+5. Upload a document via DocMentor → show File Intake processing → status updates in real-time
+6. Ask DocMentor a question about the uploaded doc → RAG in action with source citations
+7. Submit a review on the Review Analyst page → show structured extraction result
+8. Show digest configuration → show a previously generated digest email
+9. Show analytics page — interaction counts, response times
+10. Kill Ollama on ASUS → health monitor catches it → alert fires → restart → recovers
 
-Step 7 is the wow moment — showing resilience and observability in a live demo.
+Steps 2–4 are the new highlight — showing multi-agent routing from a single chat interface. Step 10 is the wow moment for resilience.
 
 ---
 

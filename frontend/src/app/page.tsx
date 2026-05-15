@@ -6,6 +6,7 @@ import Particles from "@/components/Particles";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard" },
+  { label: "Chat", href: "/chat" },
   { label: "DocMentor", href: "/docmentor" },
   { label: "Reviews", href: "/review" },
   { label: "Status", href: "/status" },

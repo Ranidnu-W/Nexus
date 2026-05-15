@@ -8,6 +8,7 @@ type IntervalId = ReturnType<typeof setInterval>;
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
+  { href: "/chat", label: "Chat" },
   { href: "/docmentor", label: "DocMentor" },
   { href: "/review", label: "Reviews" },
   { href: "/digest", label: "Digests" },
@@ -62,7 +63,7 @@ function fmtTime(date: Date) {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-const ACCEPTED = ".pdf,.txt,.md,.csv,.json";
+const ACCEPTED = ".txt,.md,.csv,.json";
 
 export default function FilesPage() {
   const [files, setFiles] = useState<ManagedFile[]>([]);
@@ -248,7 +249,7 @@ export default function FilesPage() {
               or click to browse your machine
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: "0.5rem", flexWrap: "wrap" }}>
-              {["PDF", "TXT", "MD", "CSV", "JSON"].map((t) => (
+              {["TXT", "MD", "CSV", "JSON"].map((t) => (
                 <span key={t} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 6, padding: "0.2rem 0.65rem", fontSize: "0.7rem", fontFamily: "var(--font-jetbrains-mono), monospace", color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em" }}>
                   .{t.toLowerCase()}
                 </span>

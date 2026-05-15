@@ -174,7 +174,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const data = $('Generate Job ID').first().json;\nconst ext = data.file_extension;\nconst supported = ['pdf', 'txt', 'md', 'csv', 'json'];\n\nreturn [{\n  json: {\n    ...data,\n    file_type: ext,\n    is_supported: supported.includes(ext),\n    route: ext === 'pdf' ? 'pdf' : ['txt', 'md'].includes(ext) ? 'text' : ['csv', 'json'].includes(ext) ? 'structured' : 'unsupported'\n  },\n  binary: $input.first().binary\n}];"
+        "jsCode": "const data = $('Generate Job ID').first().json;\nconst ext = data.file_extension;\nconst supported = ['txt', 'md', 'csv', 'json'];\n\nreturn [{\n  json: {\n    ...data,\n    file_type: ext,\n    is_supported: supported.includes(ext),\n    route: ['txt', 'md'].includes(ext) ? 'text' : ['csv', 'json'].includes(ext) ? 'structured' : 'unsupported'\n  }\n}];"
       },
       "id": "2e6a1ba5-e315-4198-8d9d-f66586b577b4",
       "name": "Detect File Type",
@@ -189,27 +189,6 @@
       "parameters": {
         "rules": {
           "values": [
-            {
-              "conditions": {
-                "options": {
-                  "leftValue": "",
-                  "typeValidation": "strict"
-                },
-                "combinator": "and",
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.route }}",
-                    "rightValue": "pdf",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              },
-              "renameOutput": true,
-              "outputKey": "PDF"
-            },
             {
               "conditions": {
                 "options": {
@@ -272,27 +251,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "={{ $env.DOCLING_URL }}/convert",
-        "sendBody": true,
-        "contentType": "binaryData",
-        "inputDataFieldName": "data",
-        "options": {
-          "timeout": 120000
-        }
-      },
-      "id": "25332a54-be6c-428e-8149-426a1a970544",
-      "name": "Convert PDF via Docling",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        0,
-        0
-      ],
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
         "jsCode": "const data = $('Generate Job ID').first().json;\nreturn [{\n  json: {\n    ...data,\n    extracted_text: data.raw_text || '',\n    parse_method: 'direct_read'\n  }\n}];"
       },
       "id": "eda8b246-6140-46e0-a6ce-8ef6886cd0f9",
@@ -328,19 +286,6 @@
       "position": [
         0,
         544
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Handle Docling response for PDF path\nconst doclingResponse = $json;\nconst data = $('Generate Job ID').first().json;\nconst text = doclingResponse.markdown || doclingResponse.text || doclingResponse.content || '';\n\nif (!text && doclingResponse.error) {\n  return [{\n    json: {\n      ...data,\n      error: true,\n      error_message: 'Docling failed to parse PDF: ' + (doclingResponse.error || 'unknown error')\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ...data,\n    extracted_text: text,\n    parse_method: 'docling'\n  }\n}];"
-      },
-      "id": "1a84505b-ebb9-4d0d-9593-36ce99918174",
-      "name": "Normalize PDF Output",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        224,
-        0
       ]
     },
     {
@@ -392,6 +337,10 @@
                 {
                   "name": "pdf",
                   "value": "pdf"
+                },
+                {
+                  "name": "docx",
+                  "value": "docx"
                 },
                 {
                   "name": "txt",
@@ -519,7 +468,9 @@
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         },
-        "options": {}
+        "options": {
+          "typecast": true
+        }
       },
       "id": "6cf6b7c6-6713-46b0-ab98-d0c18afe844b",
       "name": "Create Document Record",
@@ -538,7 +489,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const text = $('Generate Job ID').first().json.raw_text || '';\nconst documentId = $('Generate Job ID').first().json.document_id;\nconst fileName = $('Generate Job ID').first().json.file_name;\n\nreturn [{\n  json: {\n    chunk_id: documentId + '_0',\n    chunk_index: 0,\n    text: text,\n    document_id: documentId,\n    file_name: fileName,\n    char_count: text.length,\n    total_chunks: 1\n  }\n}];"
+        "jsCode": "let text = '';\ntry { text = $('Normalize PDF Output').first().json.extracted_text; } catch(e) {}\nif (!text) try { text = $('Read Text Content').first().json.extracted_text; } catch(e) {}\nif (!text) try { text = $('Parse CSV/JSON').first().json.extracted_text; } catch(e) {}\nif (!text) text = $('Generate Job ID').first().json.raw_text || '';\n\nconst documentId = $('Generate Job ID').first().json.document_id;\nconst fileName = $('Generate Job ID').first().json.file_name;\n\nconst CHUNK_SIZE = 1000;\nconst CHUNK_OVERLAP = 200;\nconst parts = [];\n\nif (text.length <= CHUNK_SIZE) {\n  parts.push(text);\n} else {\n  let start = 0;\n  while (start < text.length) {\n    parts.push(text.slice(start, start + CHUNK_SIZE));\n    start += CHUNK_SIZE - CHUNK_OVERLAP;\n  }\n}\n\nreturn parts.map((chunk, i) => ({\n  json: {\n    chunk_id: documentId + '_' + i,\n    chunk_index: i,\n    text: chunk,\n    document_id: documentId,\n    file_name: fileName,\n    char_count: chunk.length,\n    total_chunks: parts.length\n  }\n}));"
       },
       "id": "0392f237-9c54-4c22-ad99-347939922e06",
       "name": "Chunk Text",
@@ -585,7 +536,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const allItems = $input.all();\nconst chunkData = $('Chunk Text').all();\nconst points = [];\n\nfor (let i = 0; i < allItems.length; i++) {\n  const embedding = allItems[i].json.embedding;\n  if (!embedding || !Array.isArray(embedding)) continue;\n  \n  const chunk = chunkData[i]?.json || {};\n  const chunkId = chunk.chunk_id || Array.from({length: 32}, () => Math.random().toString(36)[2]).join('');\n  \n  points.push({\n    id: i + 1,\n    vector: embedding,\n    payload: {\n      text: chunk.text || '',\n      document_id: chunk.document_id || '',\n      file_name: chunk.file_name || '',\n      chunk_index: chunk.chunk_index || 0,\n      created_at: new Date().toISOString()\n    }\n  });\n}\n\nconst documentId = $('Generate Job ID').first().json.document_id;\n\nreturn [{\n  json: {\n    document_id: documentId,\n    points: points,\n    chunk_count: points.length\n  }\n}];"
+        "jsCode": "const uuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {\n  const r = Math.random() * 16 | 0;\n  return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);\n});\n\nconst allItems = $input.all();\nconst chunkData = $('Chunk Text').all();\nconst documentId = $('Generate Job ID').first().json.document_id;\nconst points = [];\n\nfor (let i = 0; i < allItems.length; i++) {\n  const embedding = allItems[i].json.embedding;\n  if (!embedding || !Array.isArray(embedding)) continue;\n  \n  const chunk = chunkData[i]?.json || {};\n  \n  points.push({\n    id: uuid(),\n    vector: embedding,\n    payload: {\n      text: chunk.text || '',\n      document_id: chunk.document_id || documentId,\n      file_name: chunk.file_name || '',\n      chunk_index: chunk.chunk_index || 0,\n      created_at: new Date().toISOString()\n    }\n  });\n}\n\nreturn [{\n  json: {\n    document_id: documentId,\n    points: points,\n    chunk_count: points.length\n  }\n}];"
       },
       "id": "6b4bc068-fee3-4fef-b706-307858db3f4b",
       "name": "Collect Vectors",
@@ -1133,13 +1084,6 @@
       "main": [
         [
           {
-            "node": "Convert PDF via Docling",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
             "node": "Read Text Content",
             "type": "main",
             "index": 0
@@ -1151,25 +1095,10 @@
             "type": "main",
             "index": 0
           }
-        ]
-      ]
-    },
-    "Convert PDF via Docling": {
-      "main": [
+        ],
         [
           {
-            "node": "Normalize PDF Output",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Normalize PDF Output": {
-      "main": [
-        [
-          {
-            "node": "Create Document Record",
+            "node": "Unsupported Type Error",
             "type": "main",
             "index": 0
           }

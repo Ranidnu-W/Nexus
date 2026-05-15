@@ -91,7 +91,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Gather results from the 4 health checks\n// Each input may have succeeded or failed (continueOnFail)\n\nfunction checkResult(items, index) {\n  const item = items[index];\n  if (!item) return { status: 'down', response_ms: 0 };\n  const error = item.json?.error || item.json?.code === 'ECONNREFUSED';\n  if (error) return { status: 'down', response_ms: 0 };\n  return { status: 'up', response_ms: item.json?.response_ms || 0 };\n}\n\nconst ollamaItems = $input.all();\n\n// We receive items from the merge node\n// Parse based on what we know\nconst results = {\n  timestamp: new Date().toISOString(),\n  ollama: { status: 'down', response_ms: 0 },\n  qdrant: { status: 'down', response_ms: 0 },\n  docling: { status: 'down', response_ms: 0 },\n  n8n: { status: 'down', response_ms: 0 },\n  all_healthy: false\n};\n\n// Check each input item for errors\nfor (const item of $input.all()) {\n  const hasError = item.json?.error || item.json?.code;\n  if (!hasError) {\n    // Try to identify which service based on response content\n    // This is a simplified version - in practice, tag each HTTP node\n  }\n}\n\n// Simpler approach: use $('node_name').first() to access each check\ntry {\n  const ollamaResult = $('Check Ollama').first();\n  results.ollama = ollamaResult.json?.error \n    ? { status: 'down', response_ms: 0 } \n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\ntry {\n  const qdrantResult = $('Check Qdrant').first();\n  results.qdrant = qdrantResult.json?.error\n    ? { status: 'down', response_ms: 0 }\n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\ntry {\n  const doclingResult = $('Check Docling').first();\n  results.docling = doclingResult.json?.error\n    ? { status: 'down', response_ms: 0 }\n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\ntry {\n  const n8nResult = $('Check n8n').first();\n  results.n8n = n8nResult.json?.error\n    ? { status: 'down', response_ms: 0 }\n    : { status: 'up', response_ms: 0 };\n} catch(e) { /* stays down */ }\n\nresults.all_healthy = \n  results.ollama.status === 'up' &&\n  results.qdrant.status === 'up' &&\n  results.docling.status === 'up' &&\n  results.n8n.status === 'up';\n\nreturn [{ json: results }];"
+        "jsCode": "const check = async (url, timeout) => {\n  const start = Date.now();\n  try {\n    await this.helpers.httpRequest({ method: 'GET', url, timeout });\n    return { status: 'up', response_ms: Date.now() - start };\n  } catch(e) {\n    return { status: 'down', response_ms: Date.now() - start };\n  }\n};\n\nconst [ollama, qdrant, docling, n8n] = await Promise.all([\n  check($env.OLLAMA_URL + '/api/tags', 10000),\n  check($env.QDRANT_URL + '/healthz', 10000),\n  check($env.DOCLING_URL + '/health', 10000),\n  check($env.N8N_URL + '/healthz', 10000)\n]);\n\nreturn [{\n  json: {\n    timestamp: new Date().toISOString(),\n    ollama,\n    qdrant,\n    docling,\n    n8n,\n    all_healthy: ollama.status === 'up' && qdrant.status === 'up' && docling.status === 'up' && n8n.status === 'up'\n  }\n}];"
       },
       "id": "8f812665-9548-4931-a35c-3f2692b526df",
       "name": "Aggregate Results",
@@ -486,7 +486,7 @@
     },
     {
       "parameters": {
-        "jsCode": "let ollamaUp = false, qdrantUp = false, doclingUp = false;\n\ntry { ollamaUp = !$('Check Ollama1').first().json.error; } catch(e) {}\ntry { qdrantUp = !$('Check Qdrant1').first().json.error; } catch(e) {}\ntry { doclingUp = !$('Check Docling1').first().json.error; } catch(e) {}\n\n// n8n is always up if this code is executing\nconst n8nUp = true;\n\nreturn [{\n  json: {\n    ollama: { status: ollamaUp ? 'up' : 'down', response_ms: 0 },\n    qdrant: { status: qdrantUp ? 'up' : 'down', response_ms: 0 },\n    docling: { status: doclingUp ? 'up' : 'down', response_ms: 0 },\n    n8n: { status: 'up', response_ms: 0 },\n    all_healthy: ollamaUp && qdrantUp && doclingUp,\n    checked_at: new Date().toISOString()\n  }\n}];"
+        "jsCode": "const check = async (url, timeout) => {\n  const start = Date.now();\n  try {\n    await this.helpers.httpRequest({ method: 'GET', url, timeout });\n    return { status: 'up', response_ms: Date.now() - start };\n  } catch(e) {\n    return { status: 'down', response_ms: Date.now() - start };\n  }\n};\n\nconst [ollama, qdrant, docling] = await Promise.all([\n  check($env.OLLAMA_URL + '/api/tags', 5000),\n  check($env.QDRANT_URL + '/healthz', 5000),\n  check($env.DOCLING_URL + '/health', 5000)\n]);\n\nreturn [{\n  json: {\n    ollama,\n    qdrant,\n    docling,\n    n8n: { status: 'up', response_ms: 1 },\n    all_healthy: ollama.status === 'up' && qdrant.status === 'up' && docling.status === 'up',\n    checked_at: new Date().toISOString()\n  }\n}];"
       },
       "id": "a5ab568c-c82b-4128-bbb5-eaf910c52216",
       "name": "Format Live Status",
@@ -501,65 +501,6 @@
   "pinData": {},
   "connections": {
     "Every 5 Minutes": {
-      "main": [
-        [
-          {
-            "node": "Check Ollama",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Check Qdrant",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Check Docling",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Check n8n",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Ollama": {
-      "main": [
-        [
-          {
-            "node": "Aggregate Results",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Qdrant": {
-      "main": [
-        [
-          {
-            "node": "Aggregate Results",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Docling": {
-      "main": [
-        [
-          {
-            "node": "Aggregate Results",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check n8n": {
       "main": [
         [
           {
@@ -607,7 +548,7 @@
       "main": [
         [
           {
-            "node": "Check Ollama1",
+            "node": "Format Live Status",
             "type": "main",
             "index": 0
           }
@@ -617,39 +558,6 @@
     "Read Latest Health": {
       "main": [
         []
-      ]
-    },
-    "Check Ollama1": {
-      "main": [
-        [
-          {
-            "node": "Check Qdrant1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Qdrant1": {
-      "main": [
-        [
-          {
-            "node": "Check Docling1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Docling1": {
-      "main": [
-        [
-          {
-            "node": "Format Live Status",
-            "type": "main",
-            "index": 0
-          }
-        ]
       ]
     },
     "Format Live Status": {

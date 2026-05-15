@@ -6,6 +6,7 @@ import { getHealthStatus, getAnalyticsSummary } from "@/lib/api";
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
+  { href: "/chat", label: "Chat" },
   { href: "/docmentor", label: "DocMentor" },
   { href: "/review", label: "Reviews" },
   { href: "/digest", label: "Digests" },
