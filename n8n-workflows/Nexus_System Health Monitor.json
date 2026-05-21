@@ -107,12 +107,12 @@
         "operation": "create",
         "base": {
           "__rl": true,
-          "value": "appDyd2AnWGViGLOU",
+          "value": "YOUR_AIRTABLE_BASE_ID",
           "mode": "id"
         },
         "table": {
           "__rl": true,
-          "value": "tblRwFkhRj0SZhDaf",
+          "value": "YOUR_TABLE_ID_3",
           "mode": "id"
         },
         "columns": {
@@ -298,7 +298,7 @@
       ],
       "credentials": {
         "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
+          "id": "YOUR_CREDENTIAL_ID",
           "name": "Airtable Personal Access Token account"
         }
       }
@@ -383,12 +383,12 @@
         "operation": "search",
         "base": {
           "__rl": true,
-          "value": "appDyd2AnWGViGLOU",
+          "value": "YOUR_AIRTABLE_BASE_ID",
           "mode": "id"
         },
         "table": {
           "__rl": true,
-          "value": "tblRwFkhRj0SZhDaf",
+          "value": "YOUR_TABLE_ID_3",
           "mode": "id"
         },
         "returnAll": false,
@@ -412,7 +412,7 @@
       ],
       "credentials": {
         "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
+          "id": "YOUR_CREDENTIAL_ID",
           "name": "Airtable Personal Access Token account"
         }
       }

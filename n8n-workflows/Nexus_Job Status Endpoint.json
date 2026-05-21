@@ -23,11 +23,11 @@
         "base": {
           "__rl": true,
           "mode": "id",
-          "value": "appDyd2AnWGViGLOU"
+          "value": "YOUR_AIRTABLE_BASE_ID"
         },
         "table": {
           "__rl": true,
-          "value": "tblS0qn7j7sdQe0zT",
+          "value": "YOUR_TABLE_ID_4",
           "mode": "id"
         },
         "filterByFormula": "={job_id} = '{{ $json.params.job_id }}'",
@@ -45,7 +45,7 @@
       ],
       "credentials": {
         "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
+          "id": "YOUR_CREDENTIAL_ID",
           "name": "Airtable Personal Access Token account"
         }
       }

@@ -35,13 +35,16 @@ export default function DigestPage() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [latest, setLatest] = useState<LatestDigest | null>(null);
   const [loadingDigest, setLoadingDigest] = useState(true);
+  const [generating, setGenerating] = useState(false);
   const topicRef = useRef<HTMLInputElement>(null);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     getLatestDigest()
       .then((d) => setLatest(d as LatestDigest))
       .catch(() => {})
       .finally(() => setLoadingDigest(false));
+    return () => { if (pollRef.current) clearInterval(pollRef.current); };
   }, []);
 
   function addTopic() {
@@ -63,6 +66,25 @@ export default function DigestPage() {
       await configureDigest(topics, frequency, email.trim());
       setToast(true);
       setTimeout(() => setToast(false), 3000);
+      setGenerating(true);
+      const prevSentAt = latest?.sent_at || "";
+      let attempts = 0;
+      if (pollRef.current) clearInterval(pollRef.current);
+      pollRef.current = setInterval(async () => {
+        attempts++;
+        try {
+          const d = (await getLatestDigest()) as LatestDigest;
+          if (d.sent_at && d.sent_at !== prevSentAt) {
+            setLatest(d);
+            setGenerating(false);
+            if (pollRef.current) clearInterval(pollRef.current);
+          }
+        } catch {}
+        if (attempts >= 30) {
+          setGenerating(false);
+          if (pollRef.current) clearInterval(pollRef.current);
+        }
+      }, 5000);
     } catch {
       setSaveError("n8n is offline or the workflow isn't active yet.");
     } finally {
@@ -92,6 +114,7 @@ export default function DigestPage() {
         @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
         @keyframes slideDown { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(12px); } }
         .result-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 1.5rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
 
       {/* Toast */}
@@ -215,11 +238,18 @@ export default function DigestPage() {
                 <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.4)", textAlign: "center", lineHeight: 1.6 }}>No digest sent yet.<br />Configure topics above to get started.</p>
               </div>
             )}
-            {!loadingDigest && latest && (
+            {!loadingDigest && latest && !generating && (
               <div
-                style={{ flex: 1, overflowY: "auto", padding: "1.5rem" }}
+                style={{ flex: 1, overflowY: "auto", padding: "1.5rem", background: "#fff", borderRadius: 12 }}
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(latest.content) }}
               />
+            )}
+            {generating && (
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
+                <div style={{ width: 40, height: 40, border: "3px solid rgba(16,185,129,0.2)", borderTopColor: "#10b981", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
+                <p style={{ fontSize: "0.9rem", color: "#10b981", fontWeight: 500 }}>Generating your digest...</p>
+                <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-jetbrains-mono), monospace" }}>Fetching RSS → Summarizing with AI</p>
+              </div>
             )}
           </div>
         </div>

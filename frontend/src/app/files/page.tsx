@@ -82,26 +82,12 @@ export default function FilesPage() {
     setFiles((prev) => prev.map((f) => f.id === id ? { ...f, ...patch } : f));
   }, []);
 
-  const processFile = useCallback(async (file: File) => {
-    const id = crypto.randomUUID();
-    const fileExt = ext(file.name);
-    const supported = ["pdf", "txt", "md", "csv", "json"].includes(fileExt);
+  const uploadQueue = useRef<{ file: File; id: string }[]>([]);
+  const processingRef = useRef(false);
 
-    const entry: ManagedFile = {
-      id,
-      name: file.name,
-      size: file.size,
-      type: fileExt,
-      status: supported ? "uploading" : "error",
-      progress: 0,
-      addedAt: new Date(),
-      error: supported ? undefined : `Unsupported type: .${fileExt}`,
-    };
+  const processOneFile = useCallback(async (file: File, id: string) => {
+    updateFile(id, { status: "uploading" });
 
-    setFiles((prev) => [entry, ...prev]);
-    if (!supported) return;
-
-    // Simulate progress while uploading
     const ticker = setInterval(() => {
       setFiles((prev) =>
         prev.map((f) =>
@@ -120,28 +106,39 @@ export default function FilesPage() {
 
       if (res.job_id) {
         updateFile(id, { progress: 85 });
-        // Poll for completion
-        const interval = setInterval(async () => {
-          try {
-            const job = await getJobStatus(res.job_id!) as { status: string; result?: { chunk_count?: number } };
-            if (job.status === "complete") {
+        await new Promise<void>((resolve) => {
+          let attempts = 0;
+          const maxAttempts = 90;
+          const interval = setInterval(async () => {
+            attempts++;
+            try {
+              const job = await getJobStatus(res.job_id!) as { status: string; result?: { chunk_count?: number } };
+              if (job.status === "complete") {
+                clearInterval(interval);
+                intervalsRef.current.delete(interval);
+                updateFile(id, { status: "indexed", progress: 100, chunkCount: job.result?.chunk_count });
+                resolve();
+              } else if (job.status === "error") {
+                clearInterval(interval);
+                intervalsRef.current.delete(interval);
+                updateFile(id, { status: "error", progress: 0, error: "Processing failed in n8n." });
+                resolve();
+              } else if (attempts >= maxAttempts) {
+                clearInterval(interval);
+                intervalsRef.current.delete(interval);
+                updateFile(id, { status: "error", progress: 0, error: "Processing timed out — try uploading again." });
+                resolve();
+              }
+            } catch {
               clearInterval(interval);
               intervalsRef.current.delete(interval);
-              updateFile(id, { status: "indexed", progress: 100, chunkCount: job.result?.chunk_count });
-            } else if (job.status === "error") {
-              clearInterval(interval);
-              intervalsRef.current.delete(interval);
-              updateFile(id, { status: "error", progress: 0, error: "Processing failed in n8n." });
+              updateFile(id, { status: "error", progress: 0, error: "Lost connection during processing." });
+              resolve();
             }
-          } catch {
-            clearInterval(interval);
-            intervalsRef.current.delete(interval);
-            updateFile(id, { status: "error", progress: 0, error: "Lost connection during processing." });
-          }
-        }, 2000);
-        intervalsRef.current.add(interval);
+          }, 2000);
+          intervalsRef.current.add(interval);
+        });
       } else {
-        // Synchronous response
         updateFile(id, { status: "indexed", progress: 100, chunkCount: res.chunk_count });
       }
     } catch {
@@ -151,8 +148,38 @@ export default function FilesPage() {
     }
   }, [updateFile]);
 
+  const drainQueue = useCallback(async () => {
+    if (processingRef.current) return;
+    processingRef.current = true;
+    while (uploadQueue.current.length > 0) {
+      const { file, id } = uploadQueue.current.shift()!;
+      await processOneFile(file, id);
+    }
+    processingRef.current = false;
+  }, [processOneFile]);
+
   function handleFiles(fileList: FileList) {
-    Array.from(fileList).forEach(processFile);
+    Array.from(fileList).forEach((file) => {
+      const id = crypto.randomUUID();
+      const fileExt = ext(file.name);
+      const supported = ["pdf", "txt", "md", "csv", "json"].includes(fileExt);
+
+      setFiles((prev) => [{
+        id,
+        name: file.name,
+        size: file.size,
+        type: fileExt,
+        status: supported ? "queued" : "error",
+        progress: 0,
+        addedAt: new Date(),
+        error: supported ? undefined : `Unsupported type: .${fileExt}`,
+      } as ManagedFile, ...prev]);
+
+      if (supported) {
+        uploadQueue.current.push({ file, id });
+      }
+    });
+    drainQueue();
   }
 
   function onDrop(e: React.DragEvent) {
@@ -166,7 +193,7 @@ export default function FilesPage() {
   }
 
   const indexed = files.filter((f) => f.status === "indexed").length;
-  const uploading = files.filter((f) => f.status === "uploading").length;
+  const uploading = files.filter((f) => f.status === "uploading" || f.status === "queued").length;
   const errored = files.filter((f) => f.status === "error").length;
 
   return (

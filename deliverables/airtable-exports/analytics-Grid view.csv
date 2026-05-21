@@ -1,0 +1,15 @@
+﻿total_interactions,period,by_agent,avg_response_ms,error_rate,peak_hour,top_document
+,,,,,,
+,,,,,,
+,,,,,,
+13.0,hourly,"{""file"":9,""review"":1,""docmentor"":3}",97550.0,0.0,23.0,how is AI used in healthcare?
+21.0,hourly,"{""file"":9,""review"":1,""docmentor"":6,""system"":4,""digest"":1}",80237.0,0.0,3.0,what does my document say about AI in healthcare?
+21.0,hourly,"{""file"":9,""review"":1,""docmentor"":6,""system"":4,""digest"":1}",80237.0,0.0,3.0,what does my document say about AI in healthcare?
+5.0,hourly,"{""docmentor"":4,""review"":1}",3492.0,0.0,4.0,what does my document say about machine learning?
+47.0,hourly,"{""docmentor"":18,""review"":21,""file"":3,""digest"":2,""system"":3}",2609.0,0.0,5.0,hi
+68.0,hourly,"{""docmentor"":{""total"":27,""avg_response_ms"":2842,""error_count"":0},""file"":{""total"":14,""avg_response_ms"":1539,""error_count"":0},""review"":{""total"":22,""avg_response_ms"":2881,""error_count"":0},""digest"":{""total"":2,""avg_response_ms"":650,""error_count"":0},""system"":{""total"":3,""avg_response_ms"":0,""error_count"":0}}",2501.0,0.0,5.0,hi
+97.0,hourly,"{""docmentor"":{""total"":30,""avg_response_ms"":3172,""error_count"":0},""file"":{""total"":39,""avg_response_ms"":1861,""error_count"":0},""review"":{""total"":23,""avg_response_ms"":2815,""error_count"":0},""digest"":{""total"":2,""avg_response_ms"":650,""error_count"":0},""system"":{""total"":3,""avg_response_ms"":0,""error_count"":0}}",2484.0,0.0,5.0,hi
+8.0,hourly,"{""review"":{""total"":6,""avg_response_ms"":3466,""error_count"":0},""docmentor"":{""total"":2,""avg_response_ms"":3311,""error_count"":0}}",3427.0,0.0,20.0,Where can I get some help with documents
+21.0,hourly,"{""digest"":{""total"":13,""avg_response_ms"":3764,""error_count"":0},""review"":{""total"":6,""avg_response_ms"":3466,""error_count"":0},""docmentor"":{""total"":2,""avg_response_ms"":3311,""error_count"":0}}",3465.0,0.0,2.0,Where can I get some help with documents
+24.0,hourly,"{""digest"":{""total"":14,""avg_response_ms"":2524,""error_count"":0},""review"":{""total"":8,""avg_response_ms"":3855,""error_count"":0},""docmentor"":{""total"":2,""avg_response_ms"":3311,""error_count"":0}}",3543.0,0.0,2.0,Where can I get some help with documents
+57.0,hourly,"{""digest"":{""total"":24,""avg_response_ms"":7381,""error_count"":0},""review"":{""total"":11,""avg_response_ms"":3467,""error_count"":0},""docmentor"":{""total"":20,""avg_response_ms"":3018,""error_count"":0},""general"":{""total"":2,""avg_response_ms"":0,""error_count"":0}}",4351.0,0.0,6.0,do you have any docs related to AI

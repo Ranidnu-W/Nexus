@@ -1,0 +1,208 @@
+﻿session_id,agent,input_preview,output_preview,response_time_ms,status,source,error_message,created_at
+,,,,,,,,5/5/2026 9:17pm
+,,,,,,,,5/5/2026 9:17pm
+,,,,,,,,5/5/2026 9:17pm
+xeg1vrh4gki6etvttfumu8a8z14ln8z4,file,Upload: test-upload.txt,Indexed undefined chunks,3886.0,success,file-intake-pipeline,,5/6/2026 5:59pm
+test-1,docmentor,what is this document about?,,325776.0,success,docmentor,,5/6/2026 6:08pm
+5e05yu1px8j9m1srecbptphap1zfhl7h,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,3318.0,success,file-intake-pipeline,,5/6/2026 6:28pm
+test-2,docmentor,how is AI used in healthcare?,,43668.0,success,docmentor,,5/6/2026 6:32pm
+6t96irood0g4mg4wx1ybj1rs3trjkue8,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,2664.0,success,file-intake-pipeline,,5/6/2026 6:44pm
+7x99701tfkcnpehro1ngpm76vlckpm79,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,2550.0,success,file-intake-pipeline,,5/6/2026 6:48pm
+ewe38tnn7ijuirhqlu6ex963sj9gdaer,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,2722.0,success,file-intake-pipeline,,5/6/2026 7:16pm
+2mwyz3ijf2hdw9pk4r8bpdu5olhkwfis,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,2878.0,success,file-intake-pipeline,,5/6/2026 7:28pm
+bn36rukr5hc955ua458zk115d2vd7oqu,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,3258.0,success,file-intake-pipeline,,5/6/2026 7:31pm
+bn36rukr5hc955ua458zk115d2vd7oqu,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,318584.0,success,file-intake-pipeline,,5/6/2026 7:36pm
+bn36rukr5hc955ua458zk115d2vd7oqu,file,Upload: test-ai-healthcare.txt,Indexed undefined chunks,542805.0,success,file-intake-pipeline,,5/6/2026 7:40pm
+test-2,docmentor,how is AI used in healthcare?,,8902.0,success,docmentor,,5/6/2026 7:41pm
+,review,"The pasta was incredible, perfectly al dente with a rich truffle cream sauce. Service was slow though, waited 40 minutes for our entrees. The ambiance was lovely - dim lighting, great music. Would com",Analysis could not be completed. The AI response was malformed.,7145.0,success,review-analyst,,5/6/2026 8:08pm
+test-orch-1,docmentor,what does my document say about AI in healthcare?,DocMentor is processing your request.,6993.0,success,orchestrator,,5/6/2026 10:55pm
+test-orch-1,docmentor,what does my document say about AI in healthcare?,"{""job_id"":""nx63k67928miuuefu9h10ha63zvl64gc"",""status"":""processing""}",4048.0,success,orchestrator,,5/6/2026 11:05pm
+test-orch-1,docmentor,what does my document say about AI in healthcare?,,4592.0,success,docmentor,,5/6/2026 11:05pm
+,digest,"Digest for: AI, n8n, automation",,0.0,success,digest-agent,,5/6/2026 11:24pm
+,system,Scheduled cleanup,"Cleaned: 0 vectors, 0 interactions, 0 logs, 0 error docs",,success,cleanup,,5/6/2026 11:30pm
+,system,Scheduled cleanup,"Cleaned: 0 vectors, 0 interactions, 0 logs, 1 error docs",,success,cleanup,,5/6/2026 11:30pm
+,system,Scheduled cleanup,"Cleaned: 0 vectors, 0 interactions, 0 logs, 0 error docs",0.0,success,cleanup,,5/6/2026 11:31pm
+,system,Scheduled cleanup,"Cleaned: 0 vectors, 0 interactions, 0 logs, 1 error docs",0.0,success,cleanup,,5/6/2026 11:31pm
+session-v9dq0amd1fr,docmentor,hi,,10744.0,success,docmentor,,5/7/2026 1:10am
+session-v9dq0amd1fr,docmentor,hi,,3158.0,success,docmentor,,5/7/2026 1:13am
+session-zwbo35l5u9,docmentor,hi,,5933.0,success,docmentor,,5/7/2026 1:20am
+session-cy0ip35jg9o,docmentor,hi,,2459.0,success,docmentor,,5/7/2026 1:22am
+test-frontend,docmentor,hi,,3057.0,success,docmentor,,5/7/2026 1:24am
+session-cy0ip35jg9o,docmentor,hi,,2847.0,success,docmentor,,5/7/2026 1:24am
+session-erk29xolc2h,docmentor,hi,,4517.0,success,docmentor,,5/7/2026 1:29am
+,review,"The pasta was incredible, perfectly al dente with a rich truffle cream sauce. Service was slow though, waited 40 minutes for our entrees. The ambiance was lovely - dim lighting, great music. Would com",Analysis could not be completed. The AI response was malformed.,3384.0,success,review-analyst,,5/7/2026 1:32am
+session-jqa9l5jca7h,docmentor,hi,,8656.0,success,docmentor,,5/15/2026 12:53am
+,review,"Amazing pizza, great atmosphere, but the wait was too long. Service could be better but the food made up for it.","Mixed experience, food made up for some drawbacks",2167.0,success,review-analyst,,5/15/2026 12:57am
+test-002,docmentor,what does my document say about machine learning?,"{""job_id"":""lymv4meyqgy1scm919p3moivnh1ke3gi"",""status"":""processing""}",1115.0,success,orchestrator,,5/15/2026 12:57am
+test-002,docmentor,what does my document say about machine learning?,,2188.0,success,docmentor,,5/15/2026 12:57am
+test-003,docmentor,What does the document say about AI in healthcare?,,3336.0,success,docmentor,,5/15/2026 12:57am
+test-fix-002,docmentor,what does my document say about machine learning?,Your question is being processed. Please wait...,1171.0,success,orchestrator,,5/15/2026 1:01am
+test-fix-002,docmentor,what does my document say about machine learning?,,2020.0,success,docmentor,,5/15/2026 1:01am
+test-fix-003,review,analyze this review: the food was great but service was terrible,Low confidence: 0.8,0.0,needs_review,orchestrator,,5/15/2026 1:02am
+test-fix-004,digest,show me my latest digest,Here is your latest digest. Check the Digest page for the full content.,676.0,success,orchestrator,,5/15/2026 1:02am
+test-fix-005,file,I want to upload a PDF file,"To upload and process files, please use the File Manager page. You can drag and drop files there or click to browse. Supported formats: PDF, TXT, MD, CSV, JSON.",430.0,success,orchestrator,,5/15/2026 1:02am
+,review,analyze this review: the food was great but service was terrible,Analysis could not be completed. The AI response was malformed.,2314.0,success,review-analyst,,5/15/2026 1:03am
+test-fix-006,review,analyze this review: the food was great but service was terrible,Analysis could not be completed. The AI response was malformed.,3322.0,success,orchestrator,,5/15/2026 1:03am
+,review,analyze this review: the food was great but service was terrible,Analysis could not be completed. The AI response was malformed.,2134.0,success,review-analyst,,5/15/2026 1:04am
+,review,the food was great but service was terrible,Mixed review with a negative slant due to poor service.,3822.0,success,review-analyst,,5/15/2026 1:09am
+test-fix-007,review,analyze this review: the food was great but service was terrible,Mixed review with a negative slant due to poor service.,6393.0,success,orchestrator,,5/15/2026 1:09am
+,review,the food was great but service was terrible,Analysis could not be completed. The AI response was malformed.,1926.0,success,review-analyst,,5/15/2026 1:09am
+,review,the food was great but service was terrible,Analysis could not be completed. The AI response was malformed.,2233.0,success,review-analyst,,5/15/2026 1:11am
+,review,the food was great but service was terrible,"Mixed review: the food was good, but the service left much to be desired.",2367.0,success,review-analyst,,5/15/2026 1:11am
+,review,"Incredible sushi, fresh fish, amazing presentation. The chef clearly knows his craft. Only downside is it is very expensive.","Overall, the sushi is incredible with fresh fish and great presentation, but pricey.",2366.0,success,review-analyst,,5/15/2026 1:11am
+test-fix-008,docmentor,hi,,1847.0,success,docmentor,,5/15/2026 1:13am
+test-fix-009,docmentor,hi,,2651.0,success,docmentor,,5/15/2026 1:16am
+test-fix-010,docmentor,What are the applications of AI in healthcare?,,2834.0,success,docmentor,,5/15/2026 1:17am
+final-test-003,docmentor,what does my document say about deep learning?,Your question is being processed. Please wait...,1235.0,success,orchestrator,,5/15/2026 1:19am
+final-test-003,docmentor,what does my document say about deep learning?,,1987.0,success,docmentor,,5/15/2026 1:19am
+,review,"The hotel was stunning with ocean views, but the room service was slow and overpriced",Analysis could not be completed. The AI response was malformed.,2764.0,success,review-analyst,,5/15/2026 1:19am
+final-test-004,review,"review: The hotel was stunning with ocean views, but the room service was slow and overpriced",Analysis could not be completed. The AI response was malformed.,3289.0,success,orchestrator,,5/15/2026 1:19am
+final-test-005,file,I need to upload a document,"To upload and process files, please use the File Manager page. You can drag and drop files there or click to browse. Supported formats: PDF, TXT, MD, CSV, JSON.",499.0,success,orchestrator,,5/15/2026 1:19am
+,review,"The hotel was stunning with ocean views, but the room service was slow and overpriced",The hotel's stunning ocean views were overshadowed by disappointing room service.,2569.0,success,review-analyst,,5/15/2026 1:19am
+,review,"The hotel was stunning with ocean views, but the room service was slow and overpriced",Analysis could not be completed. The AI response was malformed.,2368.0,success,review-analyst,,5/15/2026 1:20am
+final-test-006,review,"analyze this review: The hotel was stunning with ocean views, but the room service was slow and overpriced",Analysis could not be completed. The AI response was malformed.,3217.0,success,orchestrator,,5/15/2026 1:20am
+,review,"The hotel was stunning with ocean views, but the room service was slow and overpriced","The reviewer was impressed with the hotel's ocean views, but had some issues with the room service.",2349.0,success,review-analyst,,5/15/2026 1:22am
+final-test-007,review,"analyze this review: The hotel was stunning with ocean views, but the room service was slow and overpriced","The reviewer was impressed with the hotel's ocean views, but had some issues with the room service.",3141.0,success,orchestrator,,5/15/2026 1:22am
+verify-002,docmentor,what does the document say about drug discovery?,Your question is being processed. Please wait...,802.0,success,orchestrator,,5/15/2026 1:23am
+verify-002,docmentor,what does the document say about drug discovery?,,1414.0,success,docmentor,,5/15/2026 1:23am
+,review,"excellent sushi, fresh ingredients, but too expensive for the portion sizes",The reviewer enjoyed the food quality but found it overpriced.,1966.0,success,review-analyst,,5/15/2026 1:23am
+verify-003,review,"review: excellent sushi, fresh ingredients, but too expensive for the portion sizes",The reviewer enjoyed the food quality but found it overpriced.,2796.0,success,orchestrator,,5/15/2026 1:23am
+verify-004,digest,show me my latest news digest,Here is your latest digest. Check the Digest page for the full content.,624.0,success,orchestrator,,5/15/2026 1:23am
+verify-005,file,I want to upload a PDF,"To upload and process files, please use the File Manager page. You can drag and drop files there or click to browse. Supported formats: PDF, TXT, MD, CSV, JSON.",488.0,success,orchestrator,,5/15/2026 1:23am
+,review,Best coffee shop in town. The latte art is incredible and the baristas are so friendly. Only complaint is limited seating.,Overall positive review of a coffee shop with great service and artistry.,2623.0,success,review-analyst,,5/15/2026 1:23am
+verify-006,docmentor,How is AI used in drug discovery?,,3504.0,success,docmentor,,5/15/2026 1:23am
+verify-007,docmentor,hi,,12034.0,success,docmentor,,5/15/2026 1:24am
+session-nqd19byts7s,docmentor,hi,,2357.0,success,docmentor,,5/15/2026 1:26am
+session-14kirjud4ohj,docmentor,Is there any docs that I gave you?,Your question is being processed. Please wait...,1156.0,success,orchestrator,,5/15/2026 1:37am
+session-14kirjud4ohj,docmentor,Is there any docs that I gave you?,,3048.0,success,docmentor,,5/15/2026 1:37am
+,system,Scheduled cleanup,"Cleaned: 0 vectors, 0 interactions, 0 logs, 0 error docs",0.0,success,cleanup,,5/15/2026 2:00am
+,system,Scheduled cleanup,"Cleaned: 0 vectors, 0 interactions, 140 logs, 0 error docs",0.0,success,cleanup,,5/15/2026 2:00am
+,system,Scheduled cleanup,"Cleaned: 0 vectors, 0 interactions, 140 logs, 1 error docs",0.0,success,cleanup,,5/15/2026 2:00am
+,review,Don't ever buy a Dell laptop for gaming they always break and poorly made. I got one and it ran into a blue screen error,"The reviewer had a negative experience with their Dell laptop, citing poor quality and frequent errors.",4376.0,success,review-analyst,,5/15/2026 2:10am
+session-tnt5txy0z1,docmentor,Can you route me to Docmentor?,Your question is being processed. Please wait...,1246.0,success,orchestrator,,5/15/2026 2:12am
+session-tnt5txy0z1,docmentor,Can you route me to Docmentor?,,3109.0,success,docmentor,,5/15/2026 2:12am
+cwjqkvj11kaz00r9swazxni787e1im01,file,Upload: Individual Report.pdf,Indexed undefined chunks,1199.0,success,file-intake-pipeline,,5/15/2026 2:13am
+session-rj5iyk3dy8,docmentor,Hey I just uploaded a new doc do you see it?,,3532.0,success,docmentor,,5/15/2026 2:13am
+session-yq1g9psnufl,docmentor,I uploaded a new doc called Rememory do you see it,,2728.0,success,docmentor,,5/15/2026 2:14am
+48x7ymfjowl4vinzevnjynzviayrfmyh,file,Upload: Individual Report.pdf,Indexed undefined chunks,1131.0,success,file-intake-pipeline,,5/15/2026 2:15am
+session-yq1g9psnufl,docmentor,now do you see it,,2792.0,success,docmentor,,5/15/2026 2:15am
+9lu2p3wmbjo79b7ctyq9jogr1vmnpgng,file,Upload: rememory-test.txt,Indexed undefined chunks,2366.0,success,file-intake-pipeline,,5/15/2026 2:22am
+test-fix-1,docmentor,what does my document say about rememory?,Your question is being processed. Please wait...,2568.0,success,orchestrator,,5/15/2026 2:23am
+test-fix-1,docmentor,what does my document say about rememory?,,2744.0,success,docmentor,,5/15/2026 2:23am
+ss43ei9habc9qeruyqfca1kkb7hts86h,file,Upload: quantum-test.txt,Indexed undefined chunks,2617.0,success,file-intake-pipeline,,5/15/2026 2:24am
+test-fix-2,docmentor,what topics are covered in my uploaded documents?,Your question is being processed. Please wait...,1135.0,success,orchestrator,,5/15/2026 2:25am
+test-fix-2,docmentor,what topics are covered in my uploaded documents?,,3523.0,success,docmentor,,5/15/2026 2:25am
+z1qs3pm7kblkvdfllzr68z3etyffi2s4,file,Upload: ml-basics.docx,Indexed undefined chunks,2248.0,success,file-intake-pipeline,,5/15/2026 2:33am
+6ye3bp7ddph4spuu0xdqfaft4bd1tycq,file,Upload: ml-basics.docx,Indexed undefined chunks,3759.0,success,file-intake-pipeline,,5/15/2026 2:38am
+l24l5g48zyo23688lkc9w0lkg8hvskw0,file,Upload: ml-basics.docx,Indexed undefined chunks,1291.0,success,file-intake-pipeline,,5/15/2026 2:41am
+3gwzxuv6kzm6q6hi0nol9r2jf3ss02bd,file,Upload: ml-basics.docx,Indexed undefined chunks,1049.0,success,file-intake-pipeline,,5/15/2026 2:45am
+z8zcl39i6cw46sddt9eahwyvjhyo99h3,file,Upload: ml-basics.docx,Indexed undefined chunks,1073.0,success,file-intake-pipeline,,5/15/2026 2:47am
+encc50qy2819gt77gin79kxr041bnkc7,file,Upload: ml-basics.docx,Indexed undefined chunks,1188.0,success,file-intake-pipeline,,5/15/2026 2:49am
+xagu3j510xi0abbgsvlmo9jpjlsgs3if,file,Upload: test-docling.docx,Indexed undefined chunks,2206.0,success,file-intake-pipeline,,5/15/2026 2:58am
+gvl0s71mzn6x57781gnvbnlvkz4c04hh,file,Upload: test-docling.docx,Indexed undefined chunks,1295.0,success,file-intake-pipeline,,5/15/2026 3:02am
+lswiqokd2faon7ixgqcjmhxw5pd5km7j,file,Upload: test-docling.docx,Indexed undefined chunks,1250.0,success,file-intake-pipeline,,5/15/2026 3:04am
+b67enslqi7y8my1jxvh7e8o0249vny2b,file,Upload: test-docling.docx,Indexed undefined chunks,1314.0,success,file-intake-pipeline,,5/15/2026 3:06am
+0guzf7z0n9q2ws8moc3phmtocfxt9vzr,file,Upload: test-docling.docx,Indexed undefined chunks,1070.0,success,file-intake-pipeline,,5/15/2026 3:08am
+o4pcxe887ykfzsfa5ls1plu9k9dcw47z,file,Upload: test-docling.docx,Indexed undefined chunks,1231.0,success,file-intake-pipeline,,5/15/2026 3:09am
+h22wlqkky3cw3khywbxhhyn27pb4vmp7,file,Upload: test-docling.docx,Indexed undefined chunks,1034.0,success,file-intake-pipeline,,5/15/2026 3:10am
+0faxtbh6t8siqumlmwzdch0ra49hujq8,file,Upload: test-docling.docx,Indexed undefined chunks,6743.0,success,file-intake-pipeline,,5/15/2026 3:14am
+c8wq75tz3o6bvl8ztnqsgu1eln10zot7,file,Upload: test-docling.docx,Indexed undefined chunks,1125.0,success,file-intake-pipeline,,5/15/2026 3:15am
+8s3wmw7awdyaiaab4i92prhzpfp6cder,file,Upload: test-docling.docx,Indexed undefined chunks,2095.0,success,file-intake-pipeline,,5/15/2026 3:21am
+s2g8nsqrnnclckkam4hlmxujyutr762f,file,Upload: test-docling.docx,Indexed undefined chunks,3254.0,success,file-intake-pipeline,,5/15/2026 3:24am
+0fx76t59hhqlc6f4zt1ihb013t1wg2uw,file,Upload: test-docling.docx,Indexed undefined chunks,3234.0,success,file-intake-pipeline,,5/15/2026 3:26am
+2p4qe9412y73ggi2s5pgjmpke4bieplr,file,Upload: test-docling.docx,Indexed undefined chunks,3148.0,success,file-intake-pipeline,,5/15/2026 3:27am
+tkzkir9nhtzb1u82qxknvny3erv7lo5s,file,Upload: test-docling.docx,Indexed undefined chunks,3205.0,success,file-intake-pipeline,,5/15/2026 3:29am
+4t422g7yp0crxj1nwdpd0hwvxu3cmovo,file,Upload: test-quick.txt,Indexed undefined chunks,3208.0,success,file-intake-pipeline,,5/15/2026 3:40am
+2xq9zdgy0xemaf0i0f4o4exv41d1cpkh,file,Upload: artificial-intelligence-foundations.txt,Indexed undefined chunks,1722.0,success,file-intake-pipeline,,5/15/2026 3:41am
+vr9wdfcatkqgrmog5wgvjcn2n4fg3czl,file,Upload: quantum-computing-overview.txt,Indexed undefined chunks,1368.0,success,file-intake-pipeline,,5/15/2026 3:41am
+2jyfgjlie1glx6a4p11xdnkdur0zgsv9,file,Upload: blockchain-and-web3.txt,Indexed undefined chunks,1448.0,success,file-intake-pipeline,,5/15/2026 3:41am
+rawbyouzset520w3fmmsj2eb7xpwzvzi,file,Upload: cybersecurity-landscape.txt,Indexed undefined chunks,1370.0,success,file-intake-pipeline,,5/15/2026 3:41am
+uffbrgju8u6f4qnfazcwucd2zo333et9,file,Upload: cloud-computing-architecture.txt,Indexed undefined chunks,3034.0,success,file-intake-pipeline,,5/15/2026 3:41am
+14cibog56wl4hweynlblrlc6eijb4awl,file,Upload: robotics-and-automation.txt,Indexed undefined chunks,1481.0,success,file-intake-pipeline,,5/15/2026 3:41am
+wq3qfooub4hhufaxz05sf4i0x4c9qu3t,file,Upload: biotechnology-genomics.txt,Indexed undefined chunks,1439.0,success,file-intake-pipeline,,5/15/2026 3:41am
+0t54n2jpnq5ad5nhv9jdbtjfcb9hm4ya,file,Upload: renewable-energy-climate.txt,Indexed undefined chunks,1525.0,success,file-intake-pipeline,,5/15/2026 3:41am
+uus7ucdlg6qswqo0cb7o5kjgw128ypwb,file,Upload: space-exploration-technology.txt,Indexed undefined chunks,1471.0,success,file-intake-pipeline,,5/15/2026 3:41am
+vue9jrqyyypv40b5z3azaapo21ykx4xm,file,Upload: neuroscience-brain-computer.txt,Indexed undefined chunks,1498.0,success,file-intake-pipeline,,5/15/2026 3:41am
+0367fj0oz7nrearvckl04p7nq9rxtnoc,file,Upload: data-engineering-mlops.txt,Indexed undefined chunks,1474.0,success,file-intake-pipeline,,5/15/2026 3:41am
+test-verify,docmentor,What is quantum computing and how do qubits work?,,6637.0,success,docmentor,,5/15/2026 3:42am
+test-verify2,docmentor,Tell me about CRISPR gene editing,,6400.0,success,docmentor,,5/15/2026 3:42am
+test-check,docmentor,What is quantum computing?,,5403.0,success,docmentor,,5/15/2026 3:53am
+,review,"function add(a,b) { return a + b; }",Analysis could not be completed. The AI response was malformed.,1434.0,success,review-analyst,,5/15/2026 3:54am
+session-reip0v9x93m,docmentor,Where can I get some help with documents,Your question is being processed. Please wait...,1467.0,success,orchestrator,,5/20/2026 4:19pm
+session-reip0v9x93m,docmentor,Where can I get some help with documents,,5155.0,success,docmentor,,5/20/2026 4:19pm
+,review,I need a feedback on a review can you help me with that is there a agent that I can talk to,Excellent customer service experience,4037.0,success,review-analyst,,5/20/2026 4:20pm
+session-reip0v9x93m,review,I need a feedback on a review can you help me with that is there a agent that I can talk to,Excellent customer service experience,4975.0,success,orchestrator,,5/20/2026 4:20pm
+,review,I went to a Bar and the drinks where too expensive and the service was horible,The reviewer had a poor experience at the bar due to high prices and terrible service.,2493.0,success,review-analyst,,5/20/2026 4:21pm
+session-reip0v9x93m,review,I went to a Bar and the drinks where too expensive and the service was horible,The reviewer had a poor experience at the bar due to high prices and terrible service.,3597.0,success,orchestrator,,5/20/2026 4:21pm
+,review,I went to a restaurant in NYC and the service was really bad and it was over priced,The reviewer had a negative experience at the restaurant due to poor service and high prices.,2776.0,success,review-analyst,,5/20/2026 4:24pm
+,review,I bought a new gaming pc and it has a intel i9 and a RTX 5090 its really fast and has great FPS for gaming and video editing but it was a bit pricy,"Overall, the reviewer is pleased with their new gaming PC's performance and capabilities.",2918.0,success,review-analyst,,5/20/2026 4:25pm
+,digest,"Digest for: AI, automation",,0.0,success,digest-agent,,5/20/2026 10:01pm
+,digest,"Digest for: AI, n8n",,0.0,success,digest-agent,,5/20/2026 10:01pm
+,digest,"Digest for: machine learning, robotics",,0.0,success,digest-agent,,5/20/2026 10:02pm
+,digest,"Digest for: AI, robotics",,0.0,success,digest-agent,,5/20/2026 10:02pm
+,digest,"Digest for: AI, n8n",,0.0,success,digest-agent,,5/20/2026 10:03pm
+,digest,"Digest for: AI, n8n, automation",,0.0,success,digest-agent,,5/20/2026 10:03pm
+,digest,"Digest for: AI, automation",,0.0,success,digest-agent,,5/20/2026 10:12pm
+,digest,"Digest for: AI, n8n",,0.0,success,digest-agent,,5/20/2026 10:12pm
+,digest,"Digest for: machine learning, robotics",,0.0,success,digest-agent,,5/20/2026 10:13pm
+,digest,"Digest for: AI, robotics",,0.0,success,digest-agent,,5/20/2026 10:13pm
+,digest,"Digest for: AI, n8n",,0.0,success,digest-agent,,5/20/2026 10:13pm
+,digest,"Digest for: AI, n8n, automation",,0.0,success,digest-agent,,5/20/2026 10:13pm
+test-verify,digest,show me my latest digest,Here is your latest digest. Check the Digest page for the full content.,3764.0,success,orchestrator,,5/20/2026 10:32pm
+,review,hey can you find me the latest new on Bitcoin,The reviewer sees Bitcoin's price drop as a normal fluctuation and believes it's still worth considering for long-term investors.,4483.0,success,review-analyst,,5/21/2026 2:05am
+session-7h3eikw3p2,review,hey can you find me the latest new on Bitcoin,The reviewer sees Bitcoin's price drop as a normal fluctuation and believes it's still worth considering for long-term investors.,5564.0,success,orchestrator,,5/21/2026 2:05am
+session-7h3eikw3p2,digest,Can you use the Digest agent and find the latest news on bitcoin,Here is your latest digest. Check the Digest page for the full content.,1283.0,success,orchestrator,,5/21/2026 2:06am
+test-123,general,What is the latest news on Bitcoin?,Low confidence: 0,0.0,needs_review,orchestrator,,5/21/2026 2:14am
+test-456,digest,What is the latest news on Bitcoin?,"Here's a concise news briefing summarizing the latest developments in the world of Bitcoin:
+
+The biggest story this week is the introduction of the CLARITY Act, which aims to provide regulatory clarit",8478.0,success,orchestrator,,5/21/2026 2:17am
+test-789,digest,Tell me about AI news,"Here's a summary of the recent AI-related news:
+
+The biggest development is that a highly anticipated book, ""The Future of Truth,"" has been found to contain quotes made up by artificial intelligence (",7375.0,success,orchestrator,,5/21/2026 2:17am
+test-edge,digest,What is happening with crypto right now?,"Here's a concise news briefing summarizing the key developments in the crypto market:
+
+The crypto market has taken a hit recently, with many major cryptocurrencies experiencing significant price drops",8058.0,success,orchestrator,,5/21/2026 2:19am
+test-phrasing,digest,Use the digest agent to look up the latest on Bitcoin,"Here's a concise briefing based on the provided articles:
+
+The most significant development in the world of Bitcoin is its recent climb to $78,319, as reported by Crypto Weekly Digest. This surge come",6741.0,success,orchestrator,,5/21/2026 2:20am
+session-bltmq21k99h,digest,Whats the latest news on Bitcoin,"Here's a concise news briefing summarizing the latest developments in Bitcoin:
+
+The biggest news is that the CLARITY Act, aimed at providing regulatory clarity for cryptocurrency exchanges, faces over",6916.0,success,orchestrator,,5/21/2026 2:21am
+session-bltmq21k99h,general,Also what docs do you have on you as of now,Low confidence: 0,0.0,needs_review,orchestrator,,5/21/2026 2:22am
+session-bltmq21k99h,docmentor,What about DocMentor I need to ask it some questions about A.I,Your question is being processed. Please wait...,1470.0,success,orchestrator,,5/21/2026 2:22am
+session-bltmq21k99h,docmentor,What about DocMentor I need to ask it some questions about A.I,,3764.0,success,docmentor,,5/21/2026 2:22am
+session-bltmq21k99h,digest,do you have any docs realted to A.I,"Here's a concise news briefing based on the provided articles:
+
+Key Developments:
+Recent reports have highlighted concerns over AI-generated content and its implications for copyright law, with a New ",7846.0,success,orchestrator,,5/21/2026 2:23am
+fix-test-1,docmentor,do you have any docs related to AI,Your question is being processed. Please wait...,1613.0,success,orchestrator,,5/21/2026 2:25am
+fix-test-1,docmentor,do you have any docs related to AI,,3223.0,success,docmentor,,5/21/2026 2:25am
+fix-test-2,digest,What is the latest news on Bitcoin?,"Here's a concise news briefing summarizing the latest developments in the world of Bitcoin:
+
+The most significant development is the passage of the CLARITY Act, which faces over 100 amendments before ",9494.0,success,orchestrator,,5/21/2026 2:25am
+fix-test-3,docmentor,summarize my documents,Your question is being processed. Please wait...,1359.0,success,orchestrator,,5/21/2026 2:26am
+fix-test-3,docmentor,summarize my documents,,6921.0,success,docmentor,,5/21/2026 2:26am
+fix-test-4,digest,what is happening with crypto,"Here's a concise news briefing summarizing the recent developments in the cryptocurrency market:
+
+The biggest development is the potential impact of the Clarity Act, which could lead to increased regu",12446.0,success,orchestrator,,5/21/2026 2:26am
+fix-test-6,review,analyze this review: the food was great but service was slow,Generally positive experience with some room for improvement,2774.0,success,orchestrator,,5/21/2026 2:26am
+,review,the food was great but service was slow,Generally positive experience with some room for improvement,2040.0,success,review-analyst,,5/21/2026 2:26am
+session-dayozrv4t1b,docmentor,who can I talk to about doument questions,Your question is being processed. Please wait...,1377.0,success,orchestrator,,5/21/2026 2:29am
+session-dayozrv4t1b,docmentor,who can I talk to about doument questions,,3335.0,success,docmentor,,5/21/2026 2:29am
+session-dayozrv4t1b,digest,As the digest agent what can you tell me about web3,"Here's a concise briefing on the latest developments in web3:
+
+The most significant update comes from Hedera, the company behind HBAR (HBAR). According to CoinDesk, HBAR gained 2.1% due to renewed foc",6248.0,success,orchestrator,,5/21/2026 2:30am
+tag-fix-1,docmentor,as the docmenotr agent what can you tell me about web3,Your question is being processed. Please wait...,1422.0,success,orchestrator,,5/21/2026 2:33am
+tag-fix-1,docmentor,as the docmenotr agent what can you tell me about web3,,4097.0,success,docmentor,,5/21/2026 2:33am
+tag-fix-2,digest,latest news on Bitcoin,"Here's a concise news briefing based on the provided articles:
+
+The key development is that Iran has launched a Bitcoin-backed ship insurance program for the Hormuz Strait, making it one of the first ",9928.0,success,orchestrator,,5/21/2026 2:33am
+session-nrmcecars7f,docmentor,who can I talk to about docs,Your question is being processed. Please wait...,1420.0,success,orchestrator,,5/21/2026 2:37am
+session-nrmcecars7f,docmentor,who can I talk to about docs,,2750.0,success,docmentor,,5/21/2026 2:37am
+session-nrmcecars7f,docmentor,as docmentor what can you tell me about Web3,Your question is being processed. Please wait...,1217.0,success,orchestrator,,5/21/2026 2:37am
+session-nrmcecars7f,docmentor,as docmentor what can you tell me about Web3,,2874.0,success,docmentor,,5/21/2026 2:37am
+session-nrmcecars7f,docmentor,"ok  as docmentor tell me about biotechnology,",Your question is being processed. Please wait...,1451.0,success,orchestrator,,5/21/2026 2:38am
+session-nrmcecars7f,docmentor,"ok  as docmentor tell me about biotechnology,",,7227.0,success,docmentor,,5/21/2026 2:38am
+session-i1pv1x9uk2l,docmentor,what docs do you have acess to right now,,4220.0,success,docmentor,,5/21/2026 2:39am
+session-i1pv1x9uk2l,docmentor,tell me about ai-healthcare.,,3994.0,success,docmentor,,5/21/2026 2:39am
+,review,I had a bad computer with a bad AMD chip and a even worse intel ARC GPU i hateed it sooo much,The reviewer was extremely dissatisfied with their computer's hardware.,2482.0,success,review-analyst,,5/21/2026 2:40am

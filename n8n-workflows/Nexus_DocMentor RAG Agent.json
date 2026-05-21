@@ -95,13 +95,13 @@
                 "operation": "create",
                 "base": {
                     "__rl": true,
-                    "value": "appDyd2AnWGViGLOU",
+                    "value": "YOUR_AIRTABLE_BASE_ID",
                     "mode": "id"
                 },
                 "table": {
                     "__rl": true,
                     "mode": "id",
-                    "value": "tblS0qn7j7sdQe0zT"
+                    "value": "YOUR_TABLE_ID_4"
                 },
                 "columns": {
                     "mappingMode": "defineBelow",
@@ -209,7 +209,7 @@
             ],
             "credentials": {
                 "airtableTokenApi": {
-                    "id": "VSgEZSiL9eqFcK2P",
+                    "id": "YOUR_CREDENTIAL_ID",
                     "name": "Airtable Personal Access Token account"
                 }
             }
@@ -323,12 +323,12 @@
                 "operation": "update",
                 "base": {
                     "__rl": true,
-                    "value": "appDyd2AnWGViGLOU",
+                    "value": "YOUR_AIRTABLE_BASE_ID",
                     "mode": "id"
                 },
                 "table": {
                     "__rl": true,
-                    "value": "tblS0qn7j7sdQe0zT",
+                    "value": "YOUR_TABLE_ID_4",
                     "mode": "id"
                 },
                 "columns": {
@@ -449,7 +449,7 @@
             ],
             "credentials": {
                 "airtableTokenApi": {
-                    "id": "VSgEZSiL9eqFcK2P",
+                    "id": "YOUR_CREDENTIAL_ID",
                     "name": "Airtable Personal Access Token account"
                 }
             }
@@ -459,12 +459,12 @@
                 "operation": "create",
                 "base": {
                     "__rl": true,
-                    "value": "appDyd2AnWGViGLOU",
+                    "value": "YOUR_AIRTABLE_BASE_ID",
                     "mode": "id"
                 },
                 "table": {
                     "__rl": true,
-                    "value": "tblwMOgVqj6aE7Nyo",
+                    "value": "YOUR_TABLE_ID_7",
                     "mode": "id"
                 },
                 "columns": {
@@ -620,7 +620,7 @@
             ],
             "credentials": {
                 "airtableTokenApi": {
-                    "id": "VSgEZSiL9eqFcK2P",
+                    "id": "YOUR_CREDENTIAL_ID",
                     "name": "Airtable Personal Access Token account"
                 }
             }
@@ -786,7 +786,7 @@
                 "updatedAt": "2025-10-18T12:16:10.056Z",
                 "createdAt": "2025-10-18T12:12:13.837Z",
                 "id": "0uDVxDnrFnRhLfW9",
-                "name": "Deyon Wijewardana <randinu1235@gmail.com>",
+                "name": "Nexus Owner",
                 "type": "personal",
                 "icon": null,
                 "description": null,
@@ -801,9 +801,9 @@
                             "updatedAt": "2026-05-15T04:20:14.000Z",
                             "createdAt": "2025-10-18T12:12:13.747Z",
                             "id": "aeced203-b33c-4669-a467-84f86bfd273f",
-                            "email": "randinu1235@gmail.com",
-                            "firstName": "Deyon",
-                            "lastName": "Wijewardana",
+                            "email": "your-email@example.com",
+                            "firstName": "Owner",
+                            "lastName": "Nexus",
                             "personalizationAnswers": {
                                 "version": "v4",
                                 "personalization_survey_submitted_at": "2025-10-18T12:16:17.199Z",
@@ -932,13 +932,13 @@
                     "operation": "create",
                     "base": {
                         "__rl": true,
-                        "value": "appDyd2AnWGViGLOU",
+                        "value": "YOUR_AIRTABLE_BASE_ID",
                         "mode": "id"
                     },
                     "table": {
                         "__rl": true,
                         "mode": "id",
-                        "value": "tblS0qn7j7sdQe0zT"
+                        "value": "YOUR_TABLE_ID_4"
                     },
                     "columns": {
                         "mappingMode": "defineBelow",
@@ -1046,7 +1046,7 @@
                 ],
                 "credentials": {
                     "airtableTokenApi": {
-                        "id": "VSgEZSiL9eqFcK2P",
+                        "id": "YOUR_CREDENTIAL_ID",
                         "name": "Airtable Personal Access Token account"
                     }
                 }
@@ -1160,12 +1160,12 @@
                     "operation": "update",
                     "base": {
                         "__rl": true,
-                        "value": "appDyd2AnWGViGLOU",
+                        "value": "YOUR_AIRTABLE_BASE_ID",
                         "mode": "id"
                     },
                     "table": {
                         "__rl": true,
-                        "value": "tblS0qn7j7sdQe0zT",
+                        "value": "YOUR_TABLE_ID_4",
                         "mode": "id"
                     },
                     "columns": {
@@ -1286,7 +1286,7 @@
                 ],
                 "credentials": {
                     "airtableTokenApi": {
-                        "id": "VSgEZSiL9eqFcK2P",
+                        "id": "YOUR_CREDENTIAL_ID",
                         "name": "Airtable Personal Access Token account"
                     }
                 }
@@ -1296,12 +1296,12 @@
                     "operation": "create",
                     "base": {
                         "__rl": true,
-                        "value": "appDyd2AnWGViGLOU",
+                        "value": "YOUR_AIRTABLE_BASE_ID",
                         "mode": "id"
                     },
                     "table": {
                         "__rl": true,
-                        "value": "tblwMOgVqj6aE7Nyo",
+                        "value": "YOUR_TABLE_ID_7",
                         "mode": "id"
                     },
                     "columns": {
@@ -1457,7 +1457,7 @@
                 ],
                 "credentials": {
                     "airtableTokenApi": {
-                        "id": "VSgEZSiL9eqFcK2P",
+                        "id": "YOUR_CREDENTIAL_ID",
                         "name": "Airtable Personal Access Token account"
                     }
                 }
@@ -1597,7 +1597,7 @@
                 ]
             }
         },
-        "authors": "Deyon Wijewardana",
+        "authors": "Nexus Owner",
         "name": null,
         "description": null,
         "autosaved": false,

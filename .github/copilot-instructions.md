@@ -8,7 +8,7 @@ n8n orchestration backbone, Ollama (Llama 3 8B) for inference, Qdrant for vector
 
 - **MacBook Air M4** runs n8n (Docker, port 5678) and Next.js frontend (port 3002).
 - **ASUS gaming laptop (RTX 4060)** runs Ollama (port 11434), Qdrant (port 6333), Docling (port 5001).
-- Connected over LAN at `192.168.1.93`.
+- Connected over LAN at `<ASUS_LOCAL_IP>`.
 
 ## Workflows
 

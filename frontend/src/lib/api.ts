@@ -1,8 +1,8 @@
 const REQUEST_TIMEOUT_MS = 15_000;
 
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
+async function request<T>(path: string, options?: RequestInit, timeoutMs = REQUEST_TIMEOUT_MS): Promise<T> {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const res = await fetch(path, {
@@ -29,7 +29,7 @@ export function sendMessage(message: string, sessionId: string) {
   return request("/webhook/orchestrator", {
     method: "POST",
     body: JSON.stringify({ message, session_id: sessionId }),
-  });
+  }, 120_000);
 }
 
 // --- DocMentor ---

@@ -60,12 +60,12 @@
         "operation": "search",
         "base": {
           "__rl": true,
-          "value": "appDyd2AnWGViGLOU",
+          "value": "YOUR_AIRTABLE_BASE_ID",
           "mode": "id"
         },
         "table": {
           "__rl": true,
-          "value": "tblwMOgVqj6aE7Nyo",
+          "value": "YOUR_TABLE_ID_7",
           "mode": "id"
         },
         "filterByFormula": "=IS_BEFORE({created_at}, '{{ $('Calculate Cutoff Dates').first().json.thirty_days_ago }}')",
@@ -81,7 +81,7 @@
       ],
       "credentials": {
         "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
+          "id": "YOUR_CREDENTIAL_ID",
           "name": "Airtable Personal Access Token account"
         }
       },
@@ -105,12 +105,12 @@
         "operation": "search",
         "base": {
           "__rl": true,
-          "value": "appDyd2AnWGViGLOU",
+          "value": "YOUR_AIRTABLE_BASE_ID",
           "mode": "id"
         },
         "table": {
           "__rl": true,
-          "value": "tblRwFkhRj0SZhDaf",
+          "value": "YOUR_TABLE_ID_3",
           "mode": "id"
         },
         "filterByFormula": "=IS_BEFORE({created_at}, '{{ $('Calculate Cutoff Dates').first().json.seven_days_ago }}')",
@@ -126,7 +126,7 @@
       ],
       "credentials": {
         "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
+          "id": "YOUR_CREDENTIAL_ID",
           "name": "Airtable Personal Access Token account"
         }
       },
@@ -150,12 +150,12 @@
         "operation": "search",
         "base": {
           "__rl": true,
-          "value": "appDyd2AnWGViGLOU",
+          "value": "YOUR_AIRTABLE_BASE_ID",
           "mode": "id"
         },
         "table": {
           "__rl": true,
-          "value": "tbluuA5BKOz8PLzmO",
+          "value": "YOUR_TABLE_ID_6",
           "mode": "id"
         },
         "filterByFormula": "=AND({status} = 'error', IS_BEFORE({created_at}, '{{ $('Calculate Cutoff Dates').first().json.seven_days_ago }}'))",
@@ -171,7 +171,7 @@
       ],
       "credentials": {
         "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
+          "id": "YOUR_CREDENTIAL_ID",
           "name": "Airtable Personal Access Token account"
         }
       },
@@ -208,12 +208,12 @@
         "operation": "create",
         "base": {
           "__rl": true,
-          "value": "appDyd2AnWGViGLOU",
+          "value": "YOUR_AIRTABLE_BASE_ID",
           "mode": "id"
         },
         "table": {
           "__rl": true,
-          "value": "tblwMOgVqj6aE7Nyo",
+          "value": "YOUR_TABLE_ID_7",
           "mode": "id"
         },
         "columns": {
@@ -383,7 +383,7 @@
       ],
       "credentials": {
         "airtableTokenApi": {
-          "id": "VSgEZSiL9eqFcK2P",
+          "id": "YOUR_CREDENTIAL_ID",
           "name": "Airtable Personal Access Token account"
         }
       }

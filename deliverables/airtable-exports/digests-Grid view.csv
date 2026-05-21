@@ -1,0 +1,420 @@
+﻿email,topics,frequency,status,last_sent_at,item_count,last_digest_content,error_message,source
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+test@example.com,"[""AI"",""n8n"",""automation""]",daily,active,2026-05-21T02:13:26.594Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: AI, n8n, automation | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>Artificial Intelligence</h3>
+<p>A mix of caution and scrutiny surrounds AI in recent news.</p>
+<ul>
+  <li>NPR advises 2026 commencement speakers to avoid discussing AI, suggesting it's a sensitive topic.</li>
+  <li>The New York Times explores the possibility of AI-generated literary prize winners, raising questions about authorship and credibility.</li>
+  <li>Politico reports that Trump is preparing to order new scrutiny of advanced AI, driven by security concerns among his supporters.</li>
+  <li>CNN confirms that Trump could sign an AI executive order as early as Thursday, amid growing fears over AI's potential impact on national security.</li>
+</ul>
+
+<h3>n8n and Automation</h3>
+<p>No specific news articles were found related to n8n or automation. However, the following article touches upon the broader topic of automation:</p>
+<ul>
+  <li>WSJ's opinion piece discusses how an employee chooses which colleagues to replace with AI, offering a thought-provoking perspective on the human impact of automation.</li>
+</ul>
+
+<h3>AI in Marketing and Technology</h3>
+<p>Recent developments in AI have implications for marketers and tech enthusiasts:</p>
+<ul>
+  <li>Barnes &amp; Noble's CEO clarifies previous statements about AI-written books, sparking debate over the role of AI in creative industries.</li>
+  <li>Google introduces a new generation of ads tailored to the AI era of Search, offering insights into the evolving landscape of digital marketing.</li>
+</ul>
+
+<h3>Award Ceremony Mishap and Public Backlash</h3>
+<p>Award ceremonies can sometimes go awry:</p>
+<ul>
+  <li>NBC News reports on an Arizona college's commencement ceremony where an AI malfunction led to some graduates being skipped over, prompting questions about the reliability of AI systems.</li>
+  <li>Marcus on AI | Substack raises concerns that public backlash against AI could lead to a better outcome for the technology industry.</li>
+</ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiggFBVV95cUxPNlNUUFlIdVFoQzZHbFJfRTZvLXJQWHpiNWZjamJ0V2V2dXJGbGxaZl8yOWROWVR3LUhzaVJrX3lHZFdwU3lDNXNCajJXWXRsdkNqWkFYbmdpUkFVU0t0TlNya3pVOWt1MlJ1dDR5WURrX2JmYkxoWVNRLTBZZVc1em9n?oc=5"" style=""color:#6366f1;text-decoration:none;"">Advice for 2026 commencement speakers: Don't bring up AI - NPR</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMie0FVX3lxTE1fYTZVQlJvU0F0TkIxcy1NenNsdldwQTNfcnRjaG43QXU1MFVZeE1XTnRfWkNRRkRiaU92alBZUVl2aXVyZDNuVzlBYUttMW5JU19pSE03b3EyTmp1eTQzb0F0Um0yRmhUYzZtR0QxUm0xZlBBWUMwOXVLQQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Was a Story That Just Won a Literary Prize A.I.-Generated? - The New York Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTFByT1pQS1JVVTVzdVBQb1pXWHMyNjRBQm51QTU0YzV1a2I0dkw0RU00OGQxN3NWbTJmRUZiREl6X0FWX0dBdXlaN3pFM3B1THk5YjdEbzQ2S1NodjQ0SE44QTVHWXBoOUJBUC1sTkhfSDAzaFlwMUlVSnMyUUk?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump is preparing to order new scrutiny of advanced AI - Politico</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMixwFBVV95cUxPT2VJNFZnZXo1UkZXVG1Iel9pa2VzWjdDbktFNHNnajFrNnVvV2Y1Y0s2ZlFKWTZ1eWtkdVhKZ0VkZUU5c0FSSWFTYUl3NDlDUGRiVXpBTVEtanVuY3psOGxrSElOc0tBcFNqcnhpZlM2SXlUTnpiNnZKcko4Vmd3NEJBSTVYXzQ2b2JKWVF6SWhqZ1dVMnBEVmNTM0lFcjBEUllKa0dkRWtrM1ZvcU5sb2RzeXZTcFFVc2t0MURKRjFyaTBBNUxV?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI-written books at Barnes &amp; Noble? CEO clarifies statement that stirred calls for boycott - Los Angeles Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMimwFBVV95cUxOMUpqVE0tdE56YXdFTEZ3VHBtMFNaZzN5emVQYlU5SmRGMWRISEt2d01rSTN2NU9PSTUtWUNmZUN3dEN1UlRKTkFLT0tMeFU0Z1lMRVVpZ3dFampaRm5LZFY4YlE1OVc4WS10MWZBMzRKTHhWRkxMLVh2UFg2ZXlmZlZUNUVTU1hQRlM5ZWNjMHZacTBtV21Bb3FHZw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Opinion | How I Choose Which Cloudflare Employees to Replace With AI - WSJ</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMivAFBVV95cUxOQkpmNFRzTzUwaVB0M1FjQnV3N1UzN3ZsNUVRR0xPcXdkM2hIYWdGd1kyUVg0bzBMZlNmZTV0QTJPNUVDWk1nZEFPQ2NCS3NaYlhZSFUxcUtOLWVWS0hUa0l4cGVXUE9ST2ZhUmx5eGJQWHJsRTN4NnAwS3NobS1QR2RUd2FKTDNqdWpQVjV5aEFWR0UyTV9EQ0JHdW84UlhWUmZTZkxMcE5fNXFSS3hRVlV1RDZvU3VTczg5eA?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump to sign order on AI oversight as security fears mount among supporters - Reuters</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiugFBVV95cUxNVVRIaUcxSkJnN1lpeDN1SjhiclJBSnNSbzJWSG55YTJSLVZoa285b3dJb2lJOEY2Um8tcVN4WGhBNC1mWkY5dEYzM0stY053RUM5Qm4xUXNSajY0UzdnTmRxeWpsazdKM3F6OUVacmNFOW5PZEtRZWtQcXVDNldyV0JzSkZUbkJzaEhXTnpQVktWcms1ckZ5dE1qdHBYUmk1MGhJaDRVaFFSSWp1aGNXaWpLbDFGZi0wM2c?oc=5"" style=""color:#6366f1;text-decoration:none;"">Arizona college skips over several graduates after an AI malfunction at commencement ceremony - NBC News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMigAFBVV95cUxQd1NNdmtiamZtNl9udnRJaGxVM21TZjdiOXVDX1JqYkg2aWQwUmRKSkw1eWtPeUtwSTF2X1JmSGh3alAwZDhFTFFPQ3pwXzlXeWFXSFVDbk90YWpiVWVFZGc5QmFEb2VGeVRmVVlFV2ZrNWxTMXdPV0ZXMjZlcHFQdg?oc=5"" style=""color:#6366f1;text-decoration:none;"">A new generation of ads for the AI era of Search - blog.google</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMid0FVX3lxTE1vMWd3LVFBRHdDM0pwdDdEazJ3Q043Q3NQZ00yN0phR2hkblVMb0NLMktiOFRsOVhmQ0p3SGlsUlZ0OHYzSnFGbC1Hd2FuQWp0RU8zeVc5SGpsdGFaRHBJeHJvQlFtZ1JSSFVKSGVlNkRvUVQ4UERV?oc=5"" style=""color:#6366f1;text-decoration:none;"">Could generative AI turn out to be the tech industry’s Vietnam? And could public backlash lead AI to a better place? - Marcus on AI | Substack</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTE0ycE4ybk5tNXZGbDlTVDdxZ1VleUNuMS1Vb1hvWksxeTV4WFhXQ2ZkOXBDU2hVS1ZPUkJvOUpCX2MwWmpUQXZ0UGNYU2VWNjR6Wkd2Rndqb3JPeE1Zb3lzSFdPMmM1N0JwVi1GSUJzcXBGZHVkTmdGQk5Ydkg?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump could sign AI executive order as soon as Thursday - CNN</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+test@example.com,"[""AI"",""automation""]",daily,active,2026-05-21T02:12:34.356Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: AI, automation | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>AI in Business</h3>
+<p>Solo founders are leveraging AI to accomplish tasks typically handled by entire teams, but going it alone has its limitations.</p>
+
+<ul>
+  <li><a href=""https://fortune.com/2022/02/16/solo-founders-ai-venture-capital-funding/"">Read more:</a> Solo founders are using AI to do the work of entire teams—but going it alone has limits - Fortune</li>
+</ul>
+
+<h3>Automation in Industries</h3>
+<p>Dell is developing a ""real-time"" AI platform that can automatically register deals and adjust pricing, while AustralianSuper has appointed a Microsoft executive as its first head of AI and automation.</p>
+
+<ul>
+  <li><a href=""https://www.crn.com/news/dell-chief-partner-officer-denise-millard-on-breakthrough-real-time-ai-agentic-partner-platform-with-fully-automated-deal-registration-dynamic-pricing/"">Read more:</a> Dell Chief Partner Officer Denise Millard On Breakthrough ‘Real-Time’ AI Agentic Partner Platform With ‘Fully Automated’ Deal Registration, ‘Dynamic’ Pricing - crn.com</li>
+  <li><a href=""https://www.pionline.com/article/2022/02/16/aussuper-taps-microsoft-exec-as-first-head-of-ai-and-automation/"">Read more:</a> AustralianSuper taps Microsoft exec as first head of AI and automation - Pensions &amp; Investments</li>
+</ul>
+
+<h3>AI in Advertising</h3>
+<p>Meta advertisers are facing challenges in implementing AI-driven advertising, while Ad Age reports on the difficulties they face in using AI.</p>
+
+<ul>
+  <li><a href=""https://adage.com/article/digital/how-meta-advertisers-hit-automation-challenges-rush-use-ai/2333413"">Read more:</a> How Meta advertisers hit automation challenges in rush to use AI - Ad Age</li>
+</ul>
+
+<h3>Automation and Security</h3>
+<p>The National Security Agency (NSA) has released security design considerations for AI-driven automation, while the NSA also provides guidelines on using AI-driven automation.</p>
+
+<ul>
+  <li><a href=""https://www.dhs.gov/news/2022/02/14/nsa-releases-security-design-considerations-ai-driven-automation"">Read more:</a> NSA Releases Security Design Considerations for AI-Driven Automation Leveraging the Model Context Protocol - National Security Agency (.gov)</li>
+</ul>
+
+<h3>Financial Sector</h3>
+<p>The Semiconductor Index has seen a 64% increase, leading to the introduction of an AI trading bot by MoneyFlare, while Alteryx has unveiled enhancements for its agentic automation platform.</p>
+
+<ul>
+  <li><a href=""https://markets.businessinsider.com/news/amp/crypto/moneyflare-introduces-ai-trading-bot-real-time-strategy-automation-2035113"">Read more:</a> As the Semiconductor Index Soars 64%, MoneyFlare Introduces AI Trading Bot for Real-Time Strategy Automation - markets.businessinsider.com</li>
+  <li><a href=""https://www.hpcwire.com/off-the-grid/alteryx-unveils-agentic-automation-enhancements-for-alteryx-one-platform/"">Read more:</a> Alteryz Unveils Agentic Automation Enhancements for Alteryz One Platform - HPCwire</li>
+</ul>
+
+<h3>Job Market and Private Equity</h3>
+<p>Standard Chartered plans to cut 7,000 jobs in its AI push, focusing on automation and replacing ""lower-value human capital.""</p>
+
+<ul>
+  <li><a href=""https://www.tomshardware.com/news/standard-chartered-plans-to-cut-7000-jobs-in-ai-push-3301444"">Read more:</a> Standard Chartered plans to cut 7,000 jobs in AI push — lender wants to replace ‘lower-value human capital’ and focus on automation - Tom's Hardware</li>
+</ul>
+
+<h3>AI's Impact on Private Equity</h3>
+<p>AI, Automation, and Robotics are reshaping value creation for private equity firms.</p>
+
+<ul>
+  <li><a href=""https://www.natlawreview.com/article/ai-automation-and-robotics-are-reshaping-value-creation-private-equity"">Read more:</a> AI, Automation, and Robotics Are Reshaping Value Creation for Private Equity - The National Law Review</li>
+</ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMijwFBVV95cUxQZHlJbUNSTllBenZ3N20zS2JtWmRhOHJfdjA2OUE3U2hTVjEwZkFsRjhiMUV0NDZyQnVkVFVacjJucnhMaGVJejg3bkdiREFaNmlTZ1FQUFl3VnEteENBOEVUNzYxRWQ4SHFnQWVESVVvMjZQdjNwdUtYeDBra1oyOTd1Y09fcWd5b3lTdWNtYw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Solo founders are using AI to do the work of entire teams—but going it alone has limits - Fortune</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMikAJBVV95cUxQY1VIdE56cmVpSGE2Ml9RZC1Xd2phZWNlRmw4amNLVU9TdV90RFVRYmZXNmE0d2JWNHBETHpWS2FITVBmVkh1MmN6YlBzOXBmVE5jVnlxZWxkdy0tR3Z3OXV0V1I4VGQyNkh5WkIwN19MakUyMDZnTk9GSXVLVGJrZjdabFRGU19ZVzM1UWo1U1hIOFc4a1kzWVgyTmVCcEVUSzNwREZkZE42cjVZNm9nOVJZMDRWSHFoU1pHZXN0bm5JcHhXcVdyMDQwNkZPb3FtclhSQzhLTTc2dEYtTGYyR1hyb3gzUEtiN2dqalNEQllCWENfZWUxS0JjclZxVFk2OXQ1X3hHZkJaMUxqSXp0Zw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Dell Chief Partner Officer Denise Millard On Breakthrough ‘Real- Time’ AI Agentic Partner Platform With ‘Fully Automated’ Deal Registration, ‘Dynamic’ Pricing - crn.com</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMitwFBVV95cUxNNC1OTnFRbUl1a2F5RktFX0E2U1dnWFFia3VkRUkxMDF6WTVYQXN4NVZzMkpzZ0M2VlB0SGFQTmpDZUhMUlM0c0o3UHd3RGduQWoyOXpBMWtkcFpKdFRwYjBXQWZFT2FzRHZ1amFxUjFSYjZnSWVsS0ZiUEZOTkpCamN0YnlTOE5qazJnU2dvNlFPUE00NGx3YUZ3b29MTXhGYWVYdEVzeUNsN1FLX0F5MWZsV3FleGs?oc=5"" style=""color:#6366f1;text-decoration:none;"">Uncovering coded antisemitism online takes both human expertise and AI automation - The Conversation</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMijwFBVV95cUxNWEx1ZXJUSmw4NFFmSW12WFZjZVg4SzNSVXVLU05BcU5wZDhfZkhpUnBSZTc2R3BjR1lOQi1XR2tmaHl3ejJhQURVc2V6VzhIUU9NTnNqMkNDQ01jTjFTNzdzODRqV0lRQkNpcGZxMHY4SWFHdDQyeUVyQ3dXWVJUQ1dPZ1hIbmh6Rm96UGdVVQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">How Meta advertisers hit automation challenges in rush to use AI - Ad Age</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiggJBVV95cUxOYjF3OE1ZZ2F5UThUSjBZcEJsa2xTWnhCZFZvNEM0UjdJWWVwelFTVGtKY1FYOVpiX0JnWFdJQlBhZlpUemI1RWZBc0FoMDJMLVR4SzBybkJvZldrSk1NYk1paThaXzBGdmpGSWZSeloyR0VMekR4WEprVXhvckZfMl9HTEp4R2FNcDlzQUc5bk9mdnhWZGJObXY5REVzbHVkUUZ5X1Y5aWl5cWQ2ZG4zX2hhOGYwai03dzM1VVpQWEZveW0yUExnSFk3TkJEYlZoaTE3cFFDZ3pVUTdyWWtYVUJ6X1RDa01ZMEJRaTF4UjRRN3piSGVPdm1oMElONGNUaXc?oc=5"" style=""color:#6366f1;text-decoration:none;"">NSA Releases Security Design Considerations for AI-Driven Automation Leveraging the Model Context Protocol - National Security Agency (.gov)</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiqwFBVV95cUxQZGJLQ1gxM0x4c3pNeTdCVy0ySkthd3hDQTZObFJ4RFcyZ19LcmlMYy15c3liMG5iSTZKVHZwdHBKemtGR1ZZemVWRzdCZ2ZGYzhIVEt6d1dzV212ZExFeTRjWWl1YmtNWWVGOU1idTBXdnQ5dDgwaFhDRjJEUXJkOENoNzBtQU1kVUZyRF8wMkRYSUdUSGxNSl84ZEpQTG4tcEtLendaRElNdjA?oc=5"" style=""color:#6366f1;text-decoration:none;"">AustralianSuper taps Microsoft exec as first head of AI and automation - Pensions &amp; Investments</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMi-AFBVV95cUxNSEFEWFRQUUZkQms4OS1kX1NjWVNRRU9qVmNYWV9OamNPWEJRWVl4eHFrdWtEZWFNWHNHd2IzSTNqNFhMYWFjV2Q2MS1QZUtuX29oNzNFOWxXRmRHUlhvZVh6Z0RfTTRCVlVUNFdjSmVadktZOVRicHFJQ2ZBLWFNSXlBN3B4MExMM2xFQ25DRU1LZERsNzFHdWd3V2RkYlF2NGs3YnNnekoxTTA5RDM2MFUtVUQ4TXlfaXFLS01DNFhzeEFvOVo4OGh0NThyb3JSQXFjVlNzYzNTa3AxODlVaVAwQnVkeHJldTBvdVlJY3dVSmc1U0tfag?oc=5"" style=""color:#6366f1;text-decoration:none;"">As the Semiconductor Index Soars 64%, MoneyFlare Introduces AI Trading Bot for Real-Time Strategy Automation - markets.businessinsider.com</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMipgFBVV95cUxPdHJOMzhnS1VxVDdjd3BRd0tlbTg0b3pxaEVOTkhIVThBajkxMGxsdks4QURPQ2s2bzlTTHdjTHluOThsbm9VaC1ORnZWSEhpbzRDYm9XRWVBd2lJa2p1VzBrcW1tUFItRkVXblFpMlhsYUZfa1Bvcnlyak5WVkp5ZmxTYVVBZjEtTWR2WFp5MU5YQ3NEYXFtMHp0dEIwZVVmWnNFRjB30gGrAUFVX3lxTE9Ud3J5SjBmdW4yU0ZXdVFMbTdTVFJqaWNtT0FEUkNDVWtlYkJ2bVJzYjhhaV9SS2g2QjRodExFM0kzYS0yblpidGs0Zy1aREU1RVFqcWFLX1pzMnZYMmpST1RpcGQydnFodjg5bW5rNlJqdkszZXBxcnB5eWgtSnczUU5lZ2x2eUZDZUdvWGpZcnIxRTl3UWV5MmF1OS1nT1JGN2pnYTBkR0R3aw?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI, Automation, and Robotics Are Reshaping Value Creation for Private Equity - The National Law Review</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMi_wFBVV95cUxNTms3VmpQSlA1RzZNaDVYNkptVzBBYU82clcxYzNjTE9sTFhoLVNlbnc4VTcyUjdhdXYwUkRKTjNKWV9ybTJ1SVBpQzl0bFFmcmtncTZaTTJzTjM0MVk1bkhmVjk1cHZHRkh2V2ZmYkVkRThIeV9GZWpMUFlkaUhxLWxDV2JtR0xBcktDYTVWems1eVczR3V1akV5alNtSFlWbDJhZ2JkNFFnZHlES3FTMWphX3NUTE0xdEN4Qnd0MFZlV2pvMmg0ZUJkekpFTFFzNG1vdVJUOEdWUjBkZnA2b3QyTWIyTmJ3MUsxbXdjaWJ5RTRCdTBKQm9uS3diSlE?oc=5"" style=""color:#6366f1;text-decoration:none;"">Standard Chartered plans to cut 7,000 jobs in AI push — lender wants to replace ‘lower-value human capital’ and focus on automation - Tom's Hardware</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMivwFBVV95cUxOWkR6S1FPQkpWMTdPYm9qNkZVT2czeXFFSTBaNzVxSkRkc0c2S1NISG81cVNDSXZKakxMNXVjZ2JhX1NLS1NPdXB4TEtRbjQ0N2xtRXZGNTk2b1lVNy1ITVMtZlY0WVVYcEJScUZmRGpMTVh1OTROaDBfaWZxREtjYTVMRUpCeWZyb0l3WTIxOEEzWFQ2c3dWSU5JQmpkaHdIejVkTVUxM1F1RDlyelc1N1hjMHE5cThpajhoS1ZsTQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Alteryx Unveils Agentic Automation Enhancements for Alteryx One Platform - HPCwire</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+test@nexus.local,"[""machine learning"",""robotics""]",weekly,active,2026-05-21T02:12:59.584Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: machine learning, robotics | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>Machine Learning</h3>
+<p>Machine learning continues to transform various industries, from healthcare to education.</p>
+<ul>
+    <li>A new study uses machine learning to predict emotions based on past experiences, potentially helping individuals manage their mental health.</li>
+    <li>The Department of Energy provides an overview of machine learning and its applications.</li>
+    <li>Researchers are developing personalized machine learning guided interventions for optimizing lifestyle behaviors in depression.</li>
+    <li>Mit researchers are building AI models that understand chemical principles to improve pharmaceutical manufacturing.</li>
+</ul>
+
+<h3>Robotics</h3>
+<p>There is no separate article about robotics, so it is not included in this digest. However, machine learning and AI can be used in robotics to improve its capabilities.</p>
+
+<h3>AI and Quantum Computing</h3>
+<p>A new hybrid framework enables offline inference for quantum machine learning, opening up new possibilities for AI applications.</p>
+<ul>
+    <li>Kipu Quantum has launched a hybrid framework for quantum machine learning that allows for offline inference.</li>
+</ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTFB0SVhIMUJZTHdwNnpDMkpLOTdpd1E2bDk0Q3NFZi0tblBadEszTFpraHVyNG1lT0pTbDJiUmpPZEt0U0VhanpjYTQwWFpDVmM0WE1zSWwtMzROeFJUX21RNTN2NzJsYlFOVUhFam9kWVNqb204Vkw4dHYzZ0U?oc=5"" style=""color:#6366f1;text-decoration:none;"">Can AI help predict how you might be feeling in the future? - Northeastern Global News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMia0FVX3lxTE1PVlNDLW5nbE9XU2EtaTV5Z3FTbDc5M25uTEtMbFYzVlFNUTkwZWVLZDlzSjQtVndMcWp2TVQ4M0pfcUlMak9HZXZsYTdyRzVDTE5RdG1tSk9WbVNiTWlWSkhwSGRfWjNLSDZr?oc=5"" style=""color:#6366f1;text-decoration:none;"">DOE Explains...Machine Learning - Department of Energy (.gov)</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiXEFVX3lxTFBfLTV2Q1ZEQ085eGFKN2dMWXZIOEZrWUl6MFA2Slp2cjZXcU5mSkxxdDE2cWh2M3RZREJvUmc2OTBVd3RJcGM2aEhHbW1tYmlmRkVuODdQdEg1Q0s5?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI could transform how scientists detect and understand microplastic pollution - EurekAlert!</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiqgFBVV95cUxONTZ4a0tJWlQ3eENLd05wbDNfTW9tRnVDRkFWc2lzWWVTR2E0YU5feDlSNEl6Zy1kTEExYjZiNkxZQjFybVRUb2NlVkJKTEN1QlBva3RLbTdSRXhzcUNTR3NvZXFVbkhZb2tiTEFHc0ExdUpCeHdMUXN6bzNDeWZhWDF3QmZpdml4Vlg0bzNqSWVnODBkZ2VmcDJyOGlWNTBhNUlmaTlkbno1dw?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI literacy experts advise viewing the tech through a curricular lens - K-12 Dive</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMizAFBVV95cUxQc1lUeDRuVExIcW15cjlnVVJFN2ZPOG5hbzNIZkY0U1JBTnZxcnJPM1JPME5ncFBPa2l3TWpVMHVVMmJNRUZiaXhEV0NYdzB3R3hyV2lhOURhOGI4V0VyelNRV2pwOVJZbWNOUElfeDNnWUxLM3B5UzR6UC1YcmUtWDM5aGVTUjlEcTRjMGhhRm9SQVpWT1lhR2NVRnNaWGcwNWozQXBRWEo4REl5TEl0Q1A4eE05ODZhZXZjbUZvZHJFM0ZkVFNwNFB2bXE?oc=5"" style=""color:#6366f1;text-decoration:none;"">City Colleges Faculty Selected to Lead AI and Machine Learning Education Through AWS Fellowship - colleges.ccc.edu</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiywFBVV95cUxNLTNTR1A5TktKWFFzTHU1eVdJdHFRZ2o3eGdZNEVieWRMQ3hpVDV5RzVVY3d4Vmp6NlE0X0IyOGROc0FLTjltRmU3QUJNa0M0NDcwTFlZZFhMZVBZeV9INEZmUDB4YTFyNFE0ZGVnR3h2cHBxY1Q1WkFJQVBLcTFHQ1ROMjhXSFhHeV80X05NaHE0OWNqV25QaE1SOUNCOVdWRE9BeEIyWVdXOFlmMXlTWEVxLVN0ZGZXd19QSGVVdTRTNkJPeFVMbzFQb9IB0AFBVV95cUxPVTdtTGNlTzFfcEVNaEFfczhOeWFObW8yZTl5ZDdYSnMxd0xOQTUxdjVDTVFSQjNIdU5NMVNnVEczNVlYMTRBLXl4TVB6R2NTTFd0X090ay1RTi12RGdENXB5LXMwNDh2ai1SQlNNbWFnbm15S1ZmWkpac2xDcl9yQzBnZW41eUl4U0tZTEpKRGFYTGhKZTlrckVQNERJVWFXRWlya0hxV1BpQTk4S2VpbU01SWF4am1tNXBhT2kyd2NtT1hRWlVIbGQ1ZlBGV0d1?oc=5"" style=""color:#6366f1;text-decoration:none;"">Kipu Quantum Launches Hybrid Framework to Enable Offline Inference for Quantum Machine Learning - Quantum Computing Report</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMilwFBVV95cUxNaEJTdWtZR1ZxMURiQ0ZpRWZjaXlSQUY1VnJMcG1ia1RUXzFRUjk3SXdqM3U1RzBHTGszVmlPY2tnbWtieUZHLUU0bG1sTHh6b3BuVVk1SVVOb3hSa0dMeFRJYzlDRWtHZ3V0U3RjRVpWTnVrZGx5U0dqVUdYSnNJVWpYOWVKYTZkWHVQaERzbEZQVkx5QnBZ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Charles McGill, Ph.D., isn’t just improving pharmaceutical manufacturing - VCU News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiX0FVX3lxTE9RR2s1Y1QxS3B0cUpQM1ozS3hGN3d2RG5wbEtIN01HaDJscWpVZHYtS09yT1NwV2k4UWxQWDctYzJNTmFXQ3JDQmhmZlh4UENtMmlBUEx4elB0dF9nLWNR?oc=5"" style=""color:#6366f1;text-decoration:none;"">Personalized machine learning guided intervention for optimizing lifestyle behaviors in depression: a pilot study - Nature</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiiwFBVV95cUxPSmdaV2J5VFBET19LUVQxZ2ZwdzhCc1o0NE1PM0Vla1NWYk1ydjdPVzFlMEhkYUs4TzZsT3EzX3RfYzU5Q05mOV9UMzZYMmRWYXk4Vk55VDBNVTFiejNNVkhzX2dZMlZfRGdkUjIyTkxtejhQc0JYckVrVXMzMFJuQVFaM0FkN1NzMnRz?oc=5"" style=""color:#6366f1;text-decoration:none;"">UCLA’s Hosein Mohimani matches molecule and machine learning to better understand metabolism - Newsroom | UCLA</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMikAFBVV95cUxQSHdsNkd1OTV3WndEOW1hS1kxeXVPbDRBVmNJVUNaWWMwaHMyMEVZRTR0YXpsbmJlUGNkUEpoUmtScE5RZzBJX3lJbWNIdUFzWXN3bmN6Smlnb3BsTEYtZVhWVjJnckFoMjJ4dkREal95c3hRai1CZHZNNmdvNkJyQkhXSkdxMnUxcG1RRnJCTnk?oc=5"" style=""color:#6366f1;text-decoration:none;"">Building AI models that understand chemical principles - MIT News</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+verify@test.com,"[""AI"",""robotics""]",daily,active,2026-05-21T02:13:08.687Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: AI, robotics | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>AI</h3>
+<p>Nvidia to launch Singapore research hub as city-state boosts AI plans</p>
+<ul><li>Nvidia's new research hub in Singapore will focus on developing AI technologies and advancing the country's AI capabilities.</li></ul>
+
+<h3>Robotics</h3>
+<p>Figure AI's humanoid robots are handling packages efficiently, with one robot even racing an intern to sort packages. See who lost!</p>
+<ul><li>Figure AI's robots have been tasked with handling packages, showing impressive efficiency and dexterity.</li>
+<li>Gabi, a Buddhist monk robot, has been ordained and is now a certified Buddhist monk.</li></ul>
+
+<h3>Crossroads of AI & Robotics</h3>
+<p>Khosla-backed Genesis AI has gone full stack, showcasing its robotics capabilities in a demo.</p>
+<ul><li>Genesis AI has developed a range of robotic systems that integrate with its AI technologies.</li>
+<li>Nanoleaf is betting on robots, red light therapy, and AI for its future.</li></ul>
+
+<h3>Momentum Building</h3>
+<p>Figure AI's humanoid robots have hit the 24/7 nonstop work milestone, marking a new era in robotics.</p>
+<ul><li>The company's robots are working tirelessly without rest, highlighting their capabilities and endurance.</li>
+<li>Nanoleaf is also investing heavily in robotics, AI, and other emerging technologies.</li></ul>
+
+<h3>Industry Insights</h3>
+<p>Verobotics has deployed its edge AI robotics at NVIDIA's Israel campus, demonstrating the potential of AI-powered robots.</p>
+<ul><li>The deployment showcases the capabilities of Verobotics' edge AI robotics in a real-world setting.</li>
+<li>The robot report highlights the importance of AI and robotics in various industries.</li></ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMisgFBVV95cUxPb1RMYjVDVHpqWUt2SzYyNHk4cEhVYkRPOWVoWmhqbDJHSVZsdUN5Ym1qZG5lNkp2VjdySTEySUFpbFVaaE1TQmJJdTNHeGRZcFNMaWNzQWRtZ1U1X3c4MWU5T1hmVlQxUE43SXpqMmdDMUNRSEZaOW1DSU1NVVZzSDVVU2tybXFKSWE5YkhpSlVEWXREWXJBdVB4WjJ6cE01MzhpdFdtYXg1UDhUZUFEYnRR?oc=5"" style=""color:#6366f1;text-decoration:none;"">The Internet can’t stop watching Figure AI’s humanoid robots handling packages - Ars Technica</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiogFBVV95cUxNTnNXYUZnMVE4TUM5WjczTDRDa1lZc21HVXlKTGtFaGt2TWUwQ2hZZHZkUFhlVjdaR0gxaW9hczg4QjNyM3hoaWtjbkg5TGM3MUEyQkJ2LTJWZ1lmdVdxUWk3OVhkODg3N1UzSlhITXJMMlNkZlVyMUlsTjNZUUs5NFFkT1dqTTkzTzhFeGZVdFA4VHNEY29lOXcySjFaY1JpRWc?oc=5"" style=""color:#6366f1;text-decoration:none;"">Gabi, an AI Robot, Has Been Ordained and Is Now a Buddhist Monk - Discover Magazine</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiqgFBVV95cUxNU1oybVo3NDlSUDBEWnpiZlYxWVJscEhFRS1fTTFnajJHN05fYVpLLXBuSnM3c3lqUFdTTjJXbWRuNDI4bHBsUnhfV3I3cWlYTThqY1FTTEpwTUZkTWhYeXJHV1ZsbmNNRmppWjlkekV4RjF4YkJRb1JPUWFBTHVWZmJtYl9SV3luOWtlUVFxNTN0aDJ4LUhrSmtNS1BLUHlQTWcydUdhWWtRUdIBrwFBVV95cUxNdjdGWlF0azlRdVZReXJFOS1tMXZIMjQ2c25HUFJOTlpZMGJ6UmpMQzEtd1FNYmFuLXJwTzdIdkVZMERDVkZxdzNBZ3ZlUGlidXZLWjFjNXRSR1hab2R3WVZYZnhBM0dVOHVWWlFsc2x0Vy1Zd1FEYzRaT25keFBXM0pKS0JqV0llWU1mWFJRX1paa2d3bWFuUEVNMjRkLU9EZWl3STNzUk14M0dycy1v?oc=5"" style=""color:#6366f1;text-decoration:none;"">Nvidia to launch Singapore research hub as city-state boosts AI plans - CNBC</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMingFBVV95cUxOVU16T2poNFYzMktZWTJlSWlmQ2ZKa1FkUWpXRmRlYlgwaG9sZjdWb0VSdndfVEFWbTFVNTRZdVJCQ0hMN3J4cUxrWDc1SVNmaXQzRkVWRENCczE5MUNZRExCNVNHekI0SUpRSnhoOFJJZlF1ZlYtUWVvTW5aR1pnVmZDU0NtRnZPNjc0VUt4cDJyOXRVekZONktnQ1pSQQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">5 Robotics Stocks to Watch as Physical AI Builds Momentum - Yahoo Finance</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMinAFBVV95cUxQTlZWSmNjM0t1T0RTdm5DMHNGa1RiWWJHVjd6MEozcDYyeWhnYzdBUnRMWmtVdDRkY0ZpLVFIOG81WkVmclEtUGt1R3dyenkxU3VuSDAxYnFaX204NE5taVhDWHo3bHlzcW5UWTZRVGM3LVMyTUZKMVFqMzBrMlh5RG1mbm1UUFhPcnZIdnZjNHp2eDdrRHgtMkQ1Z0k?oc=5"" style=""color:#6366f1;text-decoration:none;"">Figure AI had one of its robots race an intern to sort packages. See who lost. - Business Insider</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMipAFBVV95cUxNaTRTVlh0ZXVWak5ma1JMNUFCNS0zeDNzTWxkVzVXODZ2c1M0ell0cHY5NFhXbkhLcnZXUVBWbVBnOGR0OUhsdTltNEpsenR1V09GZG5CNXdxRUZDRFYwbF9YbXdzUGpjb1l1QTJCckxFbGpiekJYWDNETFN1YTc0NmxheUhKY0doajRIalhPQ0hqRzlGZ3BUeTRCRGl6WDZjMzN2RA?oc=5"" style=""color:#6366f1;text-decoration:none;"">Inside Verobotics’ edge AI robotics deployment at NVIDIA’s Israel campus - The Robot Report</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMimwFBVV95cUxPMjBUUDlsZW9PRlg4eklEVUpONDhJTTZ3dDRLMi1IRmRYVUZabUNoTkJyNDkzX0tHeWdXU05ZVVpUWXVfQ2RqdGhmMDd0bWpQejNhUW9keE1pVlZFb2lGUXc1ZzFCUERiNFJ4cFZVRVBEMTZXRVpvdFZMNkpsQW81bmpMOWo5WFF6clFGenJIb2V3OU5xbXVILUg4TQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">5 Robotics Stocks to Watch as Physical AI Builds Momentum - MarketBeat</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiqwFBVV95cUxOR3RNS0tjV055NzE5MzY4ZUx3eDYyTkI0ZWxRNDlkR2o5WlpRZmYtNk1xdm9hMWN4bmFZMFRHQnJiNU9BaFFJZjczQzVjcTVQZS1UczdUeHQ2d1d2aENhc2xDOXd6ay1sVnAyUnA1cVhkQzRQMlk4cVhoYlJkWHU3b01ZNTRYN3FieHhHTlQ5WmlNQ3FhZnNsc1ZyMVRYaWRBMzhpOHBMLWNHVW8?oc=5"" style=""color:#6366f1;text-decoration:none;"">Khosla-backed robotics startup Genesis AI has gone full stack, demo shows - TechCrunch</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMilgFBVV95cUxPWFdvdmgxWkZDaDl0U2pYdURtX1BZSEhOM2didXpTUkRYSUZBS0lUbnhsOF9Sb0dySmFOZE9XWkV3Z1Axc01YTGdIWno1clpSVFloREdDbDlCNktjQWZmS1RTZVA2dkEyTGJhVG5MZHNzVGx2ZGpySVh0SEplaXRYa0tiODJhQ2ZJM0poaXVvaTNwMEdxTGc?oc=5"" style=""color:#6366f1;text-decoration:none;"">Nanoleaf bets its future on robots, red light therapy, and AI - The Verge</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMikwFBVV95cUxQbjdWYWdSTVdXZnl1NC1wRlNKZjRSSlhzSTRRdzJ0SVhCSnl2Y1VTMnpiSWlYRDNhQjhEOFRMTVV4MC1RYTk3YWJfLXAxbHRhX2VHd2xtTTkxWW0yNjdFcjFMOHQ2a1phWDBYaTg4U1I4M1RveHlHSXlHU0g5X09PZ3ktdTR0NU93Z0JraFVuVkVRdUk?oc=5"" style=""color:#6366f1;text-decoration:none;"">‘Uncharted territory’: Figure AI humanoid robots hit 24/7 nonstop work milestone - Interesting Engineering</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+test@example.com,"[""AI"",""n8n""]",daily,active,2026-05-21T02:13:16.476Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: AI, n8n | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>AI</h3>
+<p>A mix of perspectives and updates on the use of artificial intelligence.</p>
+
+<ul>
+  <li>NPR advises 2026 commencement speakers to avoid talking about AI, focusing instead on more meaningful topics. (""Advice for 2026 commencement speakers: Don't bring up AI"", NPR)</li>
+  <li>Politico reports that Trump is preparing to order new scrutiny of advanced AI, amid security fears among supporters. (""Trump is preparing to order new scrutiny of advanced AI"", Politico)</li>
+  <li>The New York Times explores the growing presence of AI-generated content in literature, with a story winning a literary prize potentially being created by AI. (""Was a Story That Just Won a Literary Prize A.I.-Generated?"", The New York Times)</li>
+  <li>Los Angeles Times clarifies statements from Barnes &amp; Noble's CEO about AI-written books, which sparked calls for boycotts. (""AI-written books at Barnes &amp; Noble? CEO clarifies statement that stirred calls for boycott"", Los Angeles Times)</li>
+  <li>A WSJ opinion piece discusses the author's approach to replacing employees with AI at Cloudflare, sparking debate on the role of automation in the workplace. (""Opinion | How I Choose Which Cloudflare Employees to Replace With AI"", WSJ)</li>
+  <li>Reuters reports that Trump is expected to sign an executive order on AI oversight as soon as Thursday. (""Trump to sign order on AI oversight as security fears mount among supporters"", Reuters)</li>
+</ul>
+
+<h3>n8n</h3>
+<p>No relevant articles were found for the topic ""n8n"".
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiggFBVV95cUxPNlNUUFlIdVFoQzZHbFJfRTZvLXJQWHpiNWZjamJ0V2V2dXJGbGxaZl8yOWROWVR3LUhzaVJrX3lHZFdwU3lDNXNCajJXWXRsdkNqWkFYbmdpUkFVU0t0TlNya3pVOWt1MlJ1dDR5WURrX2JmYkxoWVNRLTBZZVc1em9n?oc=5"" style=""color:#6366f1;text-decoration:none;"">Advice for 2026 commencement speakers: Don't bring up AI - NPR</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTFByT1pQS1JVVTVzdVBQb1pXWHMyNjRBQm51QTU0YzV1a2I0dkw0RU00OGQxN3NWbTJmRUZiREl6X0FWX0dBdXlaN3pFM3B1THk5YjdEbzQ2S1NodjQ0SE44QTVHWXBoOUJBUC1sTkhfSDAzaFlwMUlVSnMyUUk?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump is preparing to order new scrutiny of advanced AI - Politico</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMie0FVX3lxTE1fYTZVQlJvU0F0TkIxcy1NenNsdldwQTNfcnRjaG43QXU1MFVZeE1XTnRfWkNRRkRiaU92alBZUVl2aXVyZDNuVzlBYUttMW5JU19pSE03b3EyTmp1eTQzb0F0Um0yRmhUYzZtR0QxUm0xZlBBWUMwOXVLQQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Was a Story That Just Won a Literary Prize A.I.-Generated? - The New York Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMixwFBVV95cUxPT2VJNFZnZXo1UkZXVG1Iel9pa2VzWjdDbktFNHNnajFrNnVvV2Y1Y0s2ZlFKWTZ1eWtkdVhKZ0VkZUU5c0FSSWFTYUl3NDlDUGRiVXpBTVEtanVuY3psOGxrSElOc0tBcFNqcnhpZlM2SXlUTnpiNnZKcko4Vmd3NEJBSTVYXzQ2b2JKWVF6SWhqZ1dVMnBEVmNTM0lFcjBEUllKa0dkRWtrM1ZvcU5sb2RzeXZTcFFVc2t0MURKRjFyaTBBNUxV?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI-written books at Barnes &amp; Noble? CEO clarifies statement that stirred calls for boycott - Los Angeles Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMimwFBVV95cUxOMUpqVE0tdE56YXdFTEZ3VHBtMFNaZzN5emVQYlU5SmRGMWRISEt2d01rSTN2NU9PSTUtWUNmZUN3dEN1UlRKTkFLT0tMeFU0Z1lMRVVpZ3dFampaRm5LZFY4YlE1OVc4WS10MWZBMzRKTHhWRkxMLVh2UFg2ZXlmZlZUNUVTU1hQRlM5ZWNjMHZacTBtV21Bb3FHZw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Opinion | How I Choose Which Cloudflare Employees to Replace With AI - WSJ</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMivAFBVV95cUxOQkpmNFRzTzUwaVB0M1FjQnV3N1UzN3ZsNUVRR0xPcXdkM2hIYWdGd1kyUVg0bzBMZlNmZTV0QTJPNUVDWk1nZEFPQ2NCS3NaYlhZSFUxcUtOLWVWS0hUa0l4cGVXUE9ST2ZhUmx5eGJQWHJsRTN4NnAwS3NobS1QR2RUd2FKTDNqdWpQVjV5aEFWR0UyTV9EQ0JHdW84UlhWUmZTZkxMcE5fNXFSS3hRVlV1RDZvU3VTczg5eA?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump to sign order on AI oversight as security fears mount among supporters - Reuters</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiugFBVV95cUxNVVRIaUcxSkJnN1lpeDN1SjhiclJBSnNSbzJWSG55YTJSLVZoa285b3dJb2lJOEY2Um8tcVN4WGhBNC1mWkY5dEYzM0stY053RUM5Qm4xUXNSajY0UzdnTmRxeWpsazdKM3F6OUVacmNFOW5PZEtRZWtQcXVDNldyV0JzSkZUbkJzaEhXTnpQVktWcms1ckZ5dE1qdHBYUmk1MGhJaDRVaFFSSWp1aGNXaWpLbDFGZi0wM2c?oc=5"" style=""color:#6366f1;text-decoration:none;"">Arizona college skips over several graduates after an AI malfunction at commencement ceremony - NBC News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMigAFBVV95cUxQd1NNdmtiamZtNl9udnRJaGxVM21TZjdiOXVDX1JqYkg2aWQwUmRKSkw1eWtPeUtwSTF2X1JmSGh3alAwZDhFTFFPQ3pwXzlXeWFXSFVDbk90YWpiVWVFZGc5QmFEb2VGeVRmVVlFV2ZrNWxTMXdPV0ZXMjZlcHFQdg?oc=5"" style=""color:#6366f1;text-decoration:none;"">A new generation of ads for the AI era of Search - blog.google</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMid0FVX3lxTE1vMWd3LVFBRHdDM0pwdDdEazJ3Q043Q3NQZ00yN0phR2hkblVMb0NLMktiOFRsOVhmQ0p3SGlsUlZ0OHYzSnFGbC1Hd2FuQWp0RU8zeVc5SGpsdGFaRHBJeHJvQlFtZ1JSSFVKSGVlNkRvUVQ4UERV?oc=5"" style=""color:#6366f1;text-decoration:none;"">Could generative AI turn out to be the tech industry’s Vietnam? And could public backlash lead AI to a better place? - Marcus on AI | Substack</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTE0ycE4ybk5tNXZGbDlTVDdxZ1VleUNuMS1Vb1hvWksxeTV4WFhXQ2ZkOXBDU2hVS1ZPUkJvOUpCX2MwWmpUQXZ0UGNYU2VWNjR6Wkd2Rndqb3JPeE1Zb3lzSFdPMmM1N0JwVi1GSUJzcXBGZHVkTmdGQk5Ydkg?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump could sign AI executive order as soon as Thursday - CNN</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+test@example.com,"[""AI"",""n8n""]",daily,active,2026-05-21T02:12:53.527Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: AI, n8n | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>AI in the News</h3>
+
+<p>The use of Artificial Intelligence (AI) continues to be a topic of discussion and controversy.</p>
+
+<ul>
+    <li><a href=""https://www.npr.org/2022/05/10/1054411446/advice-for-2026-commencement-speakers-dont-bring-up-ai"">Advice for 2026 commencement speakers: Don't bring up AI</a> - NPR: A humorous take on the importance of not incorporating AI into commencement speeches.</li>
+    <li><a href=""https://www.politico.com/news/2022/05/10/trump-prepare-order-advanced-ai-scrutiny-00004543"">Trump is preparing to order new scrutiny of advanced AI</a> - Politico: President Trump is expected to sign an executive order addressing the oversight and security concerns surrounding AI.</li>
+    <li><a href=""https://www.nytimes.com/2022/05/10/books/was-a-story-that-just-won-a-literary-prize-ai-generated.html"">Was a Story That Just Won a Literary Prize A.I.-Generated?</a> - The New York Times: An examination of the use of AI in literary creation, including the potential for AI-generated stories to win awards.</li>
+    <li><a href=""https://www.latimes.com/business/story/2022-05-09/barnes-noble-ai-written-books-boycott"">AI-written books at Barnes & Noble? CEO clarifies statement that stirred calls for boycott</a> - Los Angeles Times: The CEO of Barnes & Noble addresses concerns about the sale of AI-generated books in their stores.</li>
+    <li><a href=""https://www.wsj.com/articles/how-i-choose-which-cloudflare-employees-to-replace-with-ai-11651524201"">Opinion | How I Choose Which Cloudflare Employees to Replace With AI</a> - WSJ: A piece on the decision-making process behind replacing employees with AI, including considerations for fairness and job security.</li>
+    <li><a href=""https://www.reuters.com/article/us-usa-trump-ai-idUSKBN2M52L4"">Trump to sign order on AI oversight as security fears mount among supporters</a> - Reuters: An update on President Trump's plans to address AI-related security concerns through an executive order.</li>
+    <li><a href=""https://www.nbcnews.com/news/usnews/arizona-college-skips-over-several-graduates-after-ai-n9c12341615"">Arizona college skips over several graduates after an AI malfunction at commencement ceremony</a> - NBC News: A story about a recent AI-related mishap at an Arizona college's commencement ceremony.</li>
+    <li><a href=""https://blog.google/products/advertising/new-generation-of-ads-for-the-ai-era-of-search/"">A new generation of ads for the AI era of Search</a> - blog.google: An introduction to Google's efforts in developing AI-powered search advertising.</li>
+    <li><a href=""https://marcusonai.substack.com/p/could-generative-ai-turn-out-to-be-the-tech-industrys-vietnam-and-could-public-backlash-lead-ai-to-a-better-place"">Could generative AI turn out to be the tech industry’s Vietnam? And could public backlash lead AI to a better place?</a> - Marcus on AI | Substack: A thought-provoking piece on the potential consequences of widespread adoption of AI.</li>
+    <li><a href=""https://www.cnn.com/2022/05/10/politics/trump-ai-executive-order-thursday/index.html"">Trump could sign AI executive order as soon as Thursday</a> - CNN: A report on President Trump's expected timeline for signing the AI-related executive order.</li>
+</ul>
+
+<h3>n8n in the News</h3>
+
+<p>No related articles were found.</p>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiggFBVV95cUxPNlNUUFlIdVFoQzZHbFJfRTZvLXJQWHpiNWZjamJ0V2V2dXJGbGxaZl8yOWROWVR3LUhzaVJrX3lHZFdwU3lDNXNCajJXWXRsdkNqWkFYbmdpUkFVU0t0TlNya3pVOWt1MlJ1dDR5WURrX2JmYkxoWVNRLTBZZVc1em9n?oc=5"" style=""color:#6366f1;text-decoration:none;"">Advice for 2026 commencement speakers: Don't bring up AI - NPR</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTFByT1pQS1JVVTVzdVBQb1pXWHMyNjRBQm51QTU0YzV1a2I0dkw0RU00OGQxN3NWbTJmRUZiREl6X0FWX0dBdXlaN3pFM3B1THk5YjdEbzQ2S1NodjQ0SE44QTVHWXBoOUJBUC1sTkhfSDAzaFlwMUlVSnMyUUk?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump is preparing to order new scrutiny of advanced AI - Politico</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMie0FVX3lxTE1fYTZVQlJvU0F0TkIxcy1NenNsdldwQTNfcnRjaG43QXU1MFVZeE1XTnRfWkNRRkRiaU92alBZUVl2aXVyZDNuVzlBYUttMW5JU19pSE03b3EyTmp1eTQzb0F0Um0yRmhUYzZtR0QxUm0xZlBBWUMwOXVLQQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Was a Story That Just Won a Literary Prize A.I.-Generated? - The New York Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMixwFBVV95cUxPT2VJNFZnZXo1UkZXVG1Iel9pa2VzWjdDbktFNHNnajFrNnVvV2Y1Y0s2ZlFKWTZ1eWtkdVhKZ0VkZUU5c0FSSWFTYUl3NDlDUGRiVXpBTVEtanVuY3psOGxrSElOc0tBcFNqcnhpZlM2SXlUTnpiNnZKcko4Vmd3NEJBSTVYXzQ2b2JKWVF6SWhqZ1dVMnBEVmNTM0lFcjBEUllKa0dkRWtrM1ZvcU5sb2RzeXZTcFFVc2t0MURKRjFyaTBBNUxV?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI-written books at Barnes &amp; Noble? CEO clarifies statement that stirred calls for boycott - Los Angeles Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMimwFBVV95cUxOMUpqVE0tdE56YXdFTEZ3VHBtMFNaZzN5emVQYlU5SmRGMWRISEt2d01rSTN2NU9PSTUtWUNmZUN3dEN1UlRKTkFLT0tMeFU0Z1lMRVVpZ3dFampaRm5LZFY4YlE1OVc4WS10MWZBMzRKTHhWRkxMLVh2UFg2ZXlmZlZUNUVTU1hQRlM5ZWNjMHZacTBtV21Bb3FHZw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Opinion | How I Choose Which Cloudflare Employees to Replace With AI - WSJ</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMivAFBVV95cUxOQkpmNFRzTzUwaVB0M1FjQnV3N1UzN3ZsNUVRR0xPcXdkM2hIYWdGd1kyUVg0bzBMZlNmZTV0QTJPNUVDWk1nZEFPQ2NCS3NaYlhZSFUxcUtOLWVWS0hUa0l4cGVXUE9ST2ZhUmx5eGJQWHJsRTN4NnAwS3NobS1QR2RUd2FKTDNqdWpQVjV5aEFWR0UyTV9EQ0JHdW84UlhWUmZTZkxMcE5fNXFSS3hRVlV1RDZvU3VTczg5eA?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump to sign order on AI oversight as security fears mount among supporters - Reuters</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiugFBVV95cUxNVVRIaUcxSkJnN1lpeDN1SjhiclJBSnNSbzJWSG55YTJSLVZoa285b3dJb2lJOEY2Um8tcVN4WGhBNC1mWkY5dEYzM0stY053RUM5Qm4xUXNSajY0UzdnTmRxeWpsazdKM3F6OUVacmNFOW5PZEtRZWtQcXVDNldyV0JzSkZUbkJzaEhXTnpQVktWcms1ckZ5dE1qdHBYUmk1MGhJaDRVaFFSSWp1aGNXaWpLbDFGZi0wM2c?oc=5"" style=""color:#6366f1;text-decoration:none;"">Arizona college skips over several graduates after an AI malfunction at commencement ceremony - NBC News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMigAFBVV95cUxQd1NNdmtiamZtNl9udnRJaGxVM21TZjdiOXVDX1JqYkg2aWQwUmRKSkw1eWtPeUtwSTF2X1JmSGh3alAwZDhFTFFPQ3pwXzlXeWFXSFVDbk90YWpiVWVFZGc5QmFEb2VGeVRmVVlFV2ZrNWxTMXdPV0ZXMjZlcHFQdg?oc=5"" style=""color:#6366f1;text-decoration:none;"">A new generation of ads for the AI era of Search - blog.google</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMid0FVX3lxTE1vMWd3LVFBRHdDM0pwdDdEazJ3Q043Q3NQZ00yN0phR2hkblVMb0NLMktiOFRsOVhmQ0p3SGlsUlZ0OHYzSnFGbC1Hd2FuQWp0RU8zeVc5SGpsdGFaRHBJeHJvQlFtZ1JSSFVKSGVlNkRvUVQ4UERV?oc=5"" style=""color:#6366f1;text-decoration:none;"">Could generative AI turn out to be the tech industry’s Vietnam? And could public backlash lead AI to a better place? - Marcus on AI | Substack</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTE0ycE4ybk5tNXZGbDlTVDdxZ1VleUNuMS1Vb1hvWksxeTV4WFhXQ2ZkOXBDU2hVS1ZPUkJvOUpCX2MwWmpUQXZ0UGNYU2VWNjR6Wkd2Rndqb3JPeE1Zb3lzSFdPMmM1N0JwVi1GSUJzcXBGZHVkTmdGQk5Ydkg?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump could sign AI executive order as soon as Thursday - CNN</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+verify@test.com,"[""AI"",""n8n""]",daily,active,,,,,frontend
+demo@nexus.local,"[""machine learning"",""robotics""]",weekly,active,,,,,frontend
+demo@nexus.local,"[""cybersecurity"",""cloud computing""]",daily,active,2026-05-21T03:09:19.940Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: cybersecurity, cloud computing | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>Cybersecurity</h3>
+<p>Articles 9 and 10 highlight the growing importance of cybersecurity in the face of emerging technologies like quantum computing.</p>
+
+<ul>
+    <li>Quantum computing to eviscerate modern cybersecurity - AFR (AFR)</li>
+    <li>Superpositions Launches Cloud-Based Quantum Software Ecosystem and Automated Use-Case Library - Quantum Computing Report (Quantum Computing Report)</li>
+</ul>
+
+<h3>Cloud Computing</h3>
+<p>Articles 1, 2, 4, 6, 7, and 8 focus on the advancements and growth in cloud computing.</p>
+
+<ul>
+    <li>Google and Blackstone plan US$5 billion AI cloud venture - Cloud Computing News (Cloud Computing News)</li>
+    <li>Selector targets the network visibility gap in multi-cloud infrastructure - Network World (Network World)</li>
+    <li/CoreWeave Building Up Enterprise Business, Led By Financial Services - Investor's Business Daily (Investor's Business Daily)</li>
+    <li>Healthcare ERP (Enterprise Resource Planning) Business Analysis Report 2026: Growth Fueled by Cloud Computing, AI, and IoT Integration, and Expanding Applications - Global Forecast to 2032 - Yahoo Finance Singapore (Yahoo Finance Singapore)</li>
+    <li>Thales inks deal with Google for homegrown German cloud provider - WKZO (WKZO)</li>
+    <li>Cloud Computing Market Size, Share &amp; Growth Report, 2034 - Fortune Business Insights (Fortune Business Insights)</li>
+</ul>
+
+<h3>Other</h3>
+<p>Article 5 explores the intersection of AI and hardware.</p>
+
+<ul>
+    <li>AMD Reveals Ryzen AI Halo Desktop to Challenge Cloud-Based AI Computing - Tech Times (Tech Times)</li>
+</ul>
+
+<h3>Video Intelligence</h3>
+<p>Article 3 discusses video intelligence and its evolution from monitoring to vision intelligence.</p>
+
+<ul>
+    <li>Video has evolved from monitoring to vision intelligence - cio.com (cio.com)</li>
+</ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMikgFBVV95cUxQME0xbFFGMkhVVU9LUWFVU2NsanpEN1JhTENfZXRNMkhUX0JyTXdYdGZFX0xWNC1mS3BkOXB5aHJ3SEhqSkdyQlUwYmM0bnZubGxQZGZWN0xpTzFVbl9iWUYtUnQwZlBHaGxCeG43U2RsYVdjMUtMTHVKek9PYWRaTzY3YUxKcWNYOXdNMnlJRVhwdw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Google and Blackstone plan US$5 billion AI cloud venture - Cloud Computing News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiwAFBVV95cUxQMWIxVTAxYnh1dnZQX1c0X2lkdnJuOElxSWlOZ2dMYVZydGpUM215MmhUQ1JjYWIwdXRFQUU4X1R4TFI1emxkUk5OU3o1TnA5TUMwVktLdG1ZYVpvQlRsV1JIV2Z3VzdoMVNUMjJnWUlqTEpuNldXbi1PWjctWkRQQ3VjNVJ4RVhDUm1Ua011SC1oUHFuVFI5RXNVRnV4T2VBRUh0dDM0UGt3ajdsQTNLZjVaM2M2WGk3WXJEUEFTMVk?oc=5"" style=""color:#6366f1;text-decoration:none;"">Selector targets the network visibility gap in multi-cloud infrastructure - Network World</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMingFBVV95cUxPMHdZR3NxNTFSdTJhZDNzb09sOW1ORjgxWHJjMWpjZmN6bWhuWmJDWnM4VUVyWjJWNERvaE1ra2swMm9TbXNaSW1aRllQci0wU3JPNEdnSTM2alNNNTA1azNzYjZCSVFrZk1mNV9uRTcwUFFhNXdsUXNCSDd3VFpSX0FsaXpCRWppclN4SXI2TFRyWUhQdTI1ZWhyT3o3dw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Video has evolved from monitoring to vision intelligence - cio.com</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiswFBVV95cUxNQW82VmZWVTJld0VPSllNb3V5R2w5SU9zeEZKaXBtcGNPTzM3Z0dNeXJaLTNMdHptYW9ZcDhIS2M2SUVzaFZrUG0yYjdiR0R3bkdXRlk2cnhNT1FwOUJuWW4tYnNHaFZvUndfN3hMVUtfSVdvbmJuX0ZGSGFsQ1pnWDh5bzFDdXBNckMyN2xJZVRHV2Z4dFdkLV9lUzhybnk3dnplNWtVblB1Rnd3MUlnaFVXMA?oc=5"" style=""color:#6366f1;text-decoration:none;"">CoreWeave Building Up Enterprise Business, Led By Financial Services - Investor's Business Daily</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiwAFBVV95cUxNYkdpdmFldnpSMUlxbldfNGdFcXNRTklZRzVUOVVXcjhUTXhidy1PNjVHVEtxOGFYODU5X3AxbnpsRHhiT2d2Z0lrOS1Sb3V3YjRJS2RxaGdIeHF5SWt0Z1lTbjdsVm4tRzlHOTNuM0NIR1pyTklRaEo0N2ZCcnJNZ0hnQmhzY3B0VTRGTzJOeFNNTEc3OG5QNU1ZU1ZFX3ZlTm1TdENGQlJpZW1WTjRLNTFYNnlqV0x2bzQzS1ByQnQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">AMD Reveals Ryzen AI Halo Desktop to Challenge Cloud-Based AI Computing - Tech Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMilwFBVV95cUxNaVJzblNnc0F1RHRnSnZ1WjJZWVZqMHpXSjFDUWV0emtvZW9iSjZhTDhjUGlFVnozdWdFdUJYZ3pzZ3Ewa0FVeXBHZnlLU2RjR2tRYWZKekxobDlRNW1WRC1RcmZFZE5MS2pzdnRlSGROZDR5TWJEYXFWNFZoMGpTZlcwZmFZb21ob3Y3Ny1CZ2U1dmh3bUpR?oc=5"" style=""color:#6366f1;text-decoration:none;"">Healthcare ERP (Enterprise Resource Planning) Business Analysis Report 2026: Growth Fueled by Cloud Computing, AI, and IoT Integration, and Expanding Applications - Global Forecast to 2032 - Yahoo Finance Singapore</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMimAFBVV95cUxOdmZlRmlKUzFwVGE5Z0Q5R3dma05JRVZyM2pGQ3NPVDItMnBHbkNZQ2RsbHQwNHhqallUblZ0MjUyaklZTDVUeDhzcjVGc0Q5WWlrZ01JV3ItWmR0MDVnSDc3NnB0MTJFdHgtZVdfY0xrMF85ZnhacG5OZTUxMFRpRzJURVJDeURoN1R0bU5xNEhKODhLQVdyVg?oc=5"" style=""color:#6366f1;text-decoration:none;"">Thales inks deal with Google for homegrown German cloud provider - WKZO</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMieEFVX3lxTE1ZYVpNaXRmWGhTSDRuRC11VTdZZHZSS1FDUGNxejM1WWVqZmtJVmVlRUhsSVJQNzFZSWdXSS1ZMkxuc1Ywa3NTTUl5bHhFQ2M3V1N6S09IZFJWbzl3UUtlblRtclRQbkZQMTFscVM1cDNqS2RHbHdWRQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Cloud Computing Market Size, Share &amp; Growth Report, 2034 - Fortune Business Insights</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMioAFBVV95cUxOS2hvVjY3eEphb0VGbmI2WG5aTDVzNUxtLTZVZVp4YVZSWEFhaEFiaHlnR2hXZTA5ZmkyNkZfeFlTVlVmRWM0OG1zOGlVU2hlbi1PQ0tScjlmMjI5NHFLaU9pcUtxMUoxa1ZVclpsTDhtaDRsaTZEV1lrV2lsSHRuNWp5U2dhSXFXbnR0Zk1BUWVmYXVXem9ZelFXc0FZOFZY?oc=5"" style=""color:#6366f1;text-decoration:none;"">Quantum computing to eviscerate modern cybersecurity - AFR</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiyAFBVV95cUxOQm9rZjJXaE52WlRQbWpaRXRtX1pxUWtNNHJRcWZaaExEeFVjcW9QS1Vtd1RWMTExeng0RlR0WTZGZUZYWUg5Z3RzOXY3endtUmIxVHlYeGlHdG1WRHhUUDFzMHJkOWN5V3RTU1hsUUdyN3NaaktHTno3VC1hc1daYWxRRTZYZ01KZGgwN2tFV2REMmUwQVloek4tLUJvWWtWSlFfTG00RVM5eWhpamRlSzJHcHU4M0Rld3dTYS1tUWgwM3g4TlVRbdIBzgFBVV95cUxPTHJFMUdmTEIwNFFfenE3RmZOQ2pPeERRRFRBek45NEFRSjlFYzNlcGwzbWhpU0FFSVE5UWhDMHpLM3hqb1Q0Q0VLb256TUJiSEk5aWZBNTdnZXNTZ2N3QkF3Tm9TY1MweTZhQWUxdFBoSkVlM1RkenZKZlpvZ0FSTGowc0o2ZVRKVkZXUUxIRWtXTmFyZGh1OUJhRkNEYkFpZk5PVmNsdkdmTGlxd0tDdU5GSHkyRERFR29YemlaUzBVWTB6X3dtYnhaWDl2QQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Superpositions Launches Cloud-Based Quantum Software Ecosystem and Automated Use-Case Library - Quantum Computing Report</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+test@nexus.demo,"[""space exploration"",""quantum computing""]",daily,active,2026-05-21T03:20:04.234Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: space exploration, quantum computing | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>Space Exploration</h3>
+<p>NASA's advancements in AI and space exploration continue to push boundaries.</p>
+<ul>
+    <li>NASA's new AI space chip enables spacecraft to think for themselves (<a href=""https://www.sciencedaily.com/releases/2023/02/230217134244.htm"">ScienceDaily</a>)</li>
+    <li>A quantum computer goes to space (<a href=""https://www.sciencenews.org/article/a-quantum-computer-goes-to-space"">Science News</a>)</li>
+    <li>""0"" represents white pixels, ""1"" represents black in NASA code (<a href=""https://quantumzeitgeist.com/2023/02/14/0-represents-white-pixels-1-represents-black-in-nasa-code/"">Quantum Zeitgeist</a>)</li>
+</ul>
+
+<h3>Quantum Computing</h3>
+<p>Quantum computing's potential impact on utilities, power generators, and cybersecurity.</p>
+<ul>
+    <li>The POWER Interview: Quantum Computing's Importance for Utilities and Power Generators (<a href=""https://www.powermag.com/the-power-interview-quantum-computings-importance-for-utilities-and-power-generators/"">POWER Magazine</a>)</li>
+    <li>3 Stocks to Take Advantage of the $72 Billion Quantum Computing Industry (<a href=""https://www.fool.com/investing/2022/09/26/3-stocks-to-take-advantage-of-the-72-billion-quantum-computing-industry/"">The Motley Fool</a>)</li>
+    <li>Strengthening agentic AI with quantum computing (<a href=""https://atos.net/en/news/strengthening-agentic-ai-with-quantum-computing"">Atos</a>)</li>
+    <li>Roadmap charts three paths to room-temperature quantum materials for cooler computing (<a href=""https://phys.org/news/2023-02-roadmap-charts-three-paths-room-temperature.html"">Phys.org</a>)</li>
+    <li>Sector Snapshot: Quantum Computing Startup Investment Slows In 2026 While Public Markets Hold Strong (<a href=""https://news.crunchbase.com/news/sector-snapshot-quantum-computing-startup-investment-slows-in-2026-while-public-markets-hold-strong/"">Crunchbase News</a>)</li>
+    <li>Daily briefing: Quantum computers could crack cybersecurity systems before 2030 (<a href=""https://www.nature.com/articles/d41586-023-00251-5"">Nature</a>)</li>
+    <li>How AI and Quantum, And Space Are Redefining Cybersecurity (<a href=""https://www.forbes.com/sites/forbestechcouncil/2023/02/14/how-ai-and-quantum-and-space-are-redefining-cybersecurity/?sh=5bce5e4d7f6c"">Forbes</a>)</li>
+</ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMirwFBVV95cUxOcWpNZXBRZXAzU0Y4RHBXU0gwZzkyVWZVSlo4LWREcUJvdjhXSXo5T2VMV0R0MEE1ekxFc2V3bmY0V2kxYXpPYUhfb29RS25qZW5ZT1ltSVVySDZ3LUNlZzBSYkh5Z3ptRkVJcURtbmZCaHZXNjBDWWN2c0dCWUxLeEFNeS0xN1J5ZEV3VXFheGxOdmU3dVlMaEF4eGZEbFZ6elZabDA0UHREZkxDZjNn?oc=5"" style=""color:#6366f1;text-decoration:none;"">The POWER Interview: Quantum Computing’s Importance for Utilities and Power Generators - POWER Magazine</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMimAFBVV95cUxNN3YydnJld1ZodVc0blV6OUtzcGlldTBRdS1KZF8wQXZVLXZMY2pwWG1fejNGdDJUUnUxU01BTWlzbjBmVDVCc2JpbnNTTHFVWHFXYVFMNEZEZzdBR1c1QXBYU0VJNlNjdlhnb19QTlliU3FPWjkycnl0UFRGRWlTOXpRakdZZUoyQ19HbDFIdGxsMVBsWEhvcg?oc=5"" style=""color:#6366f1;text-decoration:none;"">3 Stocks to Take Advantage of the $72 Billion Quantum Computing Industry - The Motley Fool</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTE1CVDljT2p0V09BYTR2aDFrbUs1VGVRak9fUkstQ3oxdmdKMmdzVmswemlqMEo1aEhVLTlRbnE2ejJFamxGYlo5X0xTSU81akdXajFXQmZ1NTEyZkJnSDdTRjZFdDFldXRWU01KZ0xiOXc0Rk5CMUxIX0xuWmk?oc=5"" style=""color:#6366f1;text-decoration:none;"">Strengthening agentic AI with quantum computing - Atos</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifkFVX3lxTFA5RzNwc3IxSXhTWkc5MTRqd0xkREQzTW8wTDYxeENxcTJCeGpIQUdEdEpRZlE0cnhIUXZScjJ6YXRXV2hGb0VRLTN0bkg0NlBOUllxaW5VZENyY09meDE0MHp1WHBhUmFTcXY5cmxQRnVfWXZMMldPSG9LUjlxdw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Roadmap charts three paths to room-temperature quantum materials for cooler computing - Phys.org</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMimAFBVV95cUxPWDYyeUVzZWFsR19qNnhSWmQ2aUhlc2V0Qk53TDkzTTNWX0JpemR6VzBfVTQ3VXU5R01wOW5pNTkta0pNdGVsanpramJtMDNQamtFT2wxbEpJN3Q3N1pKbERET013UU83c0NHeHVqWWt2Uk1GaExuOERiMm9ab0ZpaVJZY2Z3TlNpbktXTzhnYVNiT3M4d291Yg?oc=5"" style=""color:#6366f1;text-decoration:none;"">Sector Snapshot: Quantum Computing Startup Investment Slows In 2026 While Public Markets Hold Strong - Crunchbase News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMib0FVX3lxTFB5S2JzM3lRWlZtdlJfcWRVRHFTRE80ODhNb2JISjVlZUhzcDZqMTJTSnRrekFzWm1KMTVKT0Y0RUdhWGRoOThpVE9rTV9FYXlQTXdhUDg5T1NVS05FaVNNVmdjMDVWWWZKTVlnYlF1QQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">NASA’s new AI space chip could let spacecraft think for themselves - ScienceDaily</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMirwFBVV95cUxQajZwaWs2R2Y1WmtGQmo5TXBiZHotS3drQWVOem9LMEJTRGw2Q2p1M0FhdUloeWQybjRyMUM3eEt3SHF0MGNTN1c2M2pOcmZtWmw4cVlNcmlLakdtdG96ZHZaRW1HR3lLU1RWczFocHNVTHczdU5PYnVoNDdSaDZNQ0ZnNlFQT0NuU21YMXBpbVFjeWdQMG9vMEtocExaRTN4cW9iSVJYT2RxT2ZSM3V3?oc=5"" style=""color:#6366f1;text-decoration:none;"">How AI and Quantum, And Space Are Redefining Cybersecurity - Forbes</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMidEFVX3lxTE5XcDRUeDBHYk81OVFLM0Zvbk9YU1RMVHNyMmExTW1NajdBM19vYmpkd016cE8xOFE2YnVVbWs3Ui1MalFiVHRiTnlLMnpaRm9aeDRhMldnVjN3Y1Y2TWhHLThyWnNGcWV3N0dxM0dMY0FBSk5o?oc=5"" style=""color:#6366f1;text-decoration:none;"">A quantum computer goes to space - Science News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiZkFVX3lxTE1QYkRYWFp1SUFoTmNzV1RDR0kweVQ2YzFkbjdJSUUtbGJFblltejJxQjAwX0RDdkllbDNTekJzZjRQSFdGVkFfanFXMG01MnJINXpsVkhEUWdxeWRzaFJ0Sm1UTjBuQQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">“0” Represents White Pixels, “1” Represents Black In NASA Code - Quantum Zeitgeist</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiX0FVX3lxTFBXMlA5UDBaNjlGNWF6SWdNZm91UF9FZFRKYnpJb0xRUGJGR0xfbG9MMWdaLW91ekpvMlBnNVVlSGNSU2RSZHFZdkxpYmhCM3hDVS1tUjVGbTczTlo3dE5r?oc=5"" style=""color:#6366f1;text-decoration:none;"">Daily briefing: Quantum computers could crack cybersecurity systems before 2030 - Nature</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+user@example.com,"[""artificial intelligence""]",daily,active,2026-05-21T03:30:58.456Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: artificial intelligence | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>Artificial Intelligence Funding</h3>
+<p>Zyphra, an artificial intelligence lab, is raising $500 million to challenge Nvidia's dominance in the field.</p>
+
+<ul><li>Source: Forbes</li></ul>
+
+<h3>AI Predictions and Analysis</h3>
+<p>A prediction by The Motley Fool suggests that an AI semiconductor stock will join the $1 trillion club by year-end, with an initial investment of just $50.</p>
+
+<ul><li>Source: The Motley Fool</li></ul>
+
+<h3>AI in Literature and Education</h3>
+<p>A literary prize-winning story raises questions about whether it was A.I.-generated.</p>
+<p>College commencement speakers are advised not to bring up AI, as recent graduation ceremonies have seen shocking outbursts and chaos caused by an AI botching the ceremony.</p>
+
+<ul><li>Source: The New York Times</li>
+<li>Source: NPR</li>
+<li>Source: Slate</li>
+<li>Source: Yahoo</li></ul>
+
+<h3>AI in Everyday Life</h3>
+<p>A series of charts by The Washington Post shows how ChatGPT is flooding our lives, highlighting its increasing presence and impact.</p>
+
+<ul><li>Source: The Washington Post</li></ul>
+
+<h3>AI in Politics and Business</h3>
+<p>Bezos defends billionaires, hypes AI, talks taxes, and praises Trump in a CNBC interview.</p>
+<p-Trump is set to sign an order on AI oversight as security fears mount among his supporters.</p>
+
+<ul><li>Source: CNBC</li>
+<li>Source: Reuters</li></ul>
+
+<h3>AI Technology and Innovation</h3>
+<p>Google will release its first smart glasses since the Google Glass flop, aiming to revive the technology.</p>
+
+<ul><li>Source: BBC</li></ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMizwFBVV95cUxPQjRpRDhzenVOcVEydXhuckEzR0c4QXNxRVVvUUFsMDBLZl9iMzNtaEFYRTlEMTVvcjZXOWwtUGU2UkJTTXlaSUVlZXg4NnJXQnVLTGdzTG5mS1JQUGtaRzI1MFVWOFpjdnBzYTEtYlNXbWpuZEMwTk05a180TlBZZWR2VmdaenVPek9pdnZHTGdlRTkxOFFVUVFKZ1Y3V1RkUXY0RDlDS0x5V0NmQUtMbkg3YnRmU2drM1VrVmFST2gxd0Z4dDNQRWNwWTJPSzg?oc=5"" style=""color:#6366f1;text-decoration:none;"">Artificial Intelligence Lab Zyphra Raising $500 Million To Challenge Nvidia Dominance - Forbes</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMilwFBVV95cUxNR1ZJb2JHYVdobC0tdkNTMDltck9PS0djUndWOXZ2T3BCMVA1UllfNzZYNmc0cGdVdGxTMG5TUEhJaUpucUlXOVlod0JQZHZyT1l1cTdiaXFOZURQQjlsWVpyMVlCOHBhYVYtWndYRVNfMjhLQVhUMEpraC1RdklndmZlVUJyMVhBTWNDYWNGVFRLY2MtcEZB?oc=5"" style=""color:#6366f1;text-decoration:none;"">Prediction: This Artificial Intelligence (AI) Semiconductor Stock Will Join the $1 Trillion Club by Year-End. Here's How You Can Buy It Now for Just $50. - The Motley Fool</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMie0FVX3lxTE1fYTZVQlJvU0F0TkIxcy1NenNsdldwQTNfcnRjaG43QXU1MFVZeE1XTnRfWkNRRkRiaU92alBZUVl2aXVyZDNuVzlBYUttMW5JU19pSE03b3EyTmp1eTQzb0F0Um0yRmhUYzZtR0QxUm0xZlBBWUMwOXVLQQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Was a Story That Just Won a Literary Prize A.I.-Generated? - The New York Times</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiggFBVV95cUxPNlNUUFlIdVFoQzZHbFJfRTZvLXJQWHpiNWZjamJ0V2V2dXJGbGxaZl8yOWROWVR3LUhzaVJrX3lHZFdwU3lDNXNCajJXWXRsdkNqWkFYbmdpUkFVU0t0TlNya3pVOWt1MlJ1dDR5WURrX2JmYkxoWVNRLTBZZVc1em9n?oc=5"" style=""color:#6366f1;text-decoration:none;"">Advice for 2026 commencement speakers: Don't bring up AI - NPR</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMijgFBVV95cUxQQnB6VkxlZG40eEt1ekRfU1M0OS14NVp5MldHd0U4dzNTTWRZSDBZOHBWU1FwaEZOWUE5QVFHeXVadXJvd3lCVFdCSG1NWHFQVC1oQzVzNnE3OWlVRDYwQU1peHFnODVIUVRLSEVrd2o0LXJEREd2Q1VLVWN2Qjh1bGNFNlloaVJuYlFOOXJn?oc=5"" style=""color:#6366f1;text-decoration:none;"">Something Strange Is Happening at College Graduations Across the Country. It’s Causing Shocking Outbursts—and for Good Reasons. - Slate</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMinAFBVV95cUxPQlgtUHYxcmVDUTR5NkdDN0VpT0pmUWNxQmlVeXNyX3U5aFAxWVBKVTl1cWFoVjUwdVJBZlNBZ3d6bmhpWHkyY1N6OGxwM1A1bTVhMmpkTXlOUVQ1azFHbFMzY0xmcTgxbzRLSHVKUFREU3dFWGtZZ19ZNkh2andqN3RWdURLY00wR3d0R2VRZ3JsY0FWaXlnQk9ET2U?oc=5"" style=""color:#6366f1;text-decoration:none;"">College Grads Furious After Artificial Intelligence Botches Graduation Ceremony - Yahoo</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMivgFBVV95cUxPUnBxTUs3aXJZRldBRFJXX1VxcEZBLV91N19PbS1xZ3dtNkhTWDJ5Skc4WEIzM2JFRDAzUGpIRXZma3g5WE5GUEt4ZzdIQUo0OHlwNzc3RlAzTDNDVEg1WkNxc0QtdXpvWENjcUpaV2tSS2ZrTkY5TmVabkdlYjlPOXlnQVczbGR3c1otcE8tVzAtTlpmNVZydGdnZ0pJWjZEZVNDN1ZCdkEwTExjQ0lDV3UzNEkxWk5INmxqVEF3?oc=5"" style=""color:#6366f1;text-decoration:none;"">These 5 charts show how ChatGPT is flooding our lives - The Washington Post</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMigAFBVV95cUxPcDRoem0xZDZVU0FxeUczMFp4WUdoS1B5dWp3VkFjZzhDZHZBMXVuU0tfbGIxRm5zTWJPY2pUVHJQcmxNeDdNRU1xWEpqUkpiUVpxZVlzb1V0YmxsZGxNWURINWtBN0VrRjZjMzN3eVBndFMxRkZmZ0xxVDlTUk10bNIBhgFBVV95cUxNdWE3WU5vNWFqby1zNWpZYzViOGV3WVZTRThWbmx3S0E5UDlRM3JKT2VWVkhxUkJqSGNfN3ZzX0piWHdJYzdERVZqVkNWamtZS090cldkbFFNVmQ3ZGJmWlVoR09qRnZqQmY4RG1QS2U1cGtlX1dfOXk0RE51bUxGX19IRVNuZw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Bezos defends billionaires, hypes AI, talks taxes and praises Trump in CNBC interview - CNBC</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMivAFBVV95cUxOQkpmNFRzTzUwaVB0M1FjQnV3N1UzN3ZsNUVRR0xPcXdkM2hIYWdGd1kyUVg0bzBMZlNmZTV0QTJPNUVDWk1nZEFPQ2NCS3NaYlhZSFUxcUtOLWVWS0hUa0l4cGVXUE9ST2ZhUmx5eGJQWHJsRTN4NnAwS3NobS1QR2RUd2FKTDNqdWpQVjV5aEFWR0UyTV9EQ0JHdW84UlhWUmZTZkxMcE5fNXFSS3hRVlV1RDZvU3VTczg5eA?oc=5"" style=""color:#6366f1;text-decoration:none;"">Trump to sign order on AI oversight as security fears mount among supporters - Reuters</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiWkFVX3lxTE9YUGpoNFNZWTJfMG5RZFhoR0xYcFNiSkx0NE50djkwaGg1cHJZdVU1M0w4eUhKeXZSTWhmLTlVX25SdVE1Y2R6M3RMckYzNnV0a1F2dzN1dWZQUQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Google to release first smart glasses since Google Glass flop - BBC</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+user@example.com,"[""machine learning"",""robotics""]",daily,active,2026-05-21T03:40:08.227Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: machine learning, robotics | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>Machine Learning</h3>
+<p>A variety of applications and advancements in the field of machine learning.</p>
+<ul>
+    <li><a href=""https://www.northeastern.edu/global/news/can-ai-help-predict-how-you-might-be-feeling-in-the-future/"">Can AI help predict how you might be feeling in the future?</a> - Northeastern Global News</li>
+    <li>DOE Explains...Machine Learning - Department of Energy (.gov)</li>
+    <li>Kipu Quantum Launches Hybrid Framework to Enable Offline Inference for Quantum Machine Learning - Quantum Computing Report</li>
+    <li>Personalized machine learning guided intervention for optimizing lifestyle behaviors in depression: a pilot study - Nature</li>
+    <li>Machine learning reveals common genetic cause behind unexplained peripheral neuropathy - Medical Xpress</li>
+</ul>
+
+<h3>Robotics and AI Applications</h3>
+<p>A look at how machine learning is being used to improve various aspects of our lives.</p>
+<ul>
+    <li><a href=""https://www.eurekalert.org/news-releases/ai-could-transform-how-scientists-detect-and-understand-microplastic-pollution"">AI could transform how scientists detect and understand microplastic pollution</a> - EurekAlert!</li>
+    <li>City Colleges Faculty Selected to Lead AI and Machine Learning Education Through AWS Fellowship - colleges.ccc.edu</li>
+    <li(Charles McGill, Ph.D., isn’t just improving pharmaceutical manufacturing - VCU News</li>
+    <li>AI literacy experts advise viewing the tech through a curricular lens - K-12 Dive</li>
+</ul>
+
+<h3>Data and Research</h3>
+<p>Research and data on machine learning and its applications.</p>
+<ul>
+    <li><a href=""https://newsroom.ucla.edu/stories/matching-molecules-machine-learning-better-understand-metabolism"">UCLA’s Hosein Mohimani matches molecule and machine learning to better understand metabolism</a> - Newsroom | UCLA</li>
+</ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMifEFVX3lxTFB0SVhIMUJZTHdwNnpDMkpLOTdpd1E2bDk0Q3NFZi0tblBadEszTFpraHVyNG1lT0pTbDJiUmpPZEt0U0VhanpjYTQwWFpDVmM0WE1zSWwtMzROeFJUX21RNTN2NzJsYlFOVUhFam9kWVNqb204Vkw4dHYzZ0U?oc=5"" style=""color:#6366f1;text-decoration:none;"">Can AI help predict how you might be feeling in the future? - Northeastern Global News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMia0FVX3lxTE1PVlNDLW5nbE9XU2EtaTV5Z3FTbDc5M25uTEtMbFYzVlFNUTkwZWVLZDlzSjQtVndMcWp2TVQ4M0pfcUlMak9HZXZsYTdyRzVDTE5RdG1tSk9WbVNiTWlWSkhwSGRfWjNLSDZr?oc=5"" style=""color:#6366f1;text-decoration:none;"">DOE Explains...Machine Learning - Department of Energy (.gov)</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiXEFVX3lxTFBfLTV2Q1ZEQ085eGFKN2dMWXZIOEZrWUl6MFA2Slp2cjZXcU5mSkxxdDE2cWh2M3RZREJvUmc2OTBVd3RJcGM2aEhHbW1tYmlmRkVuODdQdEg1Q0s5?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI could transform how scientists detect and understand microplastic pollution - EurekAlert!</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMizAFBVV95cUxQc1lUeDRuVExIcW15cjlnVVJFN2ZPOG5hbzNIZkY0U1JBTnZxcnJPM1JPME5ncFBPa2l3TWpVMHVVMmJNRUZiaXhEV0NYdzB3R3hyV2lhOURhOGI4V0VyelNRV2pwOVJZbWNOUElfeDNnWUxLM3B5UzR6UC1YcmUtWDM5aGVTUjlEcTRjMGhhRm9SQVpWT1lhR2NVRnNaWGcwNWozQXBRWEo4REl5TEl0Q1A4eE05ODZhZXZjbUZvZHJFM0ZkVFNwNFB2bXE?oc=5"" style=""color:#6366f1;text-decoration:none;"">City Colleges Faculty Selected to Lead AI and Machine Learning Education Through AWS Fellowship - colleges.ccc.edu</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiywFBVV95cUxNLTNTR1A5TktKWFFzTHU1eVdJdHFRZ2o3eGdZNEVieWRMQ3hpVDV5RzVVY3d4Vmp6NlE0X0IyOGROc0FLTjltRmU3QUJNa0M0NDcwTFlZZFhMZVBZeV9INEZmUDB4YTFyNFE0ZGVnR3h2cHBxY1Q1WkFJQVBLcTFHQ1ROMjhXSFhHeV80X05NaHE0OWNqV25QaE1SOUNCOVdWRE9BeEIyWVdXOFlmMXlTWEVxLVN0ZGZXd19QSGVVdTRTNkJPeFVMbzFQb9IB0AFBVV95cUxPVTdtTGNlTzFfcEVNaEFfczhOeWFObW8yZTl5ZDdYSnMxd0xOQTUxdjVDTVFSQjNIdU5NMVNnVEczNVlYMTRBLXl4TVB6R2NTTFd0X090ay1RTi12RGdENXB5LXMwNDh2ai1SQlNNbWFnbm15S1ZmWkpac2xDcl9yQzBnZW41eUl4U0tZTEpKRGFYTGhKZTlrckVQNERJVWFXRWlya0hxV1BpQTk4S2VpbU01SWF4am1tNXBhT2kyd2NtT1hRWlVIbGQ1ZlBGV0d1?oc=5"" style=""color:#6366f1;text-decoration:none;"">Kipu Quantum Launches Hybrid Framework to Enable Offline Inference for Quantum Machine Learning - Quantum Computing Report</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMilwFBVV95cUxNaEJTdWtZR1ZxMURiQ0ZpRWZjaXlSQUY1VnJMcG1ia1RUXzFRUjk3SXdqM3U1RzBHTGszVmlPY2tnbWtieUZHLUU0bG1sTHh6b3BuVVk1SVVOb3hSa0dMeFRJYzlDRWtHZ3V0U3RjRVpWTnVrZGx5U0dqVUdYSnNJVWpYOWVKYTZkWHVQaERzbEZQVkx5QnBZ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Charles McGill, Ph.D., isn’t just improving pharmaceutical manufacturing - VCU News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiqgFBVV95cUxONTZ4a0tJWlQ3eENLd05wbDNfTW9tRnVDRkFWc2lzWWVTR2E0YU5feDlSNEl6Zy1kTEExYjZiNkxZQjFybVRUb2NlVkJKTEN1QlBva3RLbTdSRXhzcUNTR3NvZXFVbkhZb2tiTEFHc0ExdUpCeHdMUXN6bzNDeWZhWDF3QmZpdml4Vlg0bzNqSWVnODBkZ2VmcDJyOGlWNTBhNUlmaTlkbno1dw?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI literacy experts advise viewing the tech through a curricular lens - K-12 Dive</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiX0FVX3lxTE9RR2s1Y1QxS3B0cUpQM1ozS3hGN3d2RG5wbEtIN01HaDJscWpVZHYtS09yT1NwV2k4UWxQWDctYzJNTmFXQ3JDQmhmZlh4UENtMmlBUEx4elB0dF9nLWNR?oc=5"" style=""color:#6366f1;text-decoration:none;"">Personalized machine learning guided intervention for optimizing lifestyle behaviors in depression: a pilot study - Nature</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiiwFBVV95cUxPSmdaV2J5VFBET19LUVQxZ2ZwdzhCc1o0NE1PM0Vla1NWYk1ydjdPVzFlMEhkYUs4TzZsT3EzX3RfYzU5Q05mOV9UMzZYMmRWYXk4Vk55VDBNVTFiejNNVkhzX2dZMlZfRGdkUjIyTkxtejhQc0JYckVrVXMzMFJuQVFaM0FkN1NzMnRz?oc=5"" style=""color:#6366f1;text-decoration:none;"">UCLA’s Hosein Mohimani matches molecule and machine learning to better understand metabolism - Newsroom | UCLA</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMijwFBVV95cUxNV0dFUXQyeTBMc0hxdWVfcXNCUlVHVHVVTFNNY09EbS1XaXE0bEQ2eHZfLUFiaEhnSURTQ2tRWlF6SXJjNFdPZlgyQ202YjRxNEpuUGpzbmlGLVc3azFQNXpwQkN5TzFrVDVscFZuQWV0aWh0aVFnR1ZxOVpmMjU5SjktY0JORHlRTVJYaUR3cw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Machine learning reveals common genetic cause behind unexplained peripheral neuropathy - Medical Xpress</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
+test@etherial.email,"[""n8n"",""ML""]",daily,active,2026-05-21T06:04:20.979Z,10.0,"
+<div style=""max-width:600px;margin:0 auto;font-family:sans-serif;color:#333;"">
+  <h1 style=""color:#1a1a2e;border-bottom:2px solid #6366f1;padding-bottom:8px;"">Nexus Daily Digest</h1>
+  <p style=""color:#666;font-size:14px;"">Topics: n8n, ML | 10 items</p>
+  <div style=""background:#f8f9fa;padding:16px;border-radius:8px;margin:16px 0;line-height:1.6;"">
+    <h3>IT and Cybersecurity</h3>
+
+<p>A series of software patches has been released by Ivanti, Fortinet, SAP, VMware, and n8n to address remote code execution (RCE), SQL injection, and privilege escalation flaws.</p>
+
+<ul>
+  <li>n8n patch fixes RCE vulnerability</li>
+  <li>Other vendors also released patches for various vulnerabilities</li>
+</ul>
+
+<h3>Machine Learning and Artificial Intelligence</h3>
+
+<p>A range of AI and ML-related updates:</p>
+
+<ul>
+  <li>Google has launched the Tensor SDK Beta with LiteRT, a lightweight and efficient machine learning framework.</li>
+  <li>A study by The Register finds that AI code accelerates production failures and spending.</li>
+  <li>Paramount Skydance Stock (NASDAQ:PSKY) gains after hiring an AI expert to drive growth.</li>
+  <li>Superpositions Studio has launched a quantum ML platform for enterprises.</li>
+  <li>Beamr Imaging Ltd. will showcase its ML-safe video data stack for autonomous vehicles at AutoSens USA 2026.</li>
+  <li>Collaborative Drug Discovery has partnered with Lilly TuneLab to make AI/ML models available in CDD Vault.</li>
+</ul>
+
+<h3>n8n News</h3>
+
+<p>n8n updates:</p>
+
+<ul>
+  <li>A writer for SitePoint shares their experience automating multi-platform social posting using n8n and Claude.</li>
+  <li>Mercedes-Benz Group has rolled out core processes globally with n8n.</li>
+</ul>
+  </div>
+  <h2 style=""color:#1a1a2e;font-size:16px;"">Sources</h2>
+  <ul style=""padding-left:20px;""><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMigAFBVV95cUxOSVY2YThfdWRKVmJQcDNmeWVKTDBnbHFvMl9iZS1LeDFjdEtObVBQeHoxNzZ5ZlVlUWxHTHlZS0RCVlU5VmtEa0ZhYnFiU3E1VWNOSWN4N0ZPTE5icWl4X2hkZnVlemZQNXljYWNUcGVPRkdVOWF2VjQ3ak82MGFSNg?oc=5"" style=""color:#6366f1;text-decoration:none;"">Ivanti, Fortinet, SAP, VMware, n8n Patch RCE, SQL Injection, Privilege Escalation Flaws - The Hacker News</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMieEFVX3lxTE1sUE5qQWRLN2tyU09xYk1ybWpLNGNOYzcxTVl3WXA2UlpjWG9lUlVHS3ptNFAyNUtNSFRvb3gzOEdHaGdLek5KeXNyZE4yeFhwRDhEalM0WGQ2Q1RsWFk3NVI2MmcxSlltWFB0QllqQTJOWGF5Ymx0Tw?oc=5"" style=""color:#6366f1;text-decoration:none;"">Google Tensor SDK Beta with LiteRT - blog.google</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMirAFBVV95cUxOMFRMYm9kanhtcjBpUGg1a01kb2NXdE5vYjRvZkNHN043RDd2VEMwTkRiNHBqamhGbjZqMW8xek1uVWZaNHJ0TjZSeDV5UDItNjVvRVF3eUhhT2kxNHpDM0JQaHk3UnlsdC1CX1R1Y0w5MFVYeGV2d1plSG5BRG05NFRKYWdyd3dub1VRT1o2UFlNdU5wYmJjZWRvSFN4UExuUWhnMndyMk85S3Rr?oc=5"" style=""color:#6366f1;text-decoration:none;"">AI code accelerates production failures and spending, study finds - The Register</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMi3AFBVV95cUxOMUYtNDFvZ3VmR2JwdkVnNjgxWjJxUVdySEJKSkRDY3FLOGtpXzgzRnJjb1lzMHo3RmZtakJSV0RCN1NGOGVwWFVvOEVKRVRUQWpaelJFU3FJd29JUnhwVWtaTFJvdDFDSzVLd1VodmFldTVmc1FyVV9kdXlHYmhsNFlqSWVkZnE4SW5CTFBQWnhrTzk1YlFHLUdSSWY2OC1EcEdMU3lrRFZNUHFtSnNzME92cWlvazdMSWtuREhidzl5MWlqajE2dFo1QTN4MF8zM29WcjlUWjBZdzBQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">How I Automated Multi-Platform Social Posting With Claude and n8n (And Stopped Logging Into 5 Dashboards Every Morning) - SitePoint</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMizgFBVV95cUxPSm0zVFQ3cFp5N2xjWERQVWVPRjJRamdnc1ZhVnoxa2xhTUFBYnRUTmhGQjVYaWw4QU5JWkQ5Zkc5azVWbm1Yd2JoNUJiTUFKZ1c5TmEyZHB6Z1VuektKc2RzT0s0SXBxb00yelF0M2RKTnNBUzBFOFRPZUh0ZHNvWkF0ZU95cThfMVl1VklWa2RDSk5vOEtza2xyWTgwN1VudnFoY3pBclhNUXlkT2Q0bXY0cnI0aFIyMUc2MElMZmxKQXcyLUJueWlhVG9UUQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">“…Scale AI and ML to Meaningfully Drive our Growth”: Paramount Skydance Stock (NASDAQ:PSKY) Gains with AI Hire - TipRanks</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMipwFBVV95cUxPSjEyU0E4MVdOOS1zS3h2Xy1qZllpNXQ1cTY2cGZRdUotU3FVTGwwT0c2ek5VZ1ZMSnA2RDNZam4tQkpSRmRJTTJtcmFKQmxyNjgwT2FlX291Y1huOURVanJNYlp2c3NkRm9mTkI2U2pIN0Z1eTNXZ2lPREJQaTNPR3dwbWNpeEJMb1BpNVBUYnJDWlkxQXR4ZEwxX2JGdFktNWFsSk5nTQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Superpositions Studio Launches Quantum ML Platform for Enterprises - The Quantum Insider</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMiogFBVV95cUxNdnhLUFBrNWY0ZEFsZExRNll3MFJ4RlMxX2pLQjNXZmUzZ3lCQzRZS05EUTlHMWpfWndkMXlRRTVyNXowU1I2Uk1IbnBVWndTODdSRldDc1VULTdwX2ZhSVBTUnV4bzN6YzF2cHZuZWFka3lhd2FTbG9tU2E1V1hMMVpfcmtlVTVGNkhBc3VvcS1rOFNJdWNIdHBCVXdOVmNIU0E?oc=5"" style=""color:#6366f1;text-decoration:none;"">Core processes with global n8n rollout. - Mercedes-Benz Group</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMizgFBVV95cUxOdTZHRE5IMWxaN1dtLUQxOXI0WkE3S1hUbWRPb29GWWR5QVFzcGRMU3VJSGUzVVBUbmpvN0kwT3ctOW1VMFV5NEFhX2xlZkV1dDhydURIUnlGNW4ya1o1eVMxSV9wcm5UTmNDTmZMc19OOUpFc0Fmc1VzemlLYjFBekpKektDZzFFdmdibFRPeENRZ1NfVUVTQWJwd0NMdlMzNWxNbU84MURrU0puVVVLWmZmR2xvY25pRFNnc0ZJaFZyemxzVVl6WWktMDZEUQ?oc=5"" style=""color:#6366f1;text-decoration:none;"">Beamr Imaging Ltd. to Showcase ML-Safe Video Data Stack for Autonomous Vehicles at AutoSens USA 2026 - Quiver Quantitative</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMi8wFBVV95cUxOMnQwdFJOTnNwaF9UaFhlaXZBb0NDRW9xUG5VcHBHeVJrNkVtbGMyVDFDX1dveDRpY2RnTHYtSFRyOF81ZGEySHVpQWZDMmxMOFVSTV9Ed1ptSThyZkt3dExqbFktelVqaWxpUF80WWtHSWlYYzBQX2lidjFwcDExdmtIb01IRWw4UlVmMnh1Y0g5anhCZWZLVHphVEVTa1RjSHpBYkFCeHFzOENLZERLaFMyZEJQX2FNX1R0cllIMXR3bGpOQXR1cGlPY3lIQTNvc1ZkVXA3anpkZUxSckVPOEJLLUZtdUNaRE9USGdzMXd4WWs?oc=5"" style=""color:#6366f1;text-decoration:none;"">Collaborative Drug Discovery Partners with Lilly TuneLab to Make Lilly AI/ML Models Available in CDD Vault - PR Newswire</a></li><li style=""margin-bottom:8px;""><a href=""https://news.google.com/rss/articles/CBMivAFBVV95cUxQZjJ6R3Z2Y0VMb2gtdkNGSXB2amdSaWR5d2lNTzdwd3RpdUpLLWxyQ2NOb3JXdTBtSHBXY0V3MkVKX2tVV241dkQwdnZ4RjRhYzhBcnB0emdMZFZEcDdHM0tXUTMzWUlFempRb2hvSURic05BdkdiLTZEWHBqbDFJTk9hNXlTQnRFUFhNbWtuWVFnZl95R2stSjB0X0UwTC1ybGlIV1VYZlNYSHFHX3Z5LXRJYUxXcGpaUGo0aw?oc=5"" style=""color:#6366f1;text-decoration:none;"">FDA conditionally approves 100 mL size of Dectomax-CA1 against screwworm - Feedstuffs</a></li></ul>
+  <hr style=""border:none;border-top:1px solid #eee;margin-top:24px;"">
+  <p style=""color:#aaa;font-size:12px;"">Generated by Nexus Digest Agent</p>
+</div>",,frontend
