@@ -3,6 +3,10 @@
 
 A self-hosted, multi-agent AI platform orchestrated entirely through n8n. Nexus lets users interact with specialized AI agents through a unified frontend — upload documents, ask questions via RAG, analyze reviews, receive automated content digests, and monitor system health — all powered by local LLM inference with zero paid API costs.
 
+## Demo
+
+[Watch the Demo Video](https://drive.google.com/file/d/1h825jwMWDmoFeepaxSvRBR3JH3DYqUoM/view?usp=sharing)
+
 ## Architecture
 
 ![Architecture Diagram](docs/architecture.png)
